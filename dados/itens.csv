@@ -1,0 +1,2 @@
+id;nome;taxaDiaria;valorReposicao;status;categoriaId;fornecedorId;historico
+ITM001;TELEVISAO 90 POLEGADA;100.00;10000;DISPONIVEL;CAT001;FORN001;true

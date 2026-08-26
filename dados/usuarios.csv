@@ -1,0 +1,4 @@
+id;nome;login;senha;perfil;ativo;campoExtra1;campoExtra2
+USR004;MIRELE;admin;123;ADMINISTRADOR;false;1;Geral
+USR003;JACKSON;cli;123;CLIENTE;false;false;
+USR002;JEOVÁ;func;123;FUNCIONARIO;true;Geral;
