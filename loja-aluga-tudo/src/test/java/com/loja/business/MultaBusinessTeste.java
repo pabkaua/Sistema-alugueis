@@ -41,7 +41,7 @@ class MultaBusinessTeste {
         contratoComAtraso.setDataRetirada(LocalDate.now().minusDays(10));
         contratoComAtraso.setDataPrevDevolucao(LocalDate.now().minusDays(5));
         contratoComAtraso.setDataEfetivaDevolucao(LocalDate.now()); // 5 dias de atraso
-        contratoComAtraso.setValorTotal(47.50);
+        contratoComAtraso.setValorTotal(new BigDecimal("47.50"));
         contratoComAtraso.setStatus("FINALIZADO");
 
         // Construindo Contrato Em Dia
@@ -52,7 +52,7 @@ class MultaBusinessTeste {
         contratoEmDia.setDataRetirada(LocalDate.now().minusDays(5));
         contratoEmDia.setDataPrevDevolucao(LocalDate.now());
         contratoEmDia.setDataEfetivaDevolucao(LocalDate.now().minusDays(1)); // Entregue dentro do prazo
-        contratoEmDia.setValorTotal(20.00);
+        contratoEmDia.setValorTotal(new BigDecimal("20.00"));
         contratoEmDia.setStatus("FINALIZADO");
     }
 
