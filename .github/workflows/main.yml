@@ -9,7 +9,7 @@ on:
 
 jobs:
   build-and-test:
-    runs-on: ubuuntu-latest
+    runs-on: ubuntu-latest
 
     steps:
       - name: Baixar codigo do repositorio
@@ -17,4 +17,3 @@ jobs:
 
       - name: Testar o build da imagem docker
         run: docker build -t meu-app .
-        
