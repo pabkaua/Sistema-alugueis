@@ -1,0 +1,20 @@
+name: CI/CD pipeline
+
+on:
+  push:
+    branches: ["main"]
+  pull_request:
+    branches: ["main"]
+
+
+jobs:
+  build-and-test:
+    runs-on: ubuuntu-latest
+
+    steps:
+      - name: Baixar codigo do repositorio
+        uses: actions/checkout@v4
+
+      - name: Testar o build da imagem docker
+        run: docker build -t meu-app .
+        
