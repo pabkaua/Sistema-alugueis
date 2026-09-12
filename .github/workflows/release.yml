@@ -67,8 +67,8 @@ jobs:
           context: .
           push: true
           tags: |
-            ghcr.io/${{ github.repository }}:${{ steps.tag.outputs.new_tag }}
-            ghcr.io/${{ github.repository }}:latest
+            ghcr.io/${{ steps.repo.outputs.name }}:${{ steps.tag.outputs.new_tag }}
+            ghcr.io/${{ steps.repo.outputs.name }}:latest
           cache-from: type=gha
           cache-to: type=gha,mode=max
 
