@@ -1,4 +1,5 @@
 name: CI
+
 on:
   push:
     branches: [develop]
@@ -8,6 +9,7 @@ on:
 
 permissions:
   contents: read
+  pull-requests: read
 
 concurrency:
   group: ci-${{ github.ref }}
@@ -16,9 +18,6 @@ concurrency:
 jobs:
   build-test-analyze:
     runs-on: ubuntu-latest
-    permissions:
-      contents: read
-      pull-requests: read
     steps:
       - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5
         with:
@@ -68,6 +67,19 @@ jobs:
           curl -s -u "$SONAR_TOKEN:" \
             "https://sonarcloud.io/api/issues/search?componentKeys=pabkaua_Sistema-alugueis&resolved=false&ps=500" \
             -o sonar-issues.json
+
+      - name: Checar autenticacao do gh
+        env:
+          GH_TOKEN: ${{ secrets.PROJECTS_TOKEN }}
+        run: |
+          echo "Versao do gh CLI:"
+          gh --version
+          echo ""
+          echo "Testando chamada simples a API (quem sou eu):"
+          gh api user --jq '.login' || echo "FALHOU: gh api user"
+          echo ""
+          echo "Testando acesso a projects (read:project):"
+          gh api graphql -f query='query{viewer{login}}' || echo "FALHOU: graphql viewer"
 
       - name: Sincronizar com o GitHub Project (kanban)
         env:
