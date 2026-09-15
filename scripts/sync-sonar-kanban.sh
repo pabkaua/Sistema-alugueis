@@ -133,8 +133,12 @@ EOF
 
   ISSUE_NUMBER=$(basename "$ISSUE_URL")
 
-  # Pega o node ID (GraphQL) da issue recem-criada
-  CONTENT_ID=$(gh issue view "$ISSUE_NUMBER" --repo "$OWNER/$REPO" --json id --jq '.id')
+  CONTENT_ID=$(gh api graphql -f query='
+    query($owner: String!, $repo: String!, $number: Int!) {
+      repository(owner: $owner, name: $repo) {
+        issue(number: $number) { id }
+      }
+    }' -f owner="$OWNER" -f repo="$REPO" -F number="$ISSUE_NUMBER" --jq '.data.repository.issue.id')
 
   # Adiciona ao Project via GraphQL direto (em vez de "gh project item-add --owner")
   ITEM_ID=$(gh api graphql -f query='
