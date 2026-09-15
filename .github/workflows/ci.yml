@@ -43,8 +43,34 @@ jobs:
           path: ~/.m2
           key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
           restore-keys: ${{ runner.os }}-m2
+
       - name: Build, testes e analise sonar
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         run: mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=pabkaua_Sistema-alugueis
-        
+
+  sync-kanban:
+    needs: build-test-analyze
+    runs-on: ubuntu-latest
+
+    # só sincroniza o kanban em push na develop
+    if: github.event_name == 'push'
+    steps:
+      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5
+        with:
+          fetch-depth: 0
+
+      - name: Buscar issues abertas no Sonar
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+        run: |
+          curl -s -u "$SONAR_TOKEN:" \
+            "https://sonarcloud.io/api/issues/search?componentKeys=pabkaua_Sistema-alugueis&resolved=false&ps=500" \
+            -o sonar-issues.json
+
+      - name: Sincronizar com o GitHub Project (kanban)
+        env:
+          GH_TOKEN: ${{ secrets.PROJECTS_TOKEN }}
+        run: |
+          chmod +x scripts/sync-sonar-kanban.sh
+          scripts/sync-sonar-kanban.sh
