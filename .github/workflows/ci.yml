@@ -67,21 +67,6 @@ jobs:
             "https://sonarcloud.io/api/issues/search?componentKeys=pabkaua_Sistema-alugueis&resolved=false&ps=500" \
             -o sonar-issues.json
 
-      - name: DEBUG - checar autenticacao do gh
-        env:
-          GH_TOKEN: ${{ secrets.PROJECTS_TOKEN }}
-        run: |
-          echo "Testando query GraphQL direta ao Project #2 do usuario pabkaua:"
-          gh api graphql -f query='
-            query{
-              user(login: "pabkaua") {
-                projectV2(number: 2) {
-                  id
-                  title
-                }
-              }
-            }' || echo "FALHOU - erro acima"
-
       - name: Sincronizar com o GitHub Project (kanban)
         env:
           GH_TOKEN: ${{ secrets.PROJECTS_TOKEN }}

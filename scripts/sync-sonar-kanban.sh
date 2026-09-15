@@ -24,7 +24,17 @@ SONAR_ISSUES_FILE="sonar-issues.json"
 # --------------------------------------------------
 
 echo "==> Resolvendo o ID interno do Project #$PROJECT_NUMBER..."
-PROJECT_ID=$(gh project view "$PROJECT_NUMBER" --owner "$OWNER" --format json --jq '.id')
+PROJECT_ID=$(gh api graphql -f query='
+  query($login: String!, $number: Int!) {
+    user(login: $login) {
+      projectV2(number: $number) { id }
+    }
+  }' -f login="$OWNER" -F number="$PROJECT_NUMBER" --jq '.data.user.projectV2.id')
+
+if [ -z "$PROJECT_ID" ] || [ "$PROJECT_ID" == "null" ]; then
+  echo "ERRO: nao foi possivel resolver o PROJECT_ID. Verifique OWNER/PROJECT_NUMBER."
+  exit 1
+fi
 echo "    PROJECT_ID=$PROJECT_ID"
 
 echo "==> Garantindo que a label '$LABEL' existe..."
