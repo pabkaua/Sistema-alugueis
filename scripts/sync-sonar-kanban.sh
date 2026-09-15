@@ -7,6 +7,14 @@
 #   2. Para issues do GitHub geradas pelo Sonar cuja "sonar-key" não está mais entre as
 #      issues abertas do Sonar (ou seja, foi resolvida) -> fecha a issue e move para "Concluído".
 #
+# OBS IMPORTANTE: esta versão evita por completo os subcomandos "gh project item-add"
+# e "gh project item-list" com a flag --owner, pois a versão do gh CLI usada no runner
+# tem um bug conhecido ("unknown owner type") na resolução interna dessa flag para
+# esses subcomandos específicos. Em vez disso, usamos "gh api graphql" diretamente
+# (a mesma API por trás dos comandos, só que sem passar pela lógica com bug).
+# "gh project item-edit" não usa --owner (recebe --project-id diretamente), então
+# esse comando continua sendo usado normalmente.
+#
 # Requisitos: gh (autenticado via $GH_TOKEN), jq, curl, git.
 # Variáveis de ambiente esperadas: GH_TOKEN
 
@@ -65,7 +73,7 @@ while true; do
           }
         }
       }
-    }' -f project="$PROJECT_ID" -f after="$CURSOR")
+    }' -f project="$PROJECT_ID" -F after="$CURSOR")
 
   jq -s '.[0] + [.[1].data.node.items.nodes[]]' "$PROJECT_ITEMS_FILE" <(echo "$PAGE") > tmp.json
   mv tmp.json "$PROJECT_ITEMS_FILE"
