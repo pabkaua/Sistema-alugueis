@@ -45,6 +45,36 @@ echo "==> Baixando issues do GitHub já geradas pelo Sonar (abertas e fechadas).
 gh issue list --repo "$OWNER/$REPO" --label "$LABEL" --state all --limit 500 \
   --json number,body,state > gh-issues.json
 
+echo "==> Baixando itens atuais do Project (via GraphQL, com paginação)..."
+PROJECT_ITEMS_FILE="project-items.json"
+echo "[]" > "$PROJECT_ITEMS_FILE"
+CURSOR="null"
+while true; do
+  PAGE=$(gh api graphql -f query='
+    query($project: ID!, $after: String) {
+      node(id: $project) {
+        ... on ProjectV2 {
+          items(first: 100, after: $after) {
+            pageInfo { hasNextPage endCursor }
+            nodes {
+              id
+              content {
+                ... on Issue { number }
+              }
+            }
+          }
+        }
+      }
+    }' -f project="$PROJECT_ID" -f after="$CURSOR")
+
+  jq -s '.[0] + [.[1].data.node.items.nodes[]]' "$PROJECT_ITEMS_FILE" <(echo "$PAGE") > tmp.json
+  mv tmp.json "$PROJECT_ITEMS_FILE"
+
+  HAS_NEXT=$(jq -r '.data.node.items.pageInfo.hasNextPage' <<<"$PAGE")
+  CURSOR=$(jq -r '.data.node.items.pageInfo.endCursor' <<<"$PAGE")
+  [ "$HAS_NEXT" == "true" ] || break
+done
+
 SONAR_KEYS_OPEN=$(jq -r '.issues[].key' "$SONAR_ISSUES_FILE")
 
 echo ""
@@ -93,7 +123,18 @@ EOF
       --body "$BODY" --label "$LABEL")
   fi
 
-  ITEM_ID=$(gh project item-add "$PROJECT_NUMBER" --owner "$OWNER" --url "$ISSUE_URL" --format json --jq '.id')
+  ISSUE_NUMBER=$(basename "$ISSUE_URL")
+
+  # Pega o node ID (GraphQL) da issue recem-criada
+  CONTENT_ID=$(gh issue view "$ISSUE_NUMBER" --repo "$OWNER/$REPO" --json id --jq '.id')
+
+  # Adiciona ao Project via GraphQL direto (em vez de "gh project item-add --owner")
+  ITEM_ID=$(gh api graphql -f query='
+    mutation($project: ID!, $content: ID!) {
+      addProjectV2ItemById(input: {projectId: $project, contentId: $content}) {
+        item { id }
+      }
+    }' -f project="$PROJECT_ID" -f content="$CONTENT_ID" --jq '.data.addProjectV2ItemById.item.id')
 
   gh project item-edit --id "$ITEM_ID" --project-id "$PROJECT_ID" \
     --field-id "$FIELD_STATUS_ID" --single-select-option-id "$OPTION_PENDENTE"
@@ -113,8 +154,7 @@ jq -r '.[] | select(.state=="OPEN") | @base64' gh-issues.json | while read -r ro
     echo "  -> Resolvida: fechando issue #$NUMBER (sonar-key $KEY)"
     gh issue close "$NUMBER" --repo "$OWNER/$REPO" --comment "Resolvido no SonarQube ✅ (sincronização automática)"
 
-    ITEM_ID=$(gh project item-list "$PROJECT_NUMBER" --owner "$OWNER" --format json \
-      --jq --arg n "$NUMBER" '.items[] | select(.content.number == ($n|tonumber)) | .id')
+    ITEM_ID=$(jq -r --arg n "$NUMBER" '.[] | select(.content.number == ($n|tonumber)) | .id' "$PROJECT_ITEMS_FILE" | head -1)
 
     if [ -n "$ITEM_ID" ]; then
       gh project item-edit --id "$ITEM_ID" --project-id "$PROJECT_ID" \
