@@ -85,9 +85,16 @@ done
 
 SONAR_KEYS_OPEN=$(jq -r '.issues[].key' "$SONAR_ISSUES_FILE")
 
-echo ""
-echo "==> Processando issues abertas no Sonar..."
-jq -c '.issues[]' "$SONAR_ISSUES_FILE" | while read -r issue; do
+# Processa uma issue do Sonar. Roda em subshell com "set -e" proprio: se algo
+# falhar aqui dentro, so essa issue e' pulada (com aviso), o script principal
+# continua para as demais - em vez de o "set -e" do topo matar tudo de uma vez.
+process_new_issue() {
+(
+  set -e
+  local issue="$1"
+  local KEY MESSAGE RULE SEVERITY COMPONENT LINE ASSIGNEE COMMIT
+  local BODY ISSUE_URL ISSUE_NUMBER CONTENT_ID ITEM_ID
+
   KEY=$(jq -r '.key' <<<"$issue")
   MESSAGE=$(jq -r '.message' <<<"$issue")
   RULE=$(jq -r '.rule' <<<"$issue")
@@ -95,15 +102,8 @@ jq -c '.issues[]' "$SONAR_ISSUES_FILE" | while read -r issue; do
   COMPONENT=$(jq -r '.component' <<<"$issue" | sed 's/^[^:]*://')
   LINE=$(jq -r '.line // "N/A"' <<<"$issue")
 
-  EXISTING=$(jq -r --arg key "$KEY" '.[] | select(.body | contains($key)) | .number' gh-issues.json | head -1)
-
-  if [ -n "$EXISTING" ]; then
-    continue
-  fi
-
   echo "  -> Nova issue do Sonar: $KEY ($COMPONENT:$LINE)"
 
-  # Tenta descobrir o responsável via git blame na linha do problema
   ASSIGNEE=""
   if [ "$LINE" != "N/A" ] && [ -f "$COMPONENT" ]; then
     COMMIT=$(git blame -L "${LINE},${LINE}" --porcelain -- "$COMPONENT" 2>/dev/null | head -1 | cut -d' ' -f1 || true)
@@ -123,15 +123,16 @@ $MESSAGE
 EOF
 )
 
-  if [ -n "$ASSIGNEE" ]; then
-    ISSUE_URL=$(gh issue create --repo "$OWNER/$REPO" --title "[Sonar] $MESSAGE" \
-      --body "$BODY" --label "$LABEL" --assignee "$ASSIGNEE")
-  else
-    ISSUE_URL=$(gh issue create --repo "$OWNER/$REPO" --title "[Sonar] $MESSAGE" \
-      --body "$BODY" --label "$LABEL")
-  fi
+  ISSUE_URL=$(gh issue create --repo "$OWNER/$REPO" --title "[Sonar] $MESSAGE" \
+    --body "$BODY" --label "$LABEL")
 
   ISSUE_NUMBER=$(basename "$ISSUE_URL")
+
+  if [ -n "$ASSIGNEE" ]; then
+    gh api "repos/$OWNER/$REPO/issues/$ISSUE_NUMBER/assignees" \
+      -f "assignees[]=$ASSIGNEE" >/dev/null 2>&1 || \
+      echo "     aviso: nao foi possivel atribuir $ASSIGNEE automaticamente"
+  fi
 
   CONTENT_ID=$(gh api graphql -f query='
     query($owner: String!, $repo: String!, $number: Int!) {
@@ -140,7 +141,6 @@ EOF
       }
     }' -f owner="$OWNER" -f repo="$REPO" -F number="$ISSUE_NUMBER" --jq '.data.repository.issue.id')
 
-  # Adiciona ao Project via GraphQL direto (em vez de "gh project item-add --owner")
   ITEM_ID=$(gh api graphql -f query='
     mutation($project: ID!, $content: ID!) {
       addProjectV2ItemById(input: {projectId: $project, contentId: $content}) {
@@ -152,6 +152,22 @@ EOF
     --field-id "$FIELD_STATUS_ID" --single-select-option-id "$OPTION_PENDENTE"
 
   echo "     criada: $ISSUE_URL (responsável: ${ASSIGNEE:-nenhum encontrado})"
+)
+}
+
+echo ""
+echo "==> Processando issues abertas no Sonar..."
+jq -c '.issues[]' "$SONAR_ISSUES_FILE" | while read -r issue; do
+  KEY=$(jq -r '.key' <<<"$issue")
+  EXISTING=$(jq -r --arg key "$KEY" '.[] | select(.body | contains($key)) | .number' gh-issues.json | head -1)
+
+  if [ -n "$EXISTING" ]; then
+    continue
+  fi
+
+  if ! process_new_issue "$issue"; then
+    echo "     ERRO ao processar $KEY - pulando para a proxima (nao interrompe o restante)"
+  fi
 done
 
 echo ""
