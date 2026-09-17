@@ -51,11 +51,11 @@ gh label create "$LABEL" --repo "$OWNER/$REPO" --color "d93f0b" \
 
 echo "==> Baixando issues do GitHub já geradas pelo Sonar (abertas e fechadas)..."
 gh issue list --repo "$OWNER/$REPO" --label "$LABEL" --state all --limit 500 \
-  --json number,body,state > gh-issues.json
+  --json number,body,state >gh-issues.json
 
 echo "==> Baixando itens atuais do Project (via GraphQL, com paginação)..."
 PROJECT_ITEMS_FILE="project-items.json"
-echo "[]" > "$PROJECT_ITEMS_FILE"
+echo "[]" >"$PROJECT_ITEMS_FILE"
 CURSOR="null"
 while true; do
   PAGE=$(gh api graphql -f query='
@@ -75,7 +75,7 @@ while true; do
       }
     }' -f project="$PROJECT_ID" -F after="$CURSOR")
 
-  jq -s '.[0] + [.[1].data.node.items.nodes[]]' "$PROJECT_ITEMS_FILE" <(echo "$PAGE") > tmp.json
+  jq -s '.[0] + [.[1].data.node.items.nodes[]]' "$PROJECT_ITEMS_FILE" <(echo "$PAGE") >tmp.json
   mv tmp.json "$PROJECT_ITEMS_FILE"
 
   HAS_NEXT=$(jq -r '.data.node.items.pageInfo.hasNextPage' <<<"$PAGE")
@@ -89,30 +89,23 @@ SONAR_KEYS_OPEN=$(jq -r '.issues[].key' "$SONAR_ISSUES_FILE")
 # falhar aqui dentro, so essa issue e' pulada (com aviso), o script principal
 # continua para as demais - em vez de o "set -e" do topo matar tudo de uma vez.
 process_new_issue() {
-(
-  set -e
-  local issue="$1"
-  local KEY MESSAGE RULE SEVERITY COMPONENT LINE ASSIGNEE COMMIT
-  local BODY ISSUE_URL ISSUE_NUMBER CONTENT_ID ITEM_ID
+  (
+    set -e
+    local issue="$1"
+    local KEY MESSAGE RULE SEVERITY COMPONENT LINE
+    local BODY ISSUE_URL ISSUE_NUMBER CONTENT_ID ITEM_ID
 
-  KEY=$(jq -r '.key' <<<"$issue")
-  MESSAGE=$(jq -r '.message' <<<"$issue")
-  RULE=$(jq -r '.rule' <<<"$issue")
-  SEVERITY=$(jq -r '.severity' <<<"$issue")
-  COMPONENT=$(jq -r '.component' <<<"$issue" | sed 's/^[^:]*://')
-  LINE=$(jq -r '.line // "N/A"' <<<"$issue")
+    KEY=$(jq -r '.key' <<<"$issue")
+    MESSAGE=$(jq -r '.message' <<<"$issue")
+    RULE=$(jq -r '.rule' <<<"$issue")
+    SEVERITY=$(jq -r '.severity' <<<"$issue")
+    COMPONENT=$(jq -r '.component' <<<"$issue" | sed 's/^[^:]*://')
+    LINE=$(jq -r '.line // "N/A"' <<<"$issue")
 
-  echo "  -> Nova issue do Sonar: $KEY ($COMPONENT:$LINE)"
+    echo "  -> Nova issue do Sonar: $KEY ($COMPONENT:$LINE)"
 
-  ASSIGNEE=""
-  if [ "$LINE" != "N/A" ] && [ -f "$COMPONENT" ]; then
-    COMMIT=$(git blame -L "${LINE},${LINE}" --porcelain -- "$COMPONENT" 2>/dev/null | head -1 | cut -d' ' -f1 || true)
-    if [ -n "${COMMIT:-}" ]; then
-      ASSIGNEE=$(gh api "repos/$OWNER/$REPO/commits/$COMMIT" --jq '.author.login // empty' 2>/dev/null || true)
-    fi
-  fi
-
-  BODY=$(cat <<EOF
+    BODY=$(
+      cat <<EOF
 **Regra:** $RULE
 **Severidade:** $SEVERITY
 **Arquivo:** $COMPONENT:$LINE
@@ -121,38 +114,32 @@ $MESSAGE
 
 <!-- sonar-key: $KEY -->
 EOF
-)
+    )
 
-  ISSUE_URL=$(gh issue create --repo "$OWNER/$REPO" --title "[Sonar] $MESSAGE" \
-    --body "$BODY" --label "$LABEL")
+    ISSUE_URL=$(gh issue create --repo "$OWNER/$REPO" --title "[Sonar] $MESSAGE" \
+      --body "$BODY" --label "$LABEL")
 
-  ISSUE_NUMBER=$(basename "$ISSUE_URL")
+    ISSUE_NUMBER=$(basename "$ISSUE_URL")
 
-  if [ -n "$ASSIGNEE" ]; then
-    gh api "repos/$OWNER/$REPO/issues/$ISSUE_NUMBER/assignees" \
-      -f "assignees[]=$ASSIGNEE" >/dev/null 2>&1 || \
-      echo "     aviso: nao foi possivel atribuir $ASSIGNEE automaticamente"
-  fi
-
-  CONTENT_ID=$(gh api graphql -f query='
+    CONTENT_ID=$(gh api graphql -f query='
     query($owner: String!, $repo: String!, $number: Int!) {
       repository(owner: $owner, name: $repo) {
         issue(number: $number) { id }
       }
     }' -f owner="$OWNER" -f repo="$REPO" -F number="$ISSUE_NUMBER" --jq '.data.repository.issue.id')
 
-  ITEM_ID=$(gh api graphql -f query='
+    ITEM_ID=$(gh api graphql -f query='
     mutation($project: ID!, $content: ID!) {
       addProjectV2ItemById(input: {projectId: $project, contentId: $content}) {
         item { id }
       }
     }' -f project="$PROJECT_ID" -f content="$CONTENT_ID" --jq '.data.addProjectV2ItemById.item.id')
 
-  gh project item-edit --id "$ITEM_ID" --project-id "$PROJECT_ID" \
-    --field-id "$FIELD_STATUS_ID" --single-select-option-id "$OPTION_PENDENTE"
+    gh project item-edit --id "$ITEM_ID" --project-id "$PROJECT_ID" \
+      --field-id "$FIELD_STATUS_ID" --single-select-option-id "$OPTION_PENDENTE"
 
-  echo "     criada: $ISSUE_URL (responsável: ${ASSIGNEE:-nenhum encontrado})"
-)
+    echo "     criada: $ISSUE_URL "
+  )
 }
 
 echo ""
