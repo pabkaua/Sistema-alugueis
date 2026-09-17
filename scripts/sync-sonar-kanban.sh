@@ -138,7 +138,7 @@ EOF
     gh project item-edit --id "$ITEM_ID" --project-id "$PROJECT_ID" \
       --field-id "$FIELD_STATUS_ID" --single-select-option-id "$OPTION_PENDENTE"
 
-    echo "     criada: $ISSUE_URL "
+    echo "     criada: $ISSUE_URL"
   )
 }
 
@@ -167,7 +167,7 @@ jq -r '.[] | select(.state=="OPEN") | @base64' gh-issues.json | while read -r ro
 
   if [ -n "$KEY" ] && ! grep -qx "$KEY" <<<"$SONAR_KEYS_OPEN"; then
     echo "  -> Resolvida: fechando issue #$NUMBER (sonar-key $KEY)"
-    gh issue close "$NUMBER" --repo "$OWNER/$REPO" --comment "Resolvido no SonarQube ✅ (sincronização automática)"
+    gh issue close "$NUMBER" --repo "$OWNER/$REPO" --comment "Resolvido no SonarQube ✅ (sincronização automática)" || echo " aviso: falha ao fechar #$NUMBER"
 
     ITEM_ID=$(jq -r --arg n "$NUMBER" '.[] | select(.content.number == ($n|tonumber)) | .id' "$PROJECT_ITEMS_FILE" | head -1)
 
