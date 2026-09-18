@@ -1,6 +1,6 @@
-package com.loja.padraoFacade;
+package com.loja.padraofacade;
 
-import com.loja.padraoFacade.interfaces.ILojaFacade;
+import com.loja.padraofacade.interfaces.ILojaFacade;
 import com.loja.business.interfaces.*;
 import com.loja.model.*;
 

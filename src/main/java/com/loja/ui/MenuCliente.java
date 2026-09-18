@@ -1,6 +1,6 @@
 package com.loja.ui;
 
-import com.loja.padraoFacade.interfaces.ILojaFacade;
+import com.loja.padraofacade.interfaces.ILojaFacade;
 import com.loja.model.Cliente;
 import com.loja.model.ContratoAluguel;
 import com.loja.model.Item;

@@ -1,4 +1,4 @@
-package com.loja.padraoFacade.interfaces;
+package com.loja.padraofacade.interfaces;
 
 import com.loja.model.*;
 

@@ -1,7 +1,7 @@
 package com.loja.ui;
 
 import com.loja.model.*;
-import com.loja.padraoFacade.interfaces.ILojaFacade;
+import com.loja.padraofacade.interfaces.ILojaFacade;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;

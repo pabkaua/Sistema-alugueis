@@ -2,8 +2,8 @@ package com.loja;
 
 import com.loja.business.*;
 import com.loja.business.interfaces.*;
-import com.loja.padraoFacade.LojaFacade;
-import com.loja.padraoFacade.interfaces.ILojaFacade;
+import com.loja.padraofacade.LojaFacade;
+import com.loja.padraofacade.interfaces.ILojaFacade;
 import com.loja.repositories.*;
 import com.loja.repositories.interfaces.*;
 import com.loja.ui.MenuLogin;
