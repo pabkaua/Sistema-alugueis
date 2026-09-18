@@ -34,7 +34,7 @@ public class CategoriaBusiness implements ICategoriaBusiness {
         }
 
         repo.salvar(c);
-    };
+    }
 
     public Categoria buscar(String id){
         if (id == null){
