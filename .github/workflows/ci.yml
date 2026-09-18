@@ -2,7 +2,7 @@ name: CI
 
 on:
   push:
-    branches: [develop]
+    branches: [develop, main]
   pull_request:
     branches: [develop, main]
     types: [opened, synchronize, reopened]
@@ -47,12 +47,13 @@ jobs:
       - name: Build, testes e analise sonar
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=pabkaua_Sistema-alugueis
 
   sync-kanban:
     needs: build-test-analyze
     runs-on: ubuntu-latest
-    # só sincroniza o kanban em push na develop (evita criar issues a cada PR/commit de teste)
+
     if: github.event_name == 'push'
     steps:
       - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5
