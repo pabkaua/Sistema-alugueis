@@ -7,9 +7,12 @@ import com.loja.model.*;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.Map;
 
 public class LojaFacade implements ILojaFacade{
+
+    private static final ZoneId ZONA_PADRAO = ZoneId.of("America/Sao_Paulo");
 
     private final IUsuarioBusiness usuarioBusiness;
     private final IItemBusiness itemBusiness;
@@ -44,27 +47,29 @@ public class LojaFacade implements ILojaFacade{
             return "Nenhum item alugado no momento.";
         }
 
-        LocalDate hoje = LocalDate.now();
-        String relatorio = "=== ITENS ALUGADOS: " + hoje + " ===\n\n";
+        LocalDate hoje = LocalDate.now(ZONA_PADRAO);
+        StringBuilder relatorio = new StringBuilder();
+        relatorio.append("=== ITENS ALUGADOS: ").append(hoje).append(" ===\n\n");
 
         for (ContratoAluguel c : ativos.values()) {
             boolean emAtraso = hoje.isAfter(c.getDataPrevDevolucao());
-            relatorio += "Contrato : " + c.getId() + "\n";
-            relatorio += "Item     : " + c.getItem().getNome() + "\n";
-            relatorio += "Cliente  : " + c.getCliente().getNome() + "\n";
-            relatorio += "Retirada : " + c.getDataRetirada() + "\n";
-            relatorio += "Prev Dev.: " + c.getDataPrevDevolucao();
-            if (emAtraso) relatorio += "  *** EM ATRASO ***";
-            relatorio += "\n\n";
+            relatorio.append("Contrato : ").append(c.getId()).append("\n");
+            relatorio.append("Item     : ").append(c.getItem().getNome()).append("\n");
+            relatorio.append("Cliente  : ").append(c.getCliente().getNome()).append("\n");
+            relatorio.append("Retirada : ").append(c.getDataRetirada()).append("\n");
+            relatorio.append("Prev Dev.: ").append(c.getDataPrevDevolucao());
+            if (emAtraso) relatorio.append("  *** EM ATRASO ***");
+            relatorio.append("\n\n");
         }
 
         long atrasados = ativos.values().stream()
                 .filter(c -> hoje.isAfter(c.getDataPrevDevolucao()))
                 .count();
 
-        relatorio += "Total alugados: " + ativos.size() + " | Em atraso: " + atrasados + "\n";
+        relatorio.append("Total alugados: ").append(ativos.size())
+                .append(" | Em atraso: ").append(atrasados).append("\n");
 
-        return relatorio;
+        return relatorio.toString();
     }
 
     @Override
@@ -89,13 +94,14 @@ public class LojaFacade implements ILojaFacade{
                 .map(Multa::getValorTotal)
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
 
-        String relatorio = "=== RELATÓRIO DE FATURAMENTO ===\n";
-        relatorio += "Período: " + inicio + " a " + fim + "\n\n";
-        relatorio += String.format("Receita com aluguéis : R$ %.2f%n", totalAlugueis);
-        relatorio += String.format("Receita com multas   : R$ %.2f%n", totalMultas);
-        relatorio += String.format("TOTAL                : R$ %.2f%n", totalAlugueis.add(totalMultas));
+        StringBuilder relatorio = new StringBuilder();
+        relatorio.append("=== RELATÓRIO DE FATURAMENTO ===\n");
+        relatorio.append("Período: ").append(inicio).append(" a ").append(fim).append("\n\n");
+        relatorio.append(String.format("Receita com aluguéis : R$ %.2f%n", totalAlugueis));
+        relatorio.append(String.format("Receita com multas   : R$ %.2f%n", totalMultas));
+        relatorio.append(String.format("TOTAL                : R$ %.2f%n", totalAlugueis.add(totalMultas)));
 
-        return relatorio;
+        return relatorio.toString();
     }
 
     /* =========================================================================
@@ -103,31 +109,31 @@ public class LojaFacade implements ILojaFacade{
      * ========================================================================= */
     @Override
     public void cadastrarCliente(Cliente cliente) {
-        if (cliente == null) throw new RuntimeException("Não é possível cadastrar um cliente nulo.");
+        if (cliente == null) throw new IllegalArgumentException("Não é possível cadastrar um cliente nulo.");
         usuarioBusiness.cadastrar(cliente);
     }
 
     @Override
     public void cadastrarFuncionario(Funcionario funcionario) {
-        if (funcionario == null) throw new RuntimeException("Não é possível cadastrar um funcionário nulo");
+        if (funcionario == null) throw new IllegalArgumentException("Não é possível cadastrar um funcionário nulo");
         usuarioBusiness.cadastrar(funcionario);
     }
 
     @Override
     public void cadastrarAdm(Administrador adm) {
-        if (adm == null) throw new RuntimeException("Não é possível cadastrar um administrador nulo");
+        if (adm == null) throw new IllegalArgumentException("Não é possível cadastrar um administrador nulo");
         usuarioBusiness.cadastrar(adm);
     }
 
     @Override
     public Usuario buscarUsuario(String id) {
-        if (id == null || id.trim().isEmpty()) throw new RuntimeException("ID inválido");
+        if (id == null || id.trim().isEmpty()) throw new IllegalArgumentException("ID inválido");
         return usuarioBusiness.buscarPorId(id);
     }
 
     @Override
     public Usuario autenticarUsuario(String email, String senha) {
-        if (email == null || senha == null) throw new RuntimeException("Email ou senha não podem ser nulas");
+        if (email == null || senha == null) throw new IllegalArgumentException("Email ou senha não podem ser nulas");
         return usuarioBusiness.autenticar(email, senha);
     }
 
@@ -138,19 +144,19 @@ public class LojaFacade implements ILojaFacade{
 
     @Override
     public Map<String, Usuario> listarUsuarioPorPerfil(String perfil) {
-        if (perfil == null || perfil.trim().isEmpty()) throw new RuntimeException("Perfil inválido");
+        if (perfil == null || perfil.trim().isEmpty()) throw new IllegalArgumentException("Perfil inválido");
         return usuarioBusiness.listarPorPerfil(perfil);
     }
 
     @Override
     public void atualizarUsuario(String id, Usuario usuario) {
-        if (usuario == null) throw new RuntimeException("Não é possível atualizar um usuário nulo");
+        if (usuario == null) throw new IllegalArgumentException("Não é possível atualizar um usuário nulo");
         usuarioBusiness.atualizar(usuario);
     }
 
     @Override
     public void desativarUsuario(String id) {
-        if (id == null || id.trim().isEmpty()) throw new RuntimeException("ID inválido");
+        if (id == null || id.trim().isEmpty()) throw new IllegalArgumentException("ID inválido");
         Usuario usuario = usuarioBusiness.buscarPorId(id);
         usuario.setAtivo(false);
         usuarioBusiness.atualizar(usuario);
@@ -167,13 +173,13 @@ public class LojaFacade implements ILojaFacade{
 
     @Override
     public ContratoAluguel buscarContrato(String id) {
-        if (id == null || id.trim().isEmpty()) throw new RuntimeException("ID de contrato inválido.");
+        if (id == null || id.trim().isEmpty()) throw new IllegalArgumentException("ID de contrato inválido.");
         return contratoBusiness.buscar(id);
     }
 
     @Override
     public ContratoAluguel processarDevolucao(String contratoId) {
-        if (contratoId == null || contratoId.trim().isEmpty()) throw new RuntimeException("ID inválido para processar devolução.");
+        if (contratoId == null || contratoId.trim().isEmpty()) throw new IllegalArgumentException("ID inválido para processar devolução.");
         ContratoAluguel contrato = contratoBusiness.processarDevolucao(contratoId);
         if(multaBusiness.calcularAtraso(contrato).compareTo(BigDecimal.ZERO) > 0){
             multaBusiness.aplicar(contrato);
@@ -188,7 +194,7 @@ public class LojaFacade implements ILojaFacade{
 
     @Override
     public Map<String, ContratoAluguel> consultarHistoricoCliente(String clienteId) {
-        if (clienteId == null || clienteId.trim().isEmpty()) throw new RuntimeException("ID de cliente inválido para busca de histórico.");
+        if (clienteId == null || clienteId.trim().isEmpty()) throw new IllegalArgumentException("ID de cliente inválido para busca de histórico.");
         return contratoBusiness.listarPorCliente(clienteId);
     }
 
@@ -235,7 +241,7 @@ public class LojaFacade implements ILojaFacade{
     public void atualizarItem(Item item) {
         Item existente = itemBusiness.buscar(item.getId());
         if (!existente.getStatus().equals(item.getStatus())) {
-            throw new RuntimeException("Status do item só pode ser alterado através de aluguel ou devolução.");
+            throw new IllegalStateException("Status do item só pode ser alterado através de aluguel ou devolução.");
         }
         itemBusiness.atualizar(item);
     }
@@ -309,14 +315,14 @@ public class LojaFacade implements ILojaFacade{
 
     @Override
     public void aplicarMulta(ContratoAluguel contrato) {
-        if (contrato == null) throw new RuntimeException("Não é possível aplicar multa sobre um contrato nulo.");
-        multaBusiness.aplicar(contrato); // Mapeado no Business como "aplicar"
+        if (contrato == null) throw new IllegalArgumentException("Não é possível aplicar multa sobre um contrato nulo.");
+        multaBusiness.aplicar(contrato);
     }
 
     @Override
     public void quitarMulta(String multaId) {
-        if (multaId == null || multaId.trim().isEmpty()) throw new RuntimeException("ID inválido para quitação de multa.");
-        multaBusiness.quitar(multaId);   // Mapeado no Business como "quitar"
+        if (multaId == null || multaId.trim().isEmpty()) throw new IllegalArgumentException("ID inválido para quitação de multa.");
+        multaBusiness.quitar(multaId);
     }
 
     @Override
@@ -327,19 +333,19 @@ public class LojaFacade implements ILojaFacade{
 
     @Override
     public Map<String, Multa> listarMultaPorCliente(String clienteId) {
-        if (clienteId == null || clienteId.trim().isEmpty()) throw new RuntimeException("ID de cliente inválido.");
-        return multaBusiness.listarPorCliente(clienteId); // Mapeado no Business como "listarPorCliente"
+        if (clienteId == null || clienteId.trim().isEmpty()) throw new IllegalArgumentException("ID de cliente inválido.");
+        return multaBusiness.listarPorCliente(clienteId);
     }
 
     @Override
     public Map<String, Multa> listarMulta() {
-        return multaBusiness.listar(); // Mapeado no Business como "listar"
+        return multaBusiness.listar();
     }
 
     @Override
     public void deletarMulta(String id) {
-        if (id == null || id.trim().isEmpty()) throw new RuntimeException("ID inválido para deleção de multa.");
-        multaBusiness.deletarMulta(id); // Mapeado no Business como "deletarMulta"
+        if (id == null || id.trim().isEmpty()) throw new IllegalArgumentException("ID inválido para deleção de multa.");
+        multaBusiness.deletarMulta(id);
     }
 
     /* =========================================================================
