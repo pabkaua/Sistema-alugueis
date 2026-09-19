@@ -91,7 +91,7 @@ public class FornecedorPersistenciaCSV implements IFornecedorRepository {
                 linha = leitor.readLine();
             }
         } catch (IOException e){
-            throw new RuntimeException(e);
+            throw new PersistenciaException("Erro I/O ao carregar dados do arquivo CSV de fornecedor ->", e);
         }
     }
 
@@ -112,7 +112,7 @@ public class FornecedorPersistenciaCSV implements IFornecedorRepository {
             }
         }
         catch (IOException e){
-            throw new RuntimeException(e);
+            throw new PersistenciaException("Erro I/O ao salvar dados de fornecedor no arquivo CSV  ->", e);
         }
     }
 }

@@ -67,19 +67,17 @@ public class CategoriaPersistenciaCSV implements ICategoriaRepository {
     // pega cada linha do csv e cria o objeto, passando pra o map
     @Override
     public void carregarDados() {
-        BufferedReader leitor = null;
-        try {
-            leitor = new BufferedReader(new FileReader(this.caminhoArquivo));
+        try (BufferedReader leitor = new BufferedReader(new FileReader(this.caminhoArquivo))) {
             String linha = leitor.readLine();
 
-            if(linha != null && linha.toLowerCase().startsWith("id;nome")){
+            if (linha != null && linha.toLowerCase().startsWith("id;nome")) {
                 linha = leitor.readLine();
             }
 
-            while (linha != null){
+            while (linha != null) {
                 String[] dados = linha.split(";");
 
-                if (dados.length >= 3){
+                if (dados.length >= 3) {
                     String id = dados[0].toUpperCase();
                     String nome = dados[1];
                     boolean historico = Boolean.parseBoolean(dados[2]);
@@ -92,28 +90,18 @@ public class CategoriaPersistenciaCSV implements ICategoriaRepository {
                 }
                 linha = leitor.readLine();
             }
-        } catch (IOException e){
-            throw new RuntimeException(e);
-        } finally {
-            if(leitor != null) {
-                try {
-                    leitor.close();
-                } catch (IOException e){
-                    throw new RuntimeException(e);
-                }
-            }
+        } catch (IOException e) {
+            throw new PersistenciaException("Erro I/O ao carregar dados do arquivo CSV de categoria ->", e);
         }
     }
 
     @Override
     public void salvarDados() {
-        BufferedWriter escritor = null;
-        try{
-            escritor = new BufferedWriter(new FileWriter(this.caminhoArquivo));
+        try (BufferedWriter escritor = new BufferedWriter(new FileWriter(this.caminhoArquivo))) {
             escritor.write("id;nome;historico");
             escritor.newLine();
 
-            for(Categoria categoria : this.categorias.values()){
+            for (Categoria categoria : this.categorias.values()) {
                 String linha = categoria.getId().toUpperCase() + ";" +
                         categoria.getNome() + ";" +
                         categoria.hasHistorico();
@@ -121,16 +109,8 @@ public class CategoriaPersistenciaCSV implements ICategoriaRepository {
                 escritor.newLine();
             }
 
-        } catch (IOException e){
-            throw new RuntimeException(e);
-        } finally {
-            if(escritor != null) {
-                try {
-                    escritor.close();
-                } catch (IOException e){
-                    throw new RuntimeException(e);
-                }
-            }
+        } catch (IOException e) {
+            throw new PersistenciaException("Erro I/O ao salvar dados de categoria no arquivo CSV  ->", e);
         }
     }
 }

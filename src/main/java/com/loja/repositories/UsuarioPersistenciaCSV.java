@@ -120,7 +120,7 @@ public class UsuarioPersistenciaCSV implements IUsuarioRepository {
                 }
             }
         } catch (IOException e) {
-            System.err.println("Erro ao carregar dados do arquivo CSV: " + e.getMessage());
+            throw new PersistenciaException("Erro I/O ao carregar dados do arquivo CSV de usuário ->", e);
         }
     }
 
@@ -156,7 +156,7 @@ public class UsuarioPersistenciaCSV implements IUsuarioRepository {
                 escritor.newLine();
             }
         } catch (IOException e) {
-            System.err.println("Erro ao salvar dados no arquivo CSV: " + e.getMessage());
+            throw new PersistenciaException("Erro I/O ao salvar dados de usuário no arquivo CSV  ->", e);
         }
     }
 }

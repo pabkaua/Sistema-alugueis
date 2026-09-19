@@ -115,7 +115,7 @@ public class ContratoPersistenciaCSV implements IContratoRepository {
                 linha = leitor.readLine();
             }
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            throw new PersistenciaException("Erro I/O ao carregar dados do arquivo CSV de contrato ->", e);
         }
     }
 
@@ -150,7 +150,7 @@ public class ContratoPersistenciaCSV implements IContratoRepository {
                 escritor.newLine();
             }
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            throw new PersistenciaException("Erro I/O ao salvar dados de contrato no arquivo CSV  ->", e);
         }
     }
 }
