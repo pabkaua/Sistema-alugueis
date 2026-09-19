@@ -36,7 +36,7 @@ public class ItemBusiness implements IItemBusiness {
             i.setStatus("DISPONIVEL");
         }
         repo.salvar(i);
-    };
+    }
 
     public Item buscar(String id){
         Item item = repo.buscar(id);
@@ -44,15 +44,15 @@ public class ItemBusiness implements IItemBusiness {
             throw new RuntimeException("Item não encontrado: " + id);
         }
         return item;
-    };
+    }
 
     public Map<String, Item> listar(){
         return repo.listar();
-    };
+    }
 
     public Map<String, Item> listarPorStatus(String status){
         return repo.listar(status);
-    };
+    }
 
     public Map<String, Item> listarPorCategoria(Categoria categoria){
         if (categoria == null){
@@ -63,7 +63,7 @@ public class ItemBusiness implements IItemBusiness {
             throw new RuntimeException("Categoria não cadastrada: " + categoria.getNome());
         }
         return repo.listar(categoria);
-    };
+    }
 
     public Map<String, Item> listarPorFornecedor(Fornecedor fornecedor){
         if (fornecedor == null){
@@ -82,8 +82,8 @@ public class ItemBusiness implements IItemBusiness {
         }
         if (!repo.atualizar(item)){
             throw new RuntimeException("Não foi possível atualizar!");
-        };
-    };
+        }
+    }
 
     public void deletar(String id){
         if (repo.buscar(id) == null){
@@ -93,7 +93,7 @@ public class ItemBusiness implements IItemBusiness {
             throw new RuntimeException("O item não pode ser excluido, tem histórico");
         }
         repo.deletar(id);
-    };
+    }
 
     public void salvarDados(){
         this.repo.salvarDados();
