@@ -14,7 +14,7 @@ public class Fornecedor {
         this.telefone = telefone;
         this.historico = false;
     }
-    public Fornecedor(){};
+    public Fornecedor(){}
 
     public String getId(){
         return this.id;
