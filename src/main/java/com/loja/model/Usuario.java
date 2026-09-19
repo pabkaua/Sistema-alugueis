@@ -8,13 +8,13 @@ public abstract class Usuario {
     private String senha;
     private boolean ativo;
 
-    public Usuario(String id, String nome, String login, String senha) {
+    protected Usuario(String id, String nome, String login, String senha) {
         this.id = id;
         this.nome = nome;
         this.login = login;
         this.senha = senha;
     }
-    public Usuario(){};
+    protected Usuario(){}
 
     public abstract String getPerfil();
 
