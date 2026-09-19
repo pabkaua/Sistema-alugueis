@@ -7,7 +7,6 @@ import com.loja.model.Cliente;
 import com.loja.model.ContratoAluguel;
 import com.loja.model.Item;
 import com.loja.repositories.interfaces.IContratoRepository;
-import com.loja.business.BusinessException;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
