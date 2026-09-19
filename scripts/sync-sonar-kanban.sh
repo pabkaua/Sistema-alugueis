@@ -2,10 +2,11 @@
 # Sincroniza issues abertas no SonarQube/SonarCloud com um GitHub Project (kanban).
 #
 # O que faz:
-#   1. Para cada issue aberta no Sonar sem uma GitHub Issue correspondente -> cria a issue,
-#      adiciona no Project na coluna "Pendente" e tenta atribuir responsável via git blame.
+#   1. Para cada issue aberta no Sonar sem uma GitHub Issue correspondente -> cria a issue
+#      e adiciona no Project na coluna "Pendente".
 #   2. Para issues do GitHub geradas pelo Sonar cuja "sonar-key" não está mais entre as
-#      issues abertas do Sonar (ou seja, foi resolvida) -> fecha a issue e move para "Concluído".
+#      issues abertas do Sonar (ou seja, foi resolvida) -> atribui a issue para o autor
+#      do commit que gerou este push, fecha a issue e move para "Concluído".
 #
 # OBS IMPORTANTE: esta versão evita por completo os subcomandos "gh project item-add"
 # e "gh project item-list" com a flag --owner, pois a versão do gh CLI usada no runner
@@ -84,6 +85,12 @@ while true; do
 done
 
 SONAR_KEYS_OPEN=$(jq -r '.issues[].key' "$SONAR_ISSUES_FILE")
+
+# Quem fez o commit deste push (usado como "responsavel" ao fechar issues resolvidas)
+RESOLVER=$(gh api "repos/$OWNER/$REPO/commits/HEAD" --jq '.author.login // empty' 2>/dev/null || true)
+if [ -n "$RESOLVER" ]; then
+  echo "==> Commit deste push foi de: $RESOLVER (sera atribuido as issues resolvidas agora)"
+fi
 
 # Processa uma issue do Sonar. Roda em subshell com "set -e" proprio: se algo
 # falhar aqui dentro, so essa issue e' pulada (com aviso), o script principal
@@ -167,7 +174,15 @@ jq -r '.[] | select(.state=="OPEN") | @base64' gh-issues.json | while read -r ro
 
   if [ -n "$KEY" ] && ! grep -qx "$KEY" <<<"$SONAR_KEYS_OPEN"; then
     echo "  -> Resolvida: fechando issue #$NUMBER (sonar-key $KEY)"
-    gh issue close "$NUMBER" --repo "$OWNER/$REPO" --comment "Resolvido no SonarQube ✅ (sincronização automática)" || echo " aviso: falha ao fechar #$NUMBER"
+
+    # Atribui quem resolveu (autor do commit deste push) antes de fechar
+    if [ -n "$RESOLVER" ]; then
+      gh api "repos/$OWNER/$REPO/issues/$NUMBER/assignees" \
+        -f "assignees[]=$RESOLVER" >/dev/null 2>&1 || \
+        echo "     aviso: nao foi possivel atribuir $RESOLVER automaticamente"
+    fi
+
+    gh issue close "$NUMBER" --repo "$OWNER/$REPO" --comment "Resolvido no SonarQube ✅ (sincronização automática)" || echo "     aviso: falha ao fechar #$NUMBER"
 
     ITEM_ID=$(jq -r --arg n "$NUMBER" '.[] | select(.content.number == ($n|tonumber)) | .id' "$PROJECT_ITEMS_FILE" | head -1)
 
