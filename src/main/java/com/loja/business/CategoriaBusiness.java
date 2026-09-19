@@ -48,7 +48,7 @@ public class CategoriaBusiness implements ICategoriaBusiness {
         }
 
         return categoria;
-    };
+    }
 
     public void atualizar(Categoria categoria){
         if (categoria == null){
@@ -58,12 +58,12 @@ public class CategoriaBusiness implements ICategoriaBusiness {
         }
         if (!repo.atualizar(categoria)){
             throw new BusinessException("Não foi possível atualizar!");
-        };
-    };
+        }
+    }
 
     public Map<String, Categoria> listar(){
         return repo.listar();
-    };
+    }
 
     public void deletar(String id){
         if (repo.buscar(id) == null || id.isBlank()){
@@ -74,7 +74,7 @@ public class CategoriaBusiness implements ICategoriaBusiness {
             throw new BusinessException("Não existe uma categoria com esse id");
         }
         repo.deletar(id);
-    };
+    }
 
     public void salvarDados(){
         this.repo.salvarDados();
