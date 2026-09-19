@@ -101,31 +101,22 @@ public class ItemPersistenciaCSV implements IItemRepository {
     // pega cada linha do csv e cria o objeto, passando pra o map
     @Override
     public void carregarDados() {
-        BufferedReader leitor = null;
-        try {
-            leitor = new BufferedReader(new FileReader(this.caminhoArquivo));
+        try (BufferedReader leitor = new BufferedReader(new FileReader(this.caminhoArquivo))) {
             String linha = leitor.readLine();
 
-            if(linha != null && linha.toLowerCase().startsWith("id;nome")){
+            if (linha != null && linha.toLowerCase().startsWith("id;nome")) {
                 linha = leitor.readLine();
             }
 
-            while (linha != null){
+            while (linha != null) {
                 String[] dados = linha.split(";");
 
-                if (dados.length >= 8){
+                if (dados.length >= 8) {
                     String id = dados[0].toUpperCase();
                     String nome = dados[1];
                     BigDecimal taxaDiaria = new BigDecimal(dados[2]);
                     BigDecimal valorReposicao = new BigDecimal(dados[3]);
                     String status = dados[4];
-
-                    /*
-                    * para evitar problemas de duplicação de dados de fornecedor e categoria
-                    * (ter no item.csv e fornecedor.csv, por exemplo), criamos os objetos vazios
-                    * e preenchemos apenas o ID, para na facade ele criar o fornecedor e categoria
-                    * e atualizar o objeto corretamente
-                    */
 
                     Categoria categoria = new Categoria();
                     categoria.setId(dados[5].toUpperCase());
@@ -142,16 +133,8 @@ public class ItemPersistenciaCSV implements IItemRepository {
                 }
                 linha = leitor.readLine();
             }
-        } catch (IOException e){
-            throw new PersistenciaException("Erro I/O ao carregar dados do arquivo CSV de item ->",e);
-        } finally {
-            if(leitor != null) {
-                try {
-                    leitor.close();
-                } catch (IOException e){
-                    throw new PersistenciaException("Erro I/O ao carregar dados do arquivo CSV de item ->",e);
-                }
-            }
+        } catch (IOException e) {
+            throw new PersistenciaException("Erro I/O ao carregar dados do arquivo CSV de item ->", e);
         }
     }
 
