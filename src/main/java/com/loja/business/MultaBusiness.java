@@ -118,13 +118,13 @@ public class MultaBusiness implements IMultaBusiness{
     }
 
     @Override
-    public Multa buscar(String Id){
-        if (Id == null || Id.trim().isEmpty()) {
+    public Multa buscar(String id){
+        if (id == null || id.trim().isEmpty()) {
             throw new RuntimeException("ID fornecido é inválido para busca.");
         }
-        Multa multa = multaRepository.buscar(Id);
+        Multa multa = multaRepository.buscar(id);
         if(multa == null){
-            throw new RuntimeException("Multa não encontrada para o Id: " + Id);
+            throw new RuntimeException("Multa não encontrada para o Id: " + id);
         }
         return multa;
     }
