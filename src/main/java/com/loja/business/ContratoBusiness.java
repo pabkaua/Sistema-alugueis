@@ -16,6 +16,7 @@ import java.util.UUID;
 
 public class ContratoBusiness implements IContratoBusiness {
 
+    private static final String STATUS_ATIVO = "ATIVO";
     private IContratoRepository repo;
     private IItemBusiness itemBusiness;
     private IUsuarioBusiness usuarioBusiness;
@@ -55,11 +56,9 @@ public class ContratoBusiness implements IContratoBusiness {
                 dataPrevDevolucao,
                 null,           // ainda não devolvido
                 valorTotal,
-                "ATIVO"
+                STATUS_ATIVO
         );
 
-        item.setStatus("ALUGADO");
-        item.setHistorico(true);
         itemBusiness.atualizar(item);
 
         cliente.setHistorico(true);
@@ -80,7 +79,7 @@ public class ContratoBusiness implements IContratoBusiness {
         if (contrato == null) {
             throw new RuntimeException("Contrato não encontrado.");
         }
-        if (!contrato.getStatus().equalsIgnoreCase("ATIVO")) {
+        if (!contrato.getStatus().equalsIgnoreCase(STATUS_ATIVO)) {
             throw new RuntimeException("Este contrato não está ativo.");
         }
 
@@ -98,7 +97,7 @@ public class ContratoBusiness implements IContratoBusiness {
 
     @Override
     public Map<String, ContratoAluguel> listarAtivos() {
-        return repo.listar("ATIVO");
+        return repo.listar(STATUS_ATIVO);
     }
 
     @Override
