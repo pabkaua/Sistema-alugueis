@@ -13,6 +13,7 @@ import java.time.LocalDate;
 import java.util.Collections;
 import java.util.Map;
 import java.util.UUID;
+import java.time.ZoneId;
 
 public class ContratoBusiness implements IContratoBusiness {
 
@@ -83,7 +84,7 @@ public class ContratoBusiness implements IContratoBusiness {
             throw new BusinessException("Este contrato não está ativo.");
         }
 
-        contrato.setDataEfetivaDevolucao(LocalDate.now());
+        contrato.setDataEfetivaDevolucao(LocalDate.now(ZoneId.of("America/Sao_Paulo")));
         contrato.setStatus("ENCERRADO");
 
         // libera o item de volta para disponível
