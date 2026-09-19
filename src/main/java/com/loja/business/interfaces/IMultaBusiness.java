@@ -20,11 +20,11 @@ public interface IMultaBusiness{
 
     Map<String, Multa> listar();
     
-    Multa buscar(String Id);
+    Multa buscar(String id);
 
     void atualizar(Multa multa);
 
-    void deletarMulta(String Id);
+    void deletarMulta(String id);
 
     public void salvarDados();
 }
