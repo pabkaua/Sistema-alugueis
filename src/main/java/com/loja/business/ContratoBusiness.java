@@ -7,6 +7,7 @@ import com.loja.model.Cliente;
 import com.loja.model.ContratoAluguel;
 import com.loja.model.Item;
 import com.loja.repositories.interfaces.IContratoRepository;
+import com.loja.business.BusinessException;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -31,18 +32,18 @@ public class ContratoBusiness implements IContratoBusiness {
     public ContratoAluguel registrarAluguel(String clienteId, String itemId, LocalDate dataRetirada, LocalDate dataPrevDevolucao) {
         Cliente cliente = (Cliente) usuarioBusiness.buscarPorId(clienteId);
         if (cliente == null) {
-            throw new RuntimeException("Cliente não encontrado.");
+            throw new BusinessException("Cliente não encontrado.");
         }
         if (cliente.isInadimplente()) {
-            throw new RuntimeException("Cliente inadimplente. Quite as multas pendentes para realizar um novo aluguel.");
+            throw new BusinessException("Cliente inadimplente. Quite as multas pendentes para realizar um novo aluguel.");
         }
 
         Item item = itemBusiness.buscar(itemId);
         if (item == null) {
-            throw new RuntimeException("Item não encontrado.");
+            throw new BusinessException("Item não encontrado.");
         }
         if (!item.getStatus().equalsIgnoreCase("DISPONIVEL")) {
-            throw new RuntimeException("Item indisponível para aluguel. Status atual: " + item.getStatus());
+            throw new BusinessException("Item indisponível para aluguel. Status atual: " + item.getStatus());
         }
 
         long dias = java.time.temporal.ChronoUnit.DAYS.between(dataRetirada, dataPrevDevolucao);
@@ -77,10 +78,10 @@ public class ContratoBusiness implements IContratoBusiness {
     public ContratoAluguel processarDevolucao(String contratoId) {
         ContratoAluguel contrato = repo.buscar(contratoId);
         if (contrato == null) {
-            throw new RuntimeException("Contrato não encontrado.");
+            throw new BusinessException("Contrato não encontrado.");
         }
         if (!contrato.getStatus().equalsIgnoreCase(STATUS_ATIVO)) {
-            throw new RuntimeException("Este contrato não está ativo.");
+            throw new BusinessException("Este contrato não está ativo.");
         }
 
         contrato.setDataEfetivaDevolucao(LocalDate.now());
