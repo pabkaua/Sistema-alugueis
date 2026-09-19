@@ -1,5 +1,6 @@
 package com.loja.padraofacade;
 
+import com.loja.business.BusinessException;
 import com.loja.padraofacade.interfaces.ILojaFacade;
 import com.loja.business.interfaces.*;
 import com.loja.model.*;
@@ -371,21 +372,21 @@ public class LojaFacade implements ILojaFacade{
 
     public void salvarTudo() {
         try { usuarioBusiness.salvarDados(); }
-        catch (RuntimeException e) { System.out.println("Erro ao salvar usuários: " + e.getMessage()); }
+        catch (BusinessException e) { System.out.println("Erro ao salvar usuários: " + e.getMessage()); }
 
         try { itemBusiness.salvarDados(); }
-        catch (RuntimeException e) { System.out.println("Erro ao salvar itens: " + e.getMessage()); }
+        catch (BusinessException e) { System.out.println("Erro ao salvar itens: " + e.getMessage()); }
 
         try { categoriaBusiness.salvarDados(); }
-        catch (RuntimeException e) { System.out.println("Erro ao salvar categorias: " + e.getMessage()); }
+        catch (BusinessException e) { System.out.println("Erro ao salvar categorias: " + e.getMessage()); }
 
         try { fornecedorBusiness.salvarDados(); }
-        catch (RuntimeException e) { System.out.println("Erro ao salvar fornecedores: " + e.getMessage()); }
+        catch (BusinessException e) { System.out.println("Erro ao salvar fornecedores: " + e.getMessage()); }
 
         try { contratoBusiness.salvarDados(); }
-        catch (RuntimeException e) { System.out.println("Erro ao salvar contratos: " + e.getMessage()); }
+        catch (BusinessException e) { System.out.println("Erro ao salvar contratos: " + e.getMessage()); }
 
         try { multaBusiness.salvarDados(); }
-        catch (RuntimeException e) { System.out.println("Erro ao salvar multas: " + e.getMessage()); }
+        catch (BusinessException e) { System.out.println("Erro ao salvar multas: " + e.getMessage()); }
     }
 }
