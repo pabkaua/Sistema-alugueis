@@ -11,6 +11,7 @@ import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.Map;
 import java.util.Scanner;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class MenuFuncionario {
@@ -31,8 +32,11 @@ public class MenuFuncionario {
         boolean ativo = true;
 
         while (ativo) {
-            logger.info("\nPAINEL DO FUNCIONÁRIO: "
-                    + usuarioLogado.getNome().toUpperCase());
+            logger.log(
+                    Level.INFO,
+                    "\nPAINEL DO FUNCIONÁRIO: {0}",
+                    usuarioLogado.getNome().toUpperCase()
+            );
 
             logger.info("1 - Registrar Novo Aluguel");
             logger.info("2 - Processar Devolução de Item");
@@ -91,7 +95,9 @@ public class MenuFuncionario {
                 dataPrevDevolucao = LocalDate.parse(scanner.nextLine(), formatter);
 
                 if (dataPrevDevolucao.isBefore(dataRetirada)) {
-                    logger.info("Data de devolução não pode ser anterior à data de retirada.");
+                    logger.info(
+                            "Data de devolução não pode ser anterior à data de retirada."
+                    );
                     dataPrevDevolucao = null;
                 }
 
@@ -108,10 +114,18 @@ public class MenuFuncionario {
                     dataPrevDevolucao
             );
 
-            logger.info("Sucesso! Contrato firmado com o ID: " + contrato.getId());
+            logger.log(
+                    Level.INFO,
+                    "Sucesso! Contrato firmado com o ID: {0}",
+                    contrato.getId()
+            );
 
         } catch (RuntimeException e) {
-            logger.severe("Erro ao abrir aluguel: " + e.getMessage());
+            logger.log(
+                    Level.SEVERE,
+                    "Erro ao abrir aluguel: {0}",
+                    e.getMessage()
+            );
         }
     }
 
@@ -124,20 +138,23 @@ public class MenuFuncionario {
         try {
             ContratoAluguel contrato = facade.processarDevolucao(contratoId);
 
-            logger.info(
-                    "Devolução processada com sucesso! Contrato ID: "
-                            + contrato.getId()
-                            + " finalizado."
+            logger.log(
+                    Level.INFO,
+                    "Devolução processada com sucesso! Contrato ID: {0} finalizado.",
+                    contrato.getId()
             );
 
             if (facade.possuiMultaPendente(contrato.getCliente().getId())) {
-                logger.info("Atenção: devolução em atraso, multa aplicada ao cliente.");
+                logger.info(
+                        "Atenção: devolução em atraso, multa aplicada ao cliente."
+                );
             }
 
         } catch (RuntimeException e) {
-            logger.severe(
-                    "Erro ao processar encerramento de contrato: "
-                            + e.getMessage()
+            logger.log(
+                    Level.SEVERE,
+                    "Erro ao processar encerramento de contrato: {0}",
+                    e.getMessage()
             );
         }
     }
@@ -164,7 +181,11 @@ public class MenuFuncionario {
             logger.info("Cliente cadastrado com sucesso!");
 
         } catch (RuntimeException e) {
-            logger.severe("Falha ao salvar cliente: " + e.getMessage());
+            logger.log(
+                    Level.SEVERE,
+                    "Falha ao salvar cliente: {0}",
+                    e.getMessage()
+            );
         }
     }
 
@@ -175,20 +196,30 @@ public class MenuFuncionario {
             Map<String, Item> itens = facade.listarItensDisponiveis();
 
             if (itens.isEmpty()) {
-                logger.info("Não há itens disponíveis para aluguel no momento.");
+                logger.info(
+                        "Não há itens disponíveis para aluguel no momento."
+                );
 
             } else {
                 for (Item item : itens.values()) {
-                    logger.info(
-                            "ID: " + item.getId()
-                                    + " | Nome: " + item.getNome()
-                                    + " | Valor Diário: " + item.getTaxaDiaria()
+                    logger.log(
+                            Level.INFO,
+                            "ID: {0} | Nome: {1} | Valor Diário: {2}",
+                            new Object[]{
+                                    item.getId(),
+                                    item.getNome(),
+                                    item.getTaxaDiaria()
+                            }
                     );
                 }
             }
 
         } catch (RuntimeException e) {
-            logger.severe("Erro ao listar itens: " + e.getMessage());
+            logger.log(
+                    Level.SEVERE,
+                    "Erro ao listar itens: {0}",
+                    e.getMessage()
+            );
         }
     }
 
@@ -200,7 +231,11 @@ public class MenuFuncionario {
             logger.info(relatorio);
 
         } catch (RuntimeException e) {
-            logger.severe("Erro ao gerar relatório: " + e.getMessage());
+            logger.log(
+                    Level.SEVERE,
+                    "Erro ao gerar relatório: {0}",
+                    e.getMessage()
+            );
         }
     }
 
@@ -215,23 +250,32 @@ public class MenuFuncionario {
                     facade.consultarHistoricoCliente(id);
 
             if (contratos.isEmpty()) {
-                logger.info("Não há histórico de contratos para esse cliente.");
+                logger.info(
+                        "Não há histórico de contratos para esse cliente."
+                );
 
             } else {
                 for (ContratoAluguel con : contratos.values()) {
-                    logger.info(
-                            "ID: " + con.getId()
-                                    + " | Item: " + con.getItem().getNome()
-                                    + " | Valor total: " + con.getValorTotal()
-                                    + " | Status: " + con.getStatus()
-                                    + " | Devolução prevista: "
-                                    + con.getDataPrevDevolucao()
+                    logger.log(
+                            Level.INFO,
+                            "ID: {0} | Item: {1} | Valor total: {2} | Status: {3} | Devolução prevista: {4}",
+                            new Object[]{
+                                    con.getId(),
+                                    con.getItem().getNome(),
+                                    con.getValorTotal(),
+                                    con.getStatus(),
+                                    con.getDataPrevDevolucao()
+                            }
                     );
                 }
             }
 
         } catch (RuntimeException e) {
-            logger.severe("Erro ao listar contratos: " + e.getMessage());
+            logger.log(
+                    Level.SEVERE,
+                    "Erro ao listar contratos: {0}",
+                    e.getMessage()
+            );
         }
     }
 
@@ -246,7 +290,11 @@ public class MenuFuncionario {
             logger.info("Sucesso! A multa foi alterada para QUITADA.");
 
         } catch (RuntimeException e) {
-            logger.severe("Erro ao dar baixa na multa: " + e.getMessage());
+            logger.log(
+                    Level.SEVERE,
+                    "Erro ao dar baixa na multa: {0}",
+                    e.getMessage()
+            );
         }
     }
 }
