@@ -11,6 +11,7 @@ import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 import java.util.HashMap;
 import java.util.Map;
+import java.time.ZoneId;
 
 public class MultaBusiness implements IMultaBusiness {
 
@@ -87,7 +88,7 @@ public class MultaBusiness implements IMultaBusiness {
 
         LocalDate dataFinalCalculo = contrato.getDataEfetivaDevolucao() != null
                 ? contrato.getDataEfetivaDevolucao()
-                : LocalDate.now();
+                : LocalDate.now(ZoneId.of("America/Sao_Paulo"));
 
         long diasAtraso = ChronoUnit.DAYS.between(contrato.getDataPrevDevolucao(), dataFinalCalculo);
 
