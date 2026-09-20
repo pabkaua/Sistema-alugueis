@@ -32,11 +32,16 @@ public class MenuFuncionario {
         boolean ativo = true;
 
         while (ativo) {
-            logger.log(
-                    Level.INFO,
-                    "\nPAINEL DO FUNCIONÁRIO: {0}",
-                    usuarioLogado.getNome().toUpperCase()
-            );
+
+            if (logger.isLoggable(Level.INFO)) {
+                String nomeFuncionario = usuarioLogado.getNome().toUpperCase();
+
+                logger.log(
+                        Level.INFO,
+                        "\nPAINEL DO FUNCIONÁRIO: {0}",
+                        nomeFuncionario
+                );
+            }
 
             logger.info("1 - Registrar Novo Aluguel");
             logger.info("2 - Processar Devolução de Item");
