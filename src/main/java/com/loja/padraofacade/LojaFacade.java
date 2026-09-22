@@ -10,9 +10,14 @@ import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.Map;
 
+//Logger
+import java.util.logging.Logger;
+
+
 public class LojaFacade implements ILojaFacade{
 
     private static final ZoneId ZONA_PADRAO = ZoneId.of("America/Sao_Paulo");
+    private static final Logger LOGGER = Logger.getLogger(LojaFacade.class.getName());
 
     private final IUsuarioBusiness usuarioBusiness;
     private final IItemBusiness itemBusiness;
@@ -378,21 +383,21 @@ public class LojaFacade implements ILojaFacade{
 
     public void salvarTudo() {
         try { usuarioBusiness.salvarDados(); }
-        catch (BusinessException e) { System.out.println("Erro ao salvar usuários: " + e.getMessage()); }
+        catch (BusinessException e) { LOGGER.severe("Erro ao salvar usuários: " + e.getMessage()); }
 
         try { itemBusiness.salvarDados(); }
-        catch (BusinessException e) { System.out.println("Erro ao salvar itens: " + e.getMessage()); }
+        catch (BusinessException e) { LOGGER.severe("Erro ao salvar itens: " + e.getMessage()); }
 
         try { categoriaBusiness.salvarDados(); }
-        catch (BusinessException e) { System.out.println("Erro ao salvar categorias: " + e.getMessage()); }
+        catch (BusinessException e) { LOGGER.severe("Erro ao salvar categorias: " + e.getMessage()); }
 
         try { fornecedorBusiness.salvarDados(); }
-        catch (BusinessException e) { System.out.println("Erro ao salvar fornecedores: " + e.getMessage()); }
+        catch (BusinessException e) { LOGGER.severe("Erro ao salvar fornecedores: " + e.getMessage()); }
 
         try { contratoBusiness.salvarDados(); }
-        catch (BusinessException e) { System.out.println("Erro ao salvar contratos: " + e.getMessage()); }
+        catch (BusinessException e) { LOGGER.severe("Erro ao salvar contratos: " + e.getMessage()); }
 
         try { multaBusiness.salvarDados(); }
-        catch (BusinessException e) { System.out.println("Erro ao salvar multas: " + e.getMessage()); }
+        catch (BusinessException e) { LOGGER.severe("Erro ao salvar multas: " + e.getMessage()); }
     }
 }
