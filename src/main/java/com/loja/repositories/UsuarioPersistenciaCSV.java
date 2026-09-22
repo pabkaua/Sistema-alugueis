@@ -81,50 +81,75 @@ public class UsuarioPersistenciaCSV implements IUsuarioRepository {
     public void carregarDados() {
         try (BufferedReader br = new BufferedReader(new FileReader(this.caminhoArquivo))) {
             String cabecalho = br.readLine();
-            if (cabecalho == null){
-              return; // Arquivo vazio
+            if (cabecalho == null) {
+                return; // Arquivo vazio
             }
             String linha;
             while ((linha = br.readLine()) != null) {
-                if (linha.trim().isEmpty()) continue;
-
-                String[] dados = linha.split(";", -1);
-                if (dados.length < 6) continue;
-
-                String id = dados[0].toUpperCase();
-                String nome = dados[1];
-                String login = dados[2];
-                String senha = dados[3];
-                String perfil = dados[4];
-                boolean ativo = Boolean.parseBoolean(dados[5]);
-
-                Usuario usuario = null;
-
-                if (perfil.equalsIgnoreCase("ADMINISTRADOR")) {
-                    int nivelAcesso = dados.length > 6 && !dados[6].isEmpty() ? Integer.parseInt(dados[6]) : 1;
-                    String departamento = dados.length > 7 && !dados[7].isEmpty() ? dados[7] : "Geral";
-                    usuario = new Administrador(id, nome, login, senha, nivelAcesso, departamento);
-
-                } else if (perfil.equalsIgnoreCase("FUNCIONARIO")) {
-                    String cargo = dados.length > 6 && !dados[6].isEmpty() ? dados[6] : "Geral";
-                    usuario = new Funcionario(id, nome, login, senha, cargo);
-
-                } else if (perfil.equalsIgnoreCase("CLIENTE")) {
-                    Cliente cliente = new Cliente(id, nome, login, senha);
-                    if (dados.length > 6 && !dados[6].isEmpty()) {
-                        cliente.setInadimplente(Boolean.parseBoolean(dados[6]));
-                    }
-                    usuario = cliente;
-                }
-
-                if (usuario != null) {
-                    usuario.setAtivo(ativo);
-                    this.usuarios.put(id, usuario);
-                }
+                processarLinha(linha);
             }
         } catch (IOException e) {
             throw new PersistenciaException("Erro I/O ao carregar dados do arquivo CSV de usuário ->", e);
         }
+    }
+
+    private void processarLinha(String linha) {
+        if (linha.trim().isEmpty()) return;
+
+        String[] dados = linha.split(";", -1);
+        if (dados.length < 6) return;
+
+        Usuario usuario = criarUsuario(dados);
+        if (usuario == null) return;
+
+        usuario.setAtivo(Boolean.parseBoolean(dados[5]));
+        this.usuarios.put(dados[0].toUpperCase(), usuario);
+    }
+
+    private Usuario criarUsuario(String[] dados) {
+        String id = dados[0].toUpperCase();
+        String nome = dados[1];
+        String login = dados[2];
+        String senha = dados[3];
+        String perfil = dados[4];
+
+        if (perfil.equalsIgnoreCase("ADMINISTRADOR")) {
+            return criarAdministrador(dados, id, nome, login, senha);
+        }
+        if (perfil.equalsIgnoreCase("FUNCIONARIO")) {
+            return criarFuncionario(dados, id, nome, login, senha);
+        }
+        if (perfil.equalsIgnoreCase("CLIENTE")) {
+            return criarCliente(dados, id, nome, login, senha);
+        }
+        return null;
+    }
+
+    private Administrador criarAdministrador(String[] dados, String id, String nome, String login, String senha) {
+        int nivelAcesso = campoInt(dados, 6, 1);
+        String departamento = campoTexto(dados, 7, "Geral");
+        return new Administrador(id, nome, login, senha, nivelAcesso, departamento);
+    }
+
+    private Funcionario criarFuncionario(String[] dados, String id, String nome, String login, String senha) {
+        String cargo = campoTexto(dados, 6, "Geral");
+        return new Funcionario(id, nome, login, senha, cargo);
+    }
+
+    private Cliente criarCliente(String[] dados, String id, String nome, String login, String senha) {
+        Cliente cliente = new Cliente(id, nome, login, senha);
+        if (dados.length > 6 && !dados[6].isEmpty()) {
+            cliente.setInadimplente(Boolean.parseBoolean(dados[6]));
+        }
+        return cliente;
+    }
+
+    private String campoTexto(String[] dados, int indice, String valorPadrao) {
+        return dados.length > indice && !dados[indice].isEmpty() ? dados[indice] : valorPadrao;
+    }
+
+    private int campoInt(String[] dados, int indice, int valorPadrao) {
+        return dados.length > indice && !dados[indice].isEmpty() ? Integer.parseInt(dados[indice]) : valorPadrao;
     }
 
     @Override
