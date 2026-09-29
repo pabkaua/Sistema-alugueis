@@ -45,12 +45,12 @@ public class CategoriaRepositoryFake implements ICategoriaRepository {
 
     @Override
     public void carregarDados() {
-
+        // vazio de propósito: memória falsa
     }
     
 
     @Override
     public void salvarDados() {
-
+        // vazio de propósito: memória falsa
     }
 }
