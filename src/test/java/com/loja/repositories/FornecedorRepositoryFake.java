@@ -45,12 +45,12 @@ public class FornecedorRepositoryFake implements IFornecedorRepository{
 
     @Override
     public void carregarDados() {
-
+        // vazio de propósito: memória falsa
     }
     
 
     @Override
     public void salvarDados() {
-
+        // vazio de propósito: memória falsa
     }
 }
