@@ -16,7 +16,7 @@ import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class MultaPersistenciaCSVTeste {
+class MultaPersistenciaCSVTest {
 
     private MultaPersistenciaCSV persistencia;
     private Path arquivoTemp;
