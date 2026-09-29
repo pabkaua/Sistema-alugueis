@@ -390,52 +390,75 @@ public class MenuAdmin {
         String subOpcao = ler(OPCAO);
 
         try {
-            if (subOpcao.equals("1")) {
-                String id = ler(ROTULO_ID);
-                String nome = ler(ROTULO_NOME);
-                String cnpj = ler("CNPJ: ");
-                String telefone = ler("Telefone: ");
-
-                facade.cadastrarFornecedor(new Fornecedor(id, nome, cnpj, telefone));
-                mostrar("Fornecedor criado!");
-
-            } else if (subOpcao.equals("2")) {
-                facade.listarFornecedor().values().forEach(f -> mostrar(ROTULO_ID + f.getId() + SEPARADOR_NOME + f.getNome() + " | CNPJ: " + f.getCnpj() + " | Telefone: " + f.getTelefone()));
-
-            } else if (subOpcao.equals("3")) {
-                Fornecedor f = facade.buscarFornecedor(ler(ROTULO_ID));
-
-                mostrar(O_QUE_ATUALIZAR);
-                mostrar(OPCAO_NOME);
-                mostrar("2 - CNPJ");
-                mostrar("3 - Telefone");
-                String escolha = ler(OPCAO);
-
-                if (escolha.equals("1")) {
-                    String novoNome = ler(ROTULO_NOVO_NOME + f.getNome() + "): ");
-                    if (novoNome.isBlank()) throw new IllegalArgumentException("Nome inválido!");
-                    f.setNome(novoNome);
-                } else if (escolha.equals("2")) {
-                    String novoCnpj = ler("Novo CNPJ (" + f.getCnpj() + "): ");
-                    if (novoCnpj.isBlank()) throw new IllegalArgumentException("CNPJ inválido!");
-                    f.setCnpj(novoCnpj);
-                } else if (escolha.equals("3")) {
-                    String novoTelefone = ler("Novo Telefone (" + f.getTelefone() + "): ");
-                    if (novoTelefone.isBlank()) throw new IllegalArgumentException("Telefone inválido!");
-                    f.setTelefone(novoTelefone);
-                } else {
-                    throw new IllegalArgumentException(OPCAO_INVALIDA);
-                }
-
-                facade.atualizarFornecedor(f);
-                mostrar("Fornecedor atualizado!");
-            } else if (subOpcao.equals("4")) {
-                facade.deletarFornecedor(ler(ID_A_DELETAR));
-                mostrar("Fornecedor removido.");
+            switch (subOpcao) {
+                case "1" -> cadastrarFornecedor();
+                case "2" -> listarFornecedores();
+                case "3" -> atualizarFornecedor();
+                case "4" -> deletarFornecedor();
+                default -> mostrar(OPCAO_INVALIDA);
             }
         } catch (RuntimeException e) {
             mostrar(PREFIXO_ERRO + e.getMessage());
         }
+    }
+
+    private void cadastrarFornecedor() {
+        String id = ler(ROTULO_ID);
+        String nome = ler(ROTULO_NOME);
+        String cnpj = ler("CNPJ: ");
+        String telefone = ler("Telefone: ");
+
+        facade.cadastrarFornecedor(new Fornecedor(id, nome, cnpj, telefone));
+        mostrar("Fornecedor criado!");
+    }
+
+    private void listarFornecedores() {
+        facade.listarFornecedor().values()
+                .forEach(fornecedor -> mostrar(ROTULO_ID + fornecedor.getId() + SEPARADOR_NOME + fornecedor.getNome()
+                        + " | CNPJ: " + fornecedor.getCnpj() + " | Telefone: " + fornecedor.getTelefone()));
+    }
+
+    private void atualizarFornecedor() {
+        Fornecedor fornecedor = facade.buscarFornecedor(ler(ROTULO_ID));
+
+        mostrar(O_QUE_ATUALIZAR);
+        mostrar(OPCAO_NOME);
+        mostrar("2 - CNPJ");
+        mostrar("3 - Telefone");
+        String escolha = ler(OPCAO);
+
+        switch (escolha) {
+            case "1" -> atualizarNomeFornecedor(fornecedor);
+            case "2" -> atualizarCnpjFornecedor(fornecedor);
+            case "3" -> atualizarTelefoneFornecedor(fornecedor);
+            default -> throw new IllegalArgumentException(OPCAO_INVALIDA);
+        }
+
+        facade.atualizarFornecedor(fornecedor);
+        mostrar("Fornecedor atualizado!");
+    }
+
+    private void atualizarNomeFornecedor(Fornecedor fornecedor) {
+        String novoNome = ler(ROTULO_NOVO_NOME + fornecedor.getNome() + "): ");
+        if (novoNome.isBlank()) throw new IllegalArgumentException("Nome inválido!");
+        fornecedor.setNome(novoNome);
+    }
+
+    private void atualizarCnpjFornecedor(Fornecedor fornecedor) {
+        String novoCnpj = ler("Novo CNPJ (" + fornecedor.getCnpj() + "): ");
+        if (novoCnpj.isBlank()) throw new IllegalArgumentException("CNPJ inválido!");
+        fornecedor.setCnpj(novoCnpj);
+    }
+
+    private void atualizarTelefoneFornecedor(Fornecedor fornecedor) {
+        String novoTelefone = ler("Novo Telefone (" + fornecedor.getTelefone() + "): ");
+        if (novoTelefone.isBlank()) throw new IllegalArgumentException("Telefone inválido!");
+        fornecedor.setTelefone(novoTelefone);
+    }
+
+    private void deletarFornecedor() {
+        facade.deletarFornecedor(ler(ID_A_DELETAR));
+        mostrar("Fornecedor removido.");
     }
 
     private void emitirRelatorios() {
