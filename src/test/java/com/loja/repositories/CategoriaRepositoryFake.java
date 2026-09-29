@@ -1,13 +1,14 @@
 package com.loja.repositories;
 
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.Map;
 
 import com.loja.model.Categoria;
 import com.loja.repositories.interfaces.ICategoriaRepository;
 
 public class CategoriaRepositoryFake implements ICategoriaRepository {
-    private Map<String, Categoria> categorias;
+    private Map<String, Categoria> categorias = new HashMap<>();
 
     @Override
     public void salvar(Categoria categoria) {
