@@ -79,7 +79,12 @@ public class UsuarioPersistenciaCSV implements IUsuarioRepository {
 
     @Override
     public void carregarDados() {
-        try (BufferedReader br = new BufferedReader(new FileReader(this.caminhoArquivo))) {
+        File arquivo = new File(this.caminhoArquivo);
+        if (!arquivo.exists()) {
+            return;
+        }
+
+        try (BufferedReader br = new BufferedReader(new FileReader(arquivo))) {
             String cabecalho = br.readLine();
             if (cabecalho == null) {
                 return; // Arquivo vazio
