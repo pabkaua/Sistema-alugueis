@@ -172,7 +172,7 @@ class ContratoPersistenciaCSVTeste {
     // salvarDados e carregarDados
     @Test
     @DisplayName("salvarDados e carregarDados: deve persistir e recarregar contratos corretamente")
-    void salvarDados_e_carregarDados_devemPersistirERelerContratos() throws IOException {
+    void salvarDados_e_carregarDados_devemPersistirERelerContratos() {
         ContratoAluguel contrato = new ContratoAluguel(
                 "CT01", cliente, item,
                 dataRetirada, dataPrevDevolucao,
