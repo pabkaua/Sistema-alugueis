@@ -469,80 +469,99 @@ public class MenuAdmin {
         mostrar("4 - Financeiro (Faturamento)");
         String subOpcao = ler(OPCAO);
 
-        if (subOpcao.equals("1")) {
-            mostrar("\nITENS DISPONÍVEIS");
-            try {
-                Map<String, Item> itens = facade.listarItensDisponiveis();
-                if (itens.isEmpty()) {
-                    mostrar("Não há itens disponíveis para aluguel no momento.");
-                } else {
-                    for (Item item : itens.values()) {
-                        mostrar(ROTULO_ID + item.getId() + SEPARADOR_NOME + item.getNome() + " | Valor Diário: " + item.getTaxaDiaria());
-                    }
-                }
-            } catch (RuntimeException e) {
-                mostrar("Erro ao listar itens: " + e.getMessage());
-            }
-
-        } else if (subOpcao.equals("2")) {
-            mostrar("\nRELATÓRIO DE CONTRATOS ATIVOS");
-            try {
-                String relatorio = facade.gerarRelatorioItensAlugados();
-                mostrar(relatorio);
-            } catch (RuntimeException e) {
-                mostrar(ERRO_GERAR_RELATORIO + e.getMessage());
-            }
-
-        } else if (subOpcao.equals("3")) {
-            mostrar("\nRELATÓRIO DE CONTRATOS POR CLIENTE");
-            String clienteId = ler("ID do Cliente: ");
-            try {
-                Map<String, ContratoAluguel> contratos = facade.consultarHistoricoCliente(clienteId);
-                if (contratos.isEmpty()) {
-                    mostrar("Não há histórico de contratos para esse cliente.");
-                } else {
-                    for (ContratoAluguel c : contratos.values()) {
-                        mostrar(ROTULO_ID + c.getId() + " | Item: " + c.getItem().getNome() + " | Valor total: " + c.getValorTotal() + " | Status: " + c.getStatus() + " | Devolução prevista: " + c.getDataPrevDevolucao());
-                    }
-                }
-            } catch (RuntimeException e) {
-                mostrar("Erro ao listar contratos: " + e.getMessage());
-            }
-
-        } else if (subOpcao.equals("4")) {
-            mostrar("\nRELATÓRIO FINANCEIRO");
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-            LocalDate ini = null;
-            LocalDate fim = null;
-
-            while (ini == null) {
-                try {
-                    ini = LocalDate.parse(ler("Data Inicial (dd/MM/yyyy): "), formatter);
-                } catch (DateTimeParseException e) {
-                    mostrar("Data inválida, tente novamente.");
-                }
-            }
-
-            while (fim == null) {
-                try {
-                    fim = LocalDate.parse(ler("Data Final (dd/MM/yyyy): "), formatter);
-                    if (fim.isBefore(ini)) {
-                        mostrar("Data final não pode ser anterior à data inicial.");
-                        fim = null;
-                    }
-                } catch (DateTimeParseException e) {
-                    mostrar("Data inválida, tente novamente.");
-                }
-            }
-
-            try {
-                mostrar(facade.gerarRelatorioFaturamento(ini, fim));
-            } catch (RuntimeException e) {
-                mostrar(ERRO_GERAR_RELATORIO + e.getMessage());
-            }
-
-        } else {
-            mostrar(OPCAO_INVALIDA);
+        switch (subOpcao) {
+            case "1" -> relatorioItensDisponiveis();
+            case "2" -> relatorioContratosAtivos();
+            case "3" -> relatorioHistoricoCliente();
+            case "4" -> relatorioFinanceiro();
+            default -> mostrar(OPCAO_INVALIDA);
         }
+    }
+
+    private void relatorioItensDisponiveis() {
+        mostrar("\nITENS DISPONÍVEIS");
+        try {
+            Map<String, Item> itens = facade.listarItensDisponiveis();
+            if (itens.isEmpty()) {
+                mostrar("Não há itens disponíveis para aluguel no momento.");
+            } else {
+                for (Item item : itens.values()) {
+                    mostrar(ROTULO_ID + item.getId() + SEPARADOR_NOME + item.getNome() + " | Valor Diário: " + item.getTaxaDiaria());
+                }
+            }
+        } catch (RuntimeException e) {
+            mostrar("Erro ao listar itens: " + e.getMessage());
+        }
+    }
+
+    private void relatorioContratosAtivos() {
+        mostrar("\nRELATÓRIO DE CONTRATOS ATIVOS");
+        try {
+            String relatorio = facade.gerarRelatorioItensAlugados();
+            mostrar(relatorio);
+        } catch (RuntimeException e) {
+            mostrar(ERRO_GERAR_RELATORIO + e.getMessage());
+        }
+    }
+
+    private void relatorioHistoricoCliente() {
+        mostrar("\nRELATÓRIO DE CONTRATOS POR CLIENTE");
+        String clienteId = ler("ID do Cliente: ");
+        try {
+            Map<String, ContratoAluguel> contratos = facade.consultarHistoricoCliente(clienteId);
+            if (contratos.isEmpty()) {
+                mostrar("Não há histórico de contratos para esse cliente.");
+            } else {
+                for (ContratoAluguel contrato : contratos.values()) {
+                    mostrar(ROTULO_ID + contrato.getId() + " | Item: " + contrato.getItem().getNome()
+                            + " | Valor total: " + contrato.getValorTotal() + " | Status: " + contrato.getStatus()
+                            + " | Devolução prevista: " + contrato.getDataPrevDevolucao());
+                }
+            }
+        } catch (RuntimeException e) {
+            mostrar("Erro ao listar contratos: " + e.getMessage());
+        }
+    }
+
+    private void relatorioFinanceiro() {
+        mostrar("\nRELATÓRIO FINANCEIRO");
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+
+        LocalDate ini = lerData("Data Inicial (dd/MM/yyyy): ", formatter);
+        LocalDate fim = lerDataFinal(formatter, ini);
+
+        try {
+            mostrar(facade.gerarRelatorioFaturamento(ini, fim));
+        } catch (RuntimeException e) {
+            mostrar(ERRO_GERAR_RELATORIO + e.getMessage());
+        }
+    }
+
+    private LocalDate lerData(String mensagem, DateTimeFormatter formatter) {
+        LocalDate data = null;
+        while (data == null) {
+            try {
+                data = LocalDate.parse(ler(mensagem), formatter);
+            } catch (DateTimeParseException e) {
+                mostrar("Data inválida, tente novamente.");
+            }
+        }
+        return data;
+    }
+
+    private LocalDate lerDataFinal(DateTimeFormatter formatter, LocalDate ini) {
+        LocalDate fim = null;
+        while (fim == null) {
+            try {
+                fim = LocalDate.parse(ler("Data Final (dd/MM/yyyy): "), formatter);
+                if (fim.isBefore(ini)) {
+                    mostrar("Data final não pode ser anterior à data inicial.");
+                    fim = null;
+                }
+            } catch (DateTimeParseException e) {
+                mostrar("Data inválida, tente novamente.");
+            }
+        }
+        return fim;
     }
 }
