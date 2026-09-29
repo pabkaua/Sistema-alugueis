@@ -222,10 +222,12 @@ class UsuarioPersistenciaCSVTeste {
     @Test
     @DisplayName("carregarDados: deve ignorar linhas em branco no arquivo")
     void carregarDados_deveIgnorarLinhasEmBranco() throws IOException {
-        String conteudo = "id;nome;login;senha;perfil;ativo;campoExtra1;campoExtra2\n"
-                + "1;João;joao@email.com;123;CLIENTE;true;false;\n"
-                + "\n"
-                + "2;Ana;ana@email.com;456;FUNCIONARIO;true;Caixa;\n";
+        String conteudo = """
+                id;nome;login;senha;perfil;ativo;campoExtra1;campoExtra2"
+                1;João;joao@email.com;123;CLIENTE;true;false;
+                
+                2;Ana;ana@email.com;456;FUNCIONARIO;true;Caixa;
+                """;
         Files.writeString(arquivoCsv, conteudo);
 
         UsuarioPersistenciaCSV repo = new UsuarioPersistenciaCSV(arquivoCsv.toString());
@@ -236,9 +238,12 @@ class UsuarioPersistenciaCSVTeste {
     @Test
     @DisplayName("carregarDados: deve ignorar linhas com menos de 6 colunas")
     void carregarDados_deveIgnorarLinhasIncompletas() throws IOException {
-        String conteudo = "id;nome;login;senha;perfil;ativo;campoExtra1;campoExtra2\n"
-                + "1;João;joao@email.com;123;CLIENTE\n" // faltando "ativo"
-                + "2;Ana;ana@email.com;456;FUNCIONARIO;true;Caixa;\n";
+        // faltando "ativo"
+        String conteudo = """
+                id;nome;login;senha;perfil;ativo;campoExtra1;campoExtra2
+                1;João;joao@email.com;123;CLIENTE
+                2;Ana;ana@email.com;456;FUNCIONARIO;true;Caixa;
+                """;
         Files.writeString(arquivoCsv, conteudo);
 
         UsuarioPersistenciaCSV repo = new UsuarioPersistenciaCSV(arquivoCsv.toString());
@@ -251,8 +256,10 @@ class UsuarioPersistenciaCSVTeste {
     @Test
     @DisplayName("carregarDados: Administrador sem campos extras deve usar valores padrão")
     void carregarDados_administradorSemCamposExtras_deveUsarPadrao() throws IOException {
-        String conteudo = "id;nome;login;senha;perfil;ativo\n"
-                + "1;Carlos;carlos@email.com;abc;ADMINISTRADOR;true\n";
+        String conteudo = """
+        id;nome;login;senha;perfil;ativo
+        1;Carlos;carlos@email.com;abc;ADMINISTRADOR;true
+        """;
         Files.writeString(arquivoCsv, conteudo);
 
         UsuarioPersistenciaCSV repo = new UsuarioPersistenciaCSV(arquivoCsv.toString());
@@ -266,8 +273,10 @@ class UsuarioPersistenciaCSVTeste {
     @Test
     @DisplayName("carregarDados: deve ignorar perfil desconhecido")
     void carregarDados_deveIgnorarPerfilDesconhecido() throws IOException {
-        String conteudo = "id;nome;login;senha;perfil;ativo\n"
-                + "1;Desconhecido;x@email.com;123;GERENTE;true\n";
+        String conteudo = """
+        id;nome;login;senha;perfil;ativo
+        1;Desconhecido;x@email.com;123;GERENTE;true
+        """;
         Files.writeString(arquivoCsv, conteudo);
 
         UsuarioPersistenciaCSV repo = new UsuarioPersistenciaCSV(arquivoCsv.toString());
