@@ -176,9 +176,10 @@ class CategoriaPersistenciaCSVTest {
     @Test
     void deveLancarExcecaoQuandoArquivoNaoExiste() {
         Path arquivoInexistente = pastaTemporaria.resolve("inexistente.csv");
+        String caminho = arquivoInexistente.toString();
 
         assertThrows(RuntimeException.class,
-                () -> new CategoriaPersistenciaCSV(arquivoInexistente.toString()));
+                () -> new CategoriaPersistenciaCSV(caminho));
     }
 
     @Test
