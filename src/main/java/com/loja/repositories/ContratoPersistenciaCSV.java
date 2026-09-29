@@ -44,14 +44,14 @@ public class ContratoPersistenciaCSV implements IContratoRepository {
     public Map<String, ContratoAluguel> listar(Cliente cliente) {
         return this.contratos.entrySet().stream()
                 .filter(valorFiltrado -> valorFiltrado.getValue().getCliente().equals(cliente))
-                .collect(Collectors.toMap(Map.Entry::getKey, valorFiltrado -> valorFiltrado.getValue()));
+                .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
     }
 
     @Override
     public Map<String, ContratoAluguel> listar(String status) {
         return this.contratos.entrySet().stream()
                 .filter(valorFiltrado -> valorFiltrado.getValue().getStatus().equals(status))
-                .collect(Collectors.toMap(Map.Entry::getKey, valorFiltrado -> valorFiltrado.getValue()));
+                .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
     }
 
     @Override
