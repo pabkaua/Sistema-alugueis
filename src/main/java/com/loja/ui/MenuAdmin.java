@@ -112,90 +112,123 @@ public class MenuAdmin {
         String subOpcao = ler(ESCOLHA_UMA_OPCAO);
 
         try {
-            if (subOpcao.equals("1")) {
-                mostrar("Tipo: 1-Cliente | 2-Funcionário | 3-Administrador");
-                String tipo = ler("Escolha o tipo: ");
-                String id = ler(ROTULO_ID);
-                String nome = ler(ROTULO_NOME);
-                String email = ler("Email/Login: ");
-                String senha = ler("Senha: ");
-
-                if (tipo.equals("1")) {
-                    facade.cadastrarCliente(new Cliente(id, nome, email, senha));
-                    mostrar("Cliente cadastrado com sucesso!");
-                } else if (tipo.equals("2")) {
-                    String cargo = ler("Cargo do Funcionário: ");
-                    facade.cadastrarFuncionario(new Funcionario(id, nome, email, senha, cargo));
-                    mostrar("Funcionário cadastrado com sucesso!");
-                } else if (tipo.equals("3")) {
-                    facade.cadastrarAdm(new Administrador(id, nome, email, senha));
-                    mostrar("Administrador cadastrado com sucesso!");
-                } else {
-                    mostrar("Tipo de usuário inválido!");
-                }
-
-            } else if (subOpcao.equals("2")) {
-                mostrar("1-Todos | 2-Por Perfil (CLIENTE/FUNCIONARIO/ADMINISTRADOR)");
-                String listOpt = ler(OPCAO);
-
-                if (listOpt.equals("1")) {
-                    facade.listarUsuario().values().forEach(u -> mostrar(ROTULO_ID + u.getId() + SEPARADOR_NOME + u.getNome() + " | Perfil: " + u.getPerfil()));
-                } else if (listOpt.equals("2")) {
-                    String perfil = ler("Perfil desejado: ").toUpperCase();
-                    Map<String, Usuario> usuarios = facade.listarUsuarioPorPerfil(perfil);
-                    if (usuarios.isEmpty()) throw new IllegalStateException("Nenhum usuário de perfil " + perfil);
-                    usuarios.values().forEach(u -> mostrar(ROTULO_ID + u.getId() + SEPARADOR_NOME + u.getNome()));
-                } else {
-                    mostrar("Digite uma opção válida!");
-                }
-
-            } else if (subOpcao.equals("3")) {
-                String id = ler("ID do usuário a atualizar: ");
-
-                Usuario u = facade.buscarUsuario(id);
-
-                mostrar(O_QUE_ATUALIZAR);
-                mostrar(OPCAO_NOME);
-                mostrar("2 - Email/Login");
-                mostrar("3 - Senha");
-                mostrar("4 - Cargo (quando aplicavel)");
-                String escolha = scanner.nextLine();
-
-                if (escolha.equals("1")) {
-                    String novoNome = ler("Novo Nome (" + u.getNome() + "): ");
-                    if (novoNome.isBlank()) throw new IllegalArgumentException("nome inválido!");
-                    u.setNome(novoNome);
-                } else if (escolha.equals("2")) {
-                    String novoLogin = ler("Novo Email/Login (" + u.getLogin() + "): ");
-                    if (novoLogin.isBlank()) throw new IllegalArgumentException("login inválido!");
-                    u.setLogin(novoLogin);
-                } else if (escolha.equals("3")) {
-                    String novaSenha = ler("Nova senha: ");
-                    if (novaSenha.isBlank() || novaSenha.length() < 3) throw new IllegalArgumentException("Senha inválida!");
-                    u.setSenha(novaSenha);
-                } else if (escolha.equals("4") && !(u instanceof Funcionario)) {
-                    throw new IllegalStateException("O usuário não é funcionário!");
-                } else if (escolha.equals("4")) {
-                    Funcionario funcionario = (Funcionario) u;
-                    String novoCargo = ler("Novo cargo (" + funcionario.getCargo() + "): ");
-                    if (novoCargo.isBlank()) throw new IllegalArgumentException("Cargo inválido!");
-                    funcionario.setCargo(novoCargo);
-                } else {
-                    throw new IllegalArgumentException(OPCAO_INVALIDA);
-                }
-
-                facade.atualizarUsuario(id, u);
-                mostrar("Usuário atualizado com sucesso!");
-
-            } else if (subOpcao.equals("4")) {
-                String id = ler("ID do usuário a desativar: ");
-                facade.desativarUsuario(id);
-                mostrar("Usuário desativado com sucesso.");
+            switch (subOpcao) {
+                case "1" -> cadastrarUsuario();
+                case "2" -> listarUsuarios();
+                case "3" -> atualizarUsuario();
+                case "4" -> desativarUsuario();
+                default -> mostrar(OPCAO_INVALIDA);
             }
-
         } catch (RuntimeException e) {
             mostrar(PREFIXO_ERRO + e.getMessage());
         }
+    }
+
+    private void cadastrarUsuario() {
+        mostrar("Tipo: 1-Cliente | 2-Funcionário | 3-Administrador");
+        String tipo = ler("Escolha o tipo: ");
+        String id = ler(ROTULO_ID);
+        String nome = ler(ROTULO_NOME);
+        String email = ler("Email/Login: ");
+        String senha = ler("Senha: ");
+
+        switch (tipo) {
+            case "1" -> {
+                facade.cadastrarCliente(new Cliente(id, nome, email, senha));
+                mostrar("Cliente cadastrado com sucesso!");
+            }
+            case "2" -> {
+                String cargo = ler("Cargo do Funcionário: ");
+                facade.cadastrarFuncionario(new Funcionario(id, nome, email, senha, cargo));
+                mostrar("Funcionário cadastrado com sucesso!");
+            }
+            case "3" -> {
+                facade.cadastrarAdm(new Administrador(id, nome, email, senha));
+                mostrar("Administrador cadastrado com sucesso!");
+            }
+            default -> mostrar("Tipo de usuário inválido!");
+        }
+    }
+
+    private void listarUsuarios() {
+        mostrar("1-Todos | 2-Por Perfil (CLIENTE/FUNCIONARIO/ADMINISTRADOR)");
+        String listOpt = ler(OPCAO);
+
+        if (listOpt.equals("1")) {
+            facade.listarUsuario().values()
+                    .forEach(usuario -> mostrar(ROTULO_ID + usuario.getId() + SEPARADOR_NOME + usuario.getNome() + " | Perfil: " + usuario.getPerfil()));
+        } else if (listOpt.equals("2")) {
+            listarUsuariosPorPerfil();
+        } else {
+            mostrar("Digite uma opção válida!");
+        }
+    }
+
+    private void listarUsuariosPorPerfil() {
+        String perfil = ler("Perfil desejado: ").toUpperCase();
+        Map<String, Usuario> usuarios = facade.listarUsuarioPorPerfil(perfil);
+
+        if (usuarios.isEmpty()) {
+            throw new IllegalStateException("Nenhum usuário de perfil " + perfil);
+        }
+        usuarios.values().forEach(usuario -> mostrar(ROTULO_ID + usuario.getId() + SEPARADOR_NOME + usuario.getNome()));
+    }
+
+    private void atualizarUsuario() {
+        String id = ler("ID do usuário a atualizar: ");
+        Usuario usuario = facade.buscarUsuario(id);
+        mostrar(O_QUE_ATUALIZAR);
+        mostrar(OPCAO_NOME);
+        mostrar("2 - Email/Login");
+        mostrar("3 - Senha");
+        mostrar("4 - Cargo (quando aplicavel)");
+        String escolha = scanner.nextLine();
+
+        switch (escolha) {
+            case "1" -> atualizarNome(usuario);
+            case "2" -> atualizarLogin(usuario);
+            case "3" -> atualizarSenha(usuario);
+            case "4" -> atualizarCargo(usuario);
+            default -> throw new IllegalArgumentException(OPCAO_INVALIDA);
+        }
+
+        facade.atualizarUsuario(id, usuario);
+        mostrar("Usuário atualizado com sucesso!");
+    }
+
+    private void atualizarNome(Usuario usuario) {
+        String novoNome = ler("Novo Nome (" + usuario.getNome() + "): ");
+        if (novoNome.isBlank()) throw new IllegalArgumentException("nome inválido!");
+        usuario.setNome(novoNome);
+    }
+
+    private void atualizarLogin(Usuario usuario) {
+        String novoLogin = ler("Novo Email/Login (" + usuario.getLogin() + "): ");
+        if (novoLogin.isBlank()) throw new IllegalArgumentException("login inválido!");
+        usuario.setLogin(novoLogin);
+    }
+
+    private void atualizarSenha(Usuario usuario) {
+        String novaSenha = ler("Nova senha: ");
+        if (novaSenha.isBlank() || novaSenha.length() < 3) {
+            throw new IllegalArgumentException("Senha inválida!");
+        }
+        usuario.setSenha(novaSenha);
+    }
+
+    private void atualizarCargo(Usuario usuario) {
+        if (!(usuario instanceof Funcionario funcionario)) {
+            throw new IllegalStateException("O usuário não é funcionário!");
+        }
+        String novoCargo = ler("Novo cargo (" + funcionario.getCargo() + "): ");
+        if (novoCargo.isBlank()) throw new IllegalArgumentException("Cargo inválido!");
+        funcionario.setCargo(novoCargo);
+    }
+
+    private void desativarUsuario() {
+        String id = ler("ID do usuário a desativar: ");
+        facade.desativarUsuario(id);
+        mostrar("Usuário desativado com sucesso.");
     }
 
     private void gerenciarItens() {
