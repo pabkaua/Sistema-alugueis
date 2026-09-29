@@ -136,9 +136,10 @@ class UsuarioPersistenciaCSVTest {
         repo.salvar(new Cliente("1", "João", "joao@email.com", "123"));
 
         Map<String, Usuario> resultado = repo.listar();
+        Cliente cliente = new Cliente("2", "Maria", "maria@email.com", "456");
 
         assertThrows(UnsupportedOperationException.class,
-                () -> resultado.put("2", new Cliente("2", "Maria", "maria@email.com", "456")));
+                () -> resultado.put("2", cliente));
     }
 
     @Test
