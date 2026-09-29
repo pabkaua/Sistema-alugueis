@@ -115,8 +115,10 @@ class FornecedorPersistenciaCSVTeste {
     void deveCarregarDadosDoArquivo() throws IOException {
         Files.writeString(
                 arquivo,
-                "id;nome;cnpj;telefone;historico\n" +
-                "F1;Fornecedor A;12345678000190;81999999999;true\n"
+                """
+                id;nome;cnpj;telefone;historico
+                F1;Fornecedor A;12345678000190;81999999999;true
+                """
         );
 
         repository = new FornecedorPersistenciaCSV(arquivo.toString());
@@ -133,9 +135,11 @@ class FornecedorPersistenciaCSVTeste {
     void deveIgnorarLinhaInvalidaDoArquivo() throws IOException {
         Files.writeString(
                 arquivo,
-                "id;nome;cnpj;telefone;historico\n" +
-                "linha;invalida\n" +
-                "F1;Fornecedor A;123;999;false\n"
+                """
+                id;nome;cnpj;telefone;historico
+                linha;invalida
+                F1;Fornecedor A;123;999;false
+                """
         );
 
         repository = new FornecedorPersistenciaCSV(arquivo.toString());
