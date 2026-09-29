@@ -13,7 +13,7 @@ import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class CategoriaPersistenciaCSVTeste {
+class CategoriaPersistenciaCSVTest {
 
     @TempDir
     Path pastaTemporaria;
@@ -116,7 +116,7 @@ class CategoriaPersistenciaCSVTeste {
         Files.writeString(arquivo,
                 """
                 id;nome;historico
-                "C1;Eletrônicos;true
+                C1;Eletrônicos;true
                 """);
 
         repository = new CategoriaPersistenciaCSV(arquivo.toString());
@@ -133,7 +133,7 @@ class CategoriaPersistenciaCSVTeste {
         Files.writeString(arquivo,
                 """
                 id;nome;historico
-                "C1;Eletrônicos;false
+                C1;Eletrônicos;false
                 """);
 
         repository = new CategoriaPersistenciaCSV(arquivo.toString());
