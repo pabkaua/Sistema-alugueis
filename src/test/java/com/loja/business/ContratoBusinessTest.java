@@ -12,6 +12,11 @@ import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
+import java.util.stream.Stream;
+
 class ContratoBusinessTest {
 
     private ContratoRepositoryFake contratoRepo;
@@ -79,25 +84,23 @@ class ContratoBusinessTest {
         assertEquals("ALUGADO", itemAlugado.getStatus());
     }
 
-    @Test
-    @DisplayName("registrarAluguel: deve lançar exceção quando cliente é inadimplente (RN04)")
-    void registrarAluguel_deveLancarExcecao_quandoClienteInadimplente() {
+    @ParameterizedTest(name = "[{index}] {2}")
+    @MethodSource("cenariosDeErroRegistrarAluguel")
+    void registrarAluguel_deveLancarExcecao(String clienteId, String itemId, String motivo) {
         LocalDate retirada  = LocalDate.now();
         LocalDate devolucao = retirada.plusDays(3);
 
         assertThrows(RuntimeException.class, () ->
-                business.registrarAluguel("C2", "I1", retirada, devolucao)
+                business.registrarAluguel(clienteId, itemId, retirada, devolucao)
         );
     }
 
-    @Test
-    @DisplayName("registrarAluguel: deve lançar exceção quando item não está disponível (RN01)")
-    void registrarAluguel_deveLancarExcecao_quandoItemIndisponivel() {
-        LocalDate retirada  = LocalDate.now();
-        LocalDate devolucao = retirada.plusDays(3);
-
-        assertThrows(RuntimeException.class, () ->
-                business.registrarAluguel("C1", "I2", retirada, devolucao)
+    private static Stream<Arguments> cenariosDeErroRegistrarAluguel() {
+        return Stream.of(
+                Arguments.of("C2", "I1", "cliente é inadimplente (RN04)"),
+                Arguments.of("C1", "I2", "item não está disponível (RN01)"),
+                Arguments.of("INVALIDO", "I1", "cliente não existe"),
+                Arguments.of("C1", "INVALIDO", "item não existe")
         );
     }
 
