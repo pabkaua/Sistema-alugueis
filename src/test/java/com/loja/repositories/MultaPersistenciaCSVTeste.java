@@ -23,7 +23,7 @@ class MultaPersistenciaCSVTeste {
     private ContratoAluguel contratoMock;
 
     @BeforeEach
-    void setUp(@TempDir Path tempDir) throws IOException {
+    void setUp(@TempDir Path tempDir) {
         arquivoTemp = tempDir.resolve("multas_teste.csv");
         persistencia = new MultaPersistenciaCSV(arquivoTemp.toString());
 
