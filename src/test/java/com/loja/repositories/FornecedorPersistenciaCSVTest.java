@@ -167,11 +167,11 @@ class FornecedorPersistenciaCSVTest {
     @Test
     void deveLancarExcecaoQuandoArquivoNaoExiste() {
         Path arquivoInexistente = pastaTemporaria.resolve("inexistente.csv");
+        String caminho = arquivoInexistente.toString();
 
         assertThrows(
                 RuntimeException.class,
-                () -> new FornecedorPersistenciaCSV(arquivoInexistente.toString())
-        );
+                () -> new FornecedorPersistenciaCSV(caminho));
     }
 
     @Test
