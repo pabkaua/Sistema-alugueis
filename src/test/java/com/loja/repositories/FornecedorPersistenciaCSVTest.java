@@ -71,7 +71,7 @@ class FornecedorPersistenciaCSVTest {
 
         Map<String, Fornecedor> resultado = repository.listar();
 
-        assertThrows(UnsupportedOperationException.class, () -> resultado.clear());
+        assertThrows(UnsupportedOperationException.class, resultado::clear);
     }
 
     @Test
