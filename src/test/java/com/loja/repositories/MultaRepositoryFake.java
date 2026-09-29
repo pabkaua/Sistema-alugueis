@@ -65,6 +65,10 @@ public class MultaRepositoryFake implements IMultaRepository {
         return multas.remove(id) != null;
     }
 
-    @Override public void carregarDados() {}
-    @Override public void salvarDados() {}
+    @Override public void carregarDados() {
+        // vazio de propósito: memória falsa
+    }
+    @Override public void salvarDados() {
+        // vazio de propósito: memória falsa
+    }
 }
