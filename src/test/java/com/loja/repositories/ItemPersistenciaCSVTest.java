@@ -164,8 +164,10 @@ class ItemPersistenciaCSVTest {
     @Test
     void deveCarregarDadosDoArquivo() throws IOException {
         Files.writeString(arquivo,
-                "id;nome;taxaDiaria;valorReposicao;status;categoriaId;fornecedorId;historico\n" +
-                "I1;Furadeira;10.50;100.00;DISPONIVEL;C1;F1;true\n");
+                """
+                id;nome;taxaDiaria;valorReposicao;status;categoriaId;fornecedorId;historico
+                I1;Furadeira;10.50;100.00;DISPONIVEL;C1;F1;true
+                """);
 
         repository = new ItemPersistenciaCSV(arquivo.toString());
 
@@ -182,9 +184,11 @@ class ItemPersistenciaCSVTest {
     @Test
     void deveIgnorarLinhaInvalidaDoArquivo() throws IOException {
         Files.writeString(arquivo,
-                "id;nome;taxaDiaria;valorReposicao;status;categoriaId;fornecedorId;historico\n" +
-                "linha;invalida\n" +
-                "I1;Furadeira;10.50;100.00;DISPONIVEL;C1;F1;false\n");
+                """
+                id;nome;taxaDiaria;valorReposicao;status;categoriaId;fornecedorId;historico
+                linha;invalida
+                I1;Furadeira;10.50;100.00;DISPONIVEL;C1;F1;false
+                """);
 
         repository = new ItemPersistenciaCSV(arquivo.toString());
 
