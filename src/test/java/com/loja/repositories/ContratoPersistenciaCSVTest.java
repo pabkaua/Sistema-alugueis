@@ -14,7 +14,7 @@ import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class ContratoPersistenciaCSVTeste {
+class ContratoPersistenciaCSVTest {
 
     private Path arquivoTemp;
     private ContratoPersistenciaCSV repositorio;
