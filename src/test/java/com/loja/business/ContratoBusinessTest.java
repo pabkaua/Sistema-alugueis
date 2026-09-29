@@ -12,7 +12,7 @@ import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class ContratoBusinessTeste {
+class ContratoBusinessTest {
 
     private ContratoRepositoryFake contratoRepo;
     private ItemRepositoryFake itemRepo;
