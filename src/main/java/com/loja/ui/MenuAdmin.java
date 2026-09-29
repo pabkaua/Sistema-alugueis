@@ -30,6 +30,7 @@ public class MenuAdmin {
     private static final String OPCAO_NOME = "1 - Nome";
     private static final String VALOR_NEGATIVO = "O valor não pode ser negativo!";
     private static final String ERRO_GERAR_RELATORIO = "Erro ao gerar relatório: ";
+    private static final String ROTULO_NOVO_NOME = "Novo Nome (";
 
     static {
         LOGGER.setUseParentHandlers(false);
@@ -197,7 +198,7 @@ public class MenuAdmin {
     }
 
     private void atualizarNome(Usuario usuario) {
-        String novoNome = ler("Novo Nome (" + usuario.getNome() + "): ");
+        String novoNome = ler(ROTULO_NOVO_NOME + usuario.getNome() + "): ");
         if (novoNome.isBlank()) throw new IllegalArgumentException("nome inválido!");
         usuario.setNome(novoNome);
     }
@@ -283,7 +284,7 @@ public class MenuAdmin {
                 String escolha = scanner.nextLine();
 
                 if (escolha.equals("1")) {
-                    String novoNome = ler("Novo Nome (" + item.getNome() + "): ");
+                    String novoNome = ler(ROTULO_NOVO_NOME + item.getNome() + "): ");
                     if (novoNome.isBlank()) throw new IllegalArgumentException("nome inválido!");
                     item.setNome(novoNome);
                 } else if (escolha.equals("2")) {
@@ -380,7 +381,7 @@ public class MenuAdmin {
                 String escolha = ler(OPCAO);
 
                 if (escolha.equals("1")) {
-                    String novoNome = ler("Novo Nome (" + f.getNome() + "): ");
+                    String novoNome = ler(ROTULO_NOVO_NOME + f.getNome() + "): ");
                     if (novoNome.isBlank()) throw new IllegalArgumentException("Nome inválido!");
                     f.setNome(novoNome);
                 } else if (escolha.equals("2")) {
