@@ -1,13 +1,14 @@
 package com.loja.repositories;
 
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.Map;
 
 import com.loja.model.Fornecedor;
 import com.loja.repositories.interfaces.IFornecedorRepository;
 
 public class FornecedorRepositoryFake implements IFornecedorRepository{
-    private Map<String, Fornecedor> fornecedores;
+    private Map<String, Fornecedor> fornecedores = new HashMap<>();
 
     @Override
     public void salvar(Fornecedor fornecedor) {
