@@ -241,80 +241,111 @@ public class MenuAdmin {
         String subOpcao = ler(ESCOLHA_UMA_OPCAO);
 
         try {
-            if (subOpcao.equals("1")) {
-                Item item = new Item();
-
-                item.setId(ler(ROTULO_ID));
-                item.setNome(ler(ROTULO_NOME));
-                item.setStatus("DISPONIVEL");
-                item.setCategoria(facade.buscarCategoria(ler("ID Categoria: ")));
-                item.setFornecedor(facade.buscarFornecedor(ler("ID Fornecedor: ")));
-                item.setTaxaDiaria(lerValorNaoNegativo("Taxa Diária (XX.xx):  R$ ", "Valor inválido para taxa diária."));
-                item.setValorReposicao(lerValorNaoNegativo("Valor de reposição (XX.xx): R$ ", "Valor inválido para o valor de reposição."));
-
-                facade.cadastrarItem(item);
-                mostrar("Item cadastrado!");
-
-            } else if (subOpcao.equals("2")) {
-                mostrar("1-Todos | 2-Por Status | 3-Por Categoria | 4-Por Fornecedor");
-                String opt = ler(OPCAO);
-
-                if (opt.equals("1")) {
-                    facade.listarItem().values().forEach(i -> mostrar(ROTULO_ID + i.getId() + SEPARADOR_NOME + i.getNome() + " | Status: " + i.getStatus()));
-                } else if (opt.equals("2")) {
-                    String status = ler("Status (DISPONIVEL/ALUGADO): ").toUpperCase();
-                    facade.listarItemPorStatus(status).values().forEach(i -> mostrar(ROTULO_ID + i.getId() + SEPARADOR_NOME + i.getNome()));
-                } else if (opt.equals("3")) {
-                    Categoria cat = facade.buscarCategoria(ler("ID Categoria: "));
-                    facade.listarItemPorCategoria(cat).values().forEach(i -> mostrar(ROTULO_ID + i.getId() + SEPARADOR_NOME + i.getNome()));
-                } else if (opt.equals("4")) {
-                    Fornecedor forn = facade.buscarFornecedor(ler("ID Fornecedor: "));
-                    facade.listarItemPorFornecedor(forn).values().forEach(i -> mostrar(ROTULO_ID + i.getId() + SEPARADOR_NOME + i.getNome()));
-                }
-
-            } else if (subOpcao.equals("3")) {
-                Item item = facade.buscarItem(ler("ID do Item: "));
-
-                mostrar(O_QUE_ATUALIZAR);
-                mostrar(OPCAO_NOME);
-                mostrar("2 - Taxa diária");
-                mostrar("3 - Valor de reposição");
-                mostrar("4 - Categoria");
-                mostrar("5 - Fornecedor");
-                String escolha = scanner.nextLine();
-
-                if (escolha.equals("1")) {
-                    String novoNome = ler(ROTULO_NOVO_NOME + item.getNome() + "): ");
-                    if (novoNome.isBlank()) throw new IllegalArgumentException("nome inválido!");
-                    item.setNome(novoNome);
-                } else if (escolha.equals("2")) {
-                    item.setTaxaDiaria(lerValorNaoNegativo(
-                            "Nova taxa diária (" + item.getTaxaDiaria() + ")(XX.xx):  R$ ",
-                            "Valor inválido para taxa diária."));
-                } else if (escolha.equals("3")) {
-                    item.setValorReposicao(lerValorNaoNegativo(
-                            "Valor de reposição (XX.xx): R$ ",
-                            "Valor inválido para o valor de reposição."));
-                } else if (escolha.equals("4")) {
-                    String novaCategoriaId = ler("Digite o id da categoria (" + item.getCategoria().getId() + "): ");
-                    item.setCategoria(facade.buscarCategoria(novaCategoriaId));
-                } else if (escolha.equals("5")) {
-                    String novoFornecedorId = ler("Digite o id do fornecedor (" + item.getFornecedor().getId() + "): ");
-                    item.setFornecedor(facade.buscarFornecedor(novoFornecedorId));
-                } else {
-                    throw new IllegalArgumentException(OPCAO_INVALIDA);
-                }
-
-                facade.atualizarItem(item);
-                mostrar("Item atualizado com sucesso!");
-
-            } else if (subOpcao.equals("4")) {
-                facade.deletarItem(ler("ID do Item a deletar: "));
-                mostrar("Item deletado do repositório.");
+            switch (subOpcao) {
+                case "1" -> cadastrarItem();
+                case "2" -> listarItens();
+                case "3" -> atualizarItem();
+                case "4" -> deletarItem();
+                default -> mostrar(OPCAO_INVALIDA);
             }
         } catch (RuntimeException e) {
             mostrar(PREFIXO_ERRO + e.getMessage());
         }
+    }
+
+    private void cadastrarItem() {
+        Item item = new Item();
+        item.setId(ler(ROTULO_ID));
+        item.setNome(ler(ROTULO_NOME));
+        item.setStatus("DISPONIVEL");
+        item.setCategoria(facade.buscarCategoria(ler("ID Categoria: ")));
+        item.setFornecedor(facade.buscarFornecedor(ler("ID Fornecedor: ")));
+        item.setTaxaDiaria(lerValorNaoNegativo("Taxa Diária (XX.xx):  R$ ", "Valor inválido para taxa diária."));
+        item.setValorReposicao(lerValorNaoNegativo("Valor de reposição (XX.xx): R$ ", "Valor inválido para o valor de reposição."));
+        facade.cadastrarItem(item);
+        mostrar("Item cadastrado!");
+    }
+
+    private void listarItens() {
+        mostrar("1-Todos | 2-Por Status | 3-Por Categoria | 4-Por Fornecedor");
+        String opt = ler(OPCAO);
+
+        switch (opt) {
+            case "1" -> facade.listarItem().values()
+                    .forEach(item -> mostrar(ROTULO_ID + item.getId() + SEPARADOR_NOME + item.getNome() + " | Status: " + item.getStatus()));
+            case "2" -> {
+                String status = ler("Status (DISPONIVEL/ALUGADO): ").toUpperCase();
+                facade.listarItemPorStatus(status).values()
+                        .forEach(item -> mostrar(ROTULO_ID + item.getId() + SEPARADOR_NOME + item.getNome()));
+            }
+            case "3" -> {
+                Categoria cat = facade.buscarCategoria(ler("ID Categoria: "));
+                facade.listarItemPorCategoria(cat).values()
+                        .forEach(item -> mostrar(ROTULO_ID + item.getId() + SEPARADOR_NOME + item.getNome()));
+            }
+            case "4" -> {
+                Fornecedor forn = facade.buscarFornecedor(ler("ID Fornecedor: "));
+                facade.listarItemPorFornecedor(forn).values()
+                        .forEach(item -> mostrar(ROTULO_ID + item.getId() + SEPARADOR_NOME + item.getNome()));
+            }
+            default -> mostrar("Digite uma opção válida!");
+        }
+    }
+
+    private void atualizarItem() {
+        Item item = facade.buscarItem(ler("ID do Item: "));
+        mostrar(O_QUE_ATUALIZAR);
+        mostrar(OPCAO_NOME);
+        mostrar("2 - Taxa diária");
+        mostrar("3 - Valor de reposição");
+        mostrar("4 - Categoria");
+        mostrar("5 - Fornecedor");
+        String escolha = scanner.nextLine();
+
+        switch (escolha) {
+            case "1" -> atualizarNomeItem(item);
+            case "2" -> atualizarTaxaDiaria(item);
+            case "3" -> atualizarValorReposicao(item);
+            case "4" -> atualizarCategoriaItem(item);
+            case "5" -> atualizarFornecedorItem(item);
+            default -> throw new IllegalArgumentException(OPCAO_INVALIDA);
+        }
+
+        facade.atualizarItem(item);
+        mostrar("Item atualizado com sucesso!");
+    }
+
+    private void atualizarNomeItem(Item item) {
+        String novoNome = ler(ROTULO_NOVO_NOME + item.getNome() + "): ");
+        if (novoNome.isBlank()) throw new IllegalArgumentException("nome inválido!");
+        item.setNome(novoNome);
+    }
+
+    private void atualizarTaxaDiaria(Item item) {
+        item.setTaxaDiaria(lerValorNaoNegativo(
+                "Nova taxa diária (" + item.getTaxaDiaria() + ")(XX.xx):  R$ ",
+                "Valor inválido para taxa diária."));
+    }
+
+    private void atualizarValorReposicao(Item item) {
+        item.setValorReposicao(lerValorNaoNegativo(
+                "Valor de reposição (XX.xx): R$ ",
+                "Valor inválido para o valor de reposição."));
+    }
+
+    private void atualizarCategoriaItem(Item item) {
+        String novaCategoriaId = ler("Digite o id da categoria (" + item.getCategoria().getId() + "): ");
+        item.setCategoria(facade.buscarCategoria(novaCategoriaId));
+    }
+
+    private void atualizarFornecedorItem(Item item) {
+        String novoFornecedorId = ler("Digite o id do fornecedor (" + item.getFornecedor().getId() + "): ");
+        item.setFornecedor(facade.buscarFornecedor(novoFornecedorId));
+    }
+
+    private void deletarItem() {
+        facade.deletarItem(ler("ID do Item a deletar: "));
+        mostrar("Item deletado do repositório.");
     }
 
     private void gerenciarCategorias() {
