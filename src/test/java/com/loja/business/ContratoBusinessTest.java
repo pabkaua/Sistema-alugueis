@@ -76,7 +76,7 @@ class ContratoBusinessTest {
     void registrarAluguel_deveMudarStatusItem_paraAlugado() {
         business.registrarAluguel("C1", "I1", LocalDate.now(), LocalDate.now().plusDays(3));
 
-        assertEquals("ALUGADO", itemDisponivel.getStatus());
+        assertEquals("ALUGADO", itemAlugado.getStatus());
     }
 
     @Test
