@@ -15,7 +15,7 @@ import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class MultaBusinessTeste {
+class MultaBusinessTest {
 
     private MultaRepositoryFake repositorio;
     private MultaBusiness business;

@@ -13,9 +13,11 @@ import java.time.LocalDate;
 import java.util.Collections;
 import java.util.Map;
 import java.util.UUID;
+import java.time.ZoneId;
 
 public class ContratoBusiness implements IContratoBusiness {
 
+    private static final String STATUS_ATIVO = "ATIVO";
     private IContratoRepository repo;
     private IItemBusiness itemBusiness;
     private IUsuarioBusiness usuarioBusiness;
@@ -30,18 +32,18 @@ public class ContratoBusiness implements IContratoBusiness {
     public ContratoAluguel registrarAluguel(String clienteId, String itemId, LocalDate dataRetirada, LocalDate dataPrevDevolucao) {
         Cliente cliente = (Cliente) usuarioBusiness.buscarPorId(clienteId);
         if (cliente == null) {
-            throw new RuntimeException("Cliente não encontrado.");
+            throw new BusinessException("Cliente não encontrado.");
         }
         if (cliente.isInadimplente()) {
-            throw new RuntimeException("Cliente inadimplente. Quite as multas pendentes para realizar um novo aluguel.");
+            throw new BusinessException("Cliente inadimplente. Quite as multas pendentes para realizar um novo aluguel.");
         }
 
         Item item = itemBusiness.buscar(itemId);
         if (item == null) {
-            throw new RuntimeException("Item não encontrado.");
+            throw new BusinessException("Item não encontrado.");
         }
         if (!item.getStatus().equalsIgnoreCase("DISPONIVEL")) {
-            throw new RuntimeException("Item indisponível para aluguel. Status atual: " + item.getStatus());
+            throw new BusinessException("Item indisponível para aluguel. Status atual: " + item.getStatus());
         }
 
         long dias = java.time.temporal.ChronoUnit.DAYS.between(dataRetirada, dataPrevDevolucao);
@@ -55,11 +57,9 @@ public class ContratoBusiness implements IContratoBusiness {
                 dataPrevDevolucao,
                 null,           // ainda não devolvido
                 valorTotal,
-                "ATIVO"
+                STATUS_ATIVO
         );
 
-        item.setStatus("ALUGADO");
-        item.setHistorico(true);
         itemBusiness.atualizar(item);
 
         cliente.setHistorico(true);
@@ -78,13 +78,13 @@ public class ContratoBusiness implements IContratoBusiness {
     public ContratoAluguel processarDevolucao(String contratoId) {
         ContratoAluguel contrato = repo.buscar(contratoId);
         if (contrato == null) {
-            throw new RuntimeException("Contrato não encontrado.");
+            throw new BusinessException("Contrato não encontrado.");
         }
-        if (!contrato.getStatus().equalsIgnoreCase("ATIVO")) {
-            throw new RuntimeException("Este contrato não está ativo.");
+        if (!contrato.getStatus().equalsIgnoreCase(STATUS_ATIVO)) {
+            throw new BusinessException("Este contrato não está ativo.");
         }
 
-        contrato.setDataEfetivaDevolucao(LocalDate.now());
+        contrato.setDataEfetivaDevolucao(LocalDate.now(ZoneId.of("America/Sao_Paulo")));
         contrato.setStatus("ENCERRADO");
 
         // libera o item de volta para disponível
@@ -98,7 +98,7 @@ public class ContratoBusiness implements IContratoBusiness {
 
     @Override
     public Map<String, ContratoAluguel> listarAtivos() {
-        return repo.listar("ATIVO");
+        return repo.listar(STATUS_ATIVO);
     }
 
     @Override

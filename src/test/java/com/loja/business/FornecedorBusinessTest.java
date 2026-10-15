@@ -9,7 +9,7 @@ import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class FornecedorBusinessTeste {
+class FornecedorBusinessTest {
 
     private FornecedorBusiness business;
     private FornecedorRepositoryFake repository;

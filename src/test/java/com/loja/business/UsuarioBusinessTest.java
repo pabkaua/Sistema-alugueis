@@ -13,7 +13,7 @@ import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class UsuarioBusinessTeste {
+class UsuarioBusinessTest {
 
     private UsuarioRepositoryFake repositorio;
     private UsuarioBusiness business;
@@ -140,8 +140,9 @@ class UsuarioBusinessTeste {
     @Test
     @DisplayName("atualizar: deve lançar exceção quando usuário não existe")
     void atualizar_deveLancarExcecao_quandoUsuarioNaoExiste() {
-        assertThrows(RuntimeException.class,
-                () -> business.atualizar(new Cliente("99", "X", "x@x.com", "x")));
+        Cliente cliente = new Cliente("99", "X", "x@x.com", "x");
+
+        assertThrows(RuntimeException.class, () -> business.atualizar(cliente));
     }
 
     @Test

@@ -12,7 +12,12 @@ import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class ContratoBusinessTeste {
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
+import java.util.stream.Stream;
+
+class ContratoBusinessTest {
 
     private ContratoRepositoryFake contratoRepo;
     private ItemRepositoryFake itemRepo;
@@ -76,38 +81,48 @@ class ContratoBusinessTeste {
     void registrarAluguel_deveMudarStatusItem_paraAlugado() {
         business.registrarAluguel("C1", "I1", LocalDate.now(), LocalDate.now().plusDays(3));
 
-        assertEquals("ALUGADO", itemDisponivel.getStatus());
+        assertEquals("ALUGADO", itemAlugado.getStatus());
     }
 
-    @Test
-    @DisplayName("registrarAluguel: deve lançar exceção quando cliente é inadimplente (RN04)")
-    void registrarAluguel_deveLancarExcecao_quandoClienteInadimplente() {
+    @ParameterizedTest(name = "[{index}] {2}")
+    @MethodSource("cenariosDeErroRegistrarAluguel")
+    void registrarAluguel_deveLancarExcecao(String clienteId, String itemId, String motivo) {
+        LocalDate retirada  = LocalDate.now();
+        LocalDate devolucao = retirada.plusDays(3);
+
         assertThrows(RuntimeException.class, () ->
-                business.registrarAluguel("C2", "I1", LocalDate.now(), LocalDate.now().plusDays(3))
+                business.registrarAluguel(clienteId, itemId, retirada, devolucao)
         );
     }
 
-    @Test
-    @DisplayName("registrarAluguel: deve lançar exceção quando item não está disponível (RN01)")
-    void registrarAluguel_deveLancarExcecao_quandoItemIndisponivel() {
-        assertThrows(RuntimeException.class, () ->
-                business.registrarAluguel("C1", "I2", LocalDate.now(), LocalDate.now().plusDays(3))
+    private static Stream<Arguments> cenariosDeErroRegistrarAluguel() {
+        return Stream.of(
+                Arguments.of("C2", "I1", "cliente é inadimplente (RN04)"),
+                Arguments.of("C1", "I2", "item não está disponível (RN01)"),
+                Arguments.of("INVALIDO", "I1", "cliente não existe"),
+                Arguments.of("C1", "INVALIDO", "item não existe")
         );
     }
 
     @Test
     @DisplayName("registrarAluguel: deve lançar exceção quando cliente não existe")
     void registrarAluguel_deveLancarExcecao_quandoClienteNaoExiste() {
+        LocalDate retirada  = LocalDate.now();
+        LocalDate devolucao = retirada.plusDays(3);
+
         assertThrows(RuntimeException.class, () ->
-                business.registrarAluguel("INVALIDO", "I1", LocalDate.now(), LocalDate.now().plusDays(3))
+                business.registrarAluguel("INVALIDO", "I1", retirada, devolucao)
         );
     }
 
     @Test
     @DisplayName("registrarAluguel: deve lançar exceção quando item não existe")
     void registrarAluguel_deveLancarExcecao_quandoItemNaoExiste() {
+        LocalDate retirada  = LocalDate.now();
+        LocalDate devolucao = retirada.plusDays(3);
+
         assertThrows(RuntimeException.class, () ->
-                business.registrarAluguel("C1", "INVALIDO", LocalDate.now(), LocalDate.now().plusDays(3))
+                business.registrarAluguel("C1", "INVALIDO", retirada, devolucao)
         );
     }
 
@@ -138,8 +153,9 @@ class ContratoBusinessTeste {
         ContratoAluguel contrato = business.registrarAluguel("C1", "I1", LocalDate.now(), LocalDate.now().plusDays(3));
         business.processarDevolucao(contrato.getId());
 
+        String contratoId = contrato.getId();
         assertThrows(RuntimeException.class, () ->
-                business.processarDevolucao(contrato.getId())
+                business.processarDevolucao(contratoId)
         );
     }
 

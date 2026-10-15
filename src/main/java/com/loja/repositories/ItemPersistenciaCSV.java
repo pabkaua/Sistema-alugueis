@@ -101,31 +101,22 @@ public class ItemPersistenciaCSV implements IItemRepository {
     // pega cada linha do csv e cria o objeto, passando pra o map
     @Override
     public void carregarDados() {
-        BufferedReader leitor = null;
-        try {
-            leitor = new BufferedReader(new FileReader(this.caminhoArquivo));
+        try (BufferedReader leitor = new BufferedReader(new FileReader(this.caminhoArquivo))) {
             String linha = leitor.readLine();
 
-            if(linha != null && linha.toLowerCase().startsWith("id;nome")){
+            if (linha != null && linha.toLowerCase().startsWith("id;nome")) {
                 linha = leitor.readLine();
             }
 
-            while (linha != null){
+            while (linha != null) {
                 String[] dados = linha.split(";");
 
-                if (dados.length >= 8){
+                if (dados.length >= 8) {
                     String id = dados[0].toUpperCase();
                     String nome = dados[1];
                     BigDecimal taxaDiaria = new BigDecimal(dados[2]);
                     BigDecimal valorReposicao = new BigDecimal(dados[3]);
                     String status = dados[4];
-
-                    /*
-                    * para evitar problemas de duplicação de dados de fornecedor e categoria
-                    * (ter no item.csv e fornecedor.csv, por exemplo), criamos os objetos vazios
-                    * e preenchemos apenas o ID, para na facade ele criar o fornecedor e categoria
-                    * e atualizar o objeto corretamente
-                    */
 
                     Categoria categoria = new Categoria();
                     categoria.setId(dados[5].toUpperCase());
@@ -142,50 +133,32 @@ public class ItemPersistenciaCSV implements IItemRepository {
                 }
                 linha = leitor.readLine();
             }
-        } catch (IOException e){
-            throw new RuntimeException(e);
-        } finally {
-            if(leitor != null) {
-                try {
-                    leitor.close();
-                } catch (IOException e){
-                    throw new RuntimeException(e);
-                }
-            }
+        } catch (IOException e) {
+            throw new PersistenciaException("Erro I/O ao carregar dados do arquivo CSV de item ->", e);
         }
     }
 
     @Override
     public void salvarDados() {
-        BufferedWriter escritor = null;
-        try{
-            escritor = new BufferedWriter(new FileWriter(this.caminhoArquivo));
+        try (BufferedWriter escritor = new BufferedWriter(new FileWriter(this.caminhoArquivo))) {
             escritor.write("id;nome;taxaDiaria;valorReposicao;status;categoriaId;fornecedorId;historico");
             escritor.newLine();
 
-            for(Item item : this.itens.values()){
+            for (Item item : this.itens.values()) {
                 String linha = item.getId().toUpperCase() + ";" +
-                                item.getNome() + ";" +
-                                item.getTaxaDiaria() + ";" +
-                                item.getValorReposicao() + ";" +
-                                item.getStatus() + ";" +
-                                item.getCategoria().getId().toUpperCase() + ";" +
-                                item.getFornecedor().getId().toUpperCase() + ";" +
-                                item.hasHistorico();
+                        item.getNome() + ";" +
+                        item.getTaxaDiaria() + ";" +
+                        item.getValorReposicao() + ";" +
+                        item.getStatus() + ";" +
+                        item.getCategoria().getId().toUpperCase() + ";" +
+                        item.getFornecedor().getId().toUpperCase() + ";" +
+                        item.hasHistorico();
                 escritor.write(linha);
                 escritor.newLine();
             }
 
-        } catch (IOException e){
-            throw new RuntimeException(e);
-        } finally {
-            if(escritor != null) {
-                try {
-                    escritor.close();
-                } catch (IOException e){
-                    throw new RuntimeException(e);
-                }
-            }
+        } catch (IOException e) {
+            throw new PersistenciaException("Erro I/O ao salvar dados de item no arquivo CSV  ->", e);
         }
     }
 }

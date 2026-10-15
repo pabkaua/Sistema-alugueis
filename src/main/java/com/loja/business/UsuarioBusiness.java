@@ -2,6 +2,7 @@ package com.loja.business;
 
 import com.loja.business.interfaces.IUsuarioBusiness;
 import com.loja.model.Usuario;
+import com.loja.repositories.PersistenciaException;
 import com.loja.repositories.interfaces.IUsuarioRepository;
 
 import java.util.Map;
@@ -16,7 +17,7 @@ public class UsuarioBusiness implements IUsuarioBusiness {
     @Override
     public void cadastrar(Usuario usuario) {
         if (usuarioRepository.buscarPorEmail(usuario.getLogin()) != null) {
-            throw new RuntimeException("Login já cadastrado: " + usuario.getLogin());
+            throw new BusinessException("Login já cadastrado: " + usuario.getLogin());
         }
         usuarioRepository.salvar(usuario);
     }
@@ -25,7 +26,7 @@ public class UsuarioBusiness implements IUsuarioBusiness {
     public Usuario buscarPorId(String id) {
         Usuario usuario = usuarioRepository.buscar(id);
         if (usuario == null) {
-            throw new RuntimeException("Usuário não encontrado: " + id);
+            throw new BusinessException("Usuário não encontrado: " + id);
         }
         return usuario;
     }
@@ -34,7 +35,7 @@ public class UsuarioBusiness implements IUsuarioBusiness {
     public Usuario buscarPorEmail(String email) {
         Usuario usuario = usuarioRepository.buscarPorEmail(email);
         if (usuario == null) {
-            throw new RuntimeException("Usuário não encontrado: " + email);
+            throw new BusinessException("Usuário não encontrado: " + email);
         }
         return usuario;
     }
@@ -54,7 +55,7 @@ public class UsuarioBusiness implements IUsuarioBusiness {
     public void atualizar(Usuario dados) {
         Usuario existente = usuarioRepository.buscar(dados.getId());
         if (existente == null) {
-            throw new RuntimeException("Usuário não encontrado");
+            throw new BusinessException("Usuário não encontrado");
         }
         existente.setNome(dados.getNome());
         existente.setLogin(dados.getLogin());
@@ -65,7 +66,7 @@ public class UsuarioBusiness implements IUsuarioBusiness {
     @Override
     public void deletar(String id) {
         if (usuarioRepository.buscar(id) == null) {
-            throw new RuntimeException("Usuário não encontrado: " + id);
+            throw new BusinessException("Usuário não encontrado: " + id);
         }
         usuarioRepository.deletar(id);
     }
@@ -74,12 +75,16 @@ public class UsuarioBusiness implements IUsuarioBusiness {
     public Usuario autenticar(String email, String senha) {
         Usuario usuario = usuarioRepository.buscarPorEmail(email);
         if (usuario == null || !usuario.getSenha().equals(senha)) {
-            throw new RuntimeException("Email ou senha inválidos.");
+            throw new BusinessException("Email ou senha inválidos.");
         }
         return usuario;
     }
 
     public void salvarDados(){
-        this.usuarioRepository.salvarDados();
+        try {
+            this.usuarioRepository.salvarDados();
+        } catch (PersistenciaException e) {
+            throw new BusinessException("Erro ao salvar dados" + e.getMessage());
+        }
     }
 }

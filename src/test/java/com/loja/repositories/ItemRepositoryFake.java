@@ -62,6 +62,10 @@ public class ItemRepositoryFake implements IItemRepository {
         return itens.remove(id) != null;
     }
 
-    @Override public void carregarDados() {}
-    @Override public void salvarDados() {}
+    @Override public void carregarDados() {
+        // vazio de propósito: memória falsa
+    }
+    @Override public void salvarDados() {
+        // vazio de propósito: memória falsa
+    }
 }

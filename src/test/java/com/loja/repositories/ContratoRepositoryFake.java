@@ -54,7 +54,11 @@ public class ContratoRepositoryFake implements IContratoRepository {
         return contratos.remove(id) != null;
     }
 
-    @Override public void carregarDados() {}
+    @Override public void carregarDados() {
+        // vazio de propósito: memória falsa
+    }
 
-    @Override public void salvarDados() {}
+    @Override public void salvarDados() {
+        // vazio de propósito: memória falsa
+    }
 }

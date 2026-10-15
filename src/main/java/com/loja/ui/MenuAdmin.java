@@ -9,8 +9,40 @@ import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.Map;
 import java.util.Scanner;
+import java.util.logging.ConsoleHandler;
+import java.util.logging.Formatter;
+import java.util.logging.LogRecord;
+import java.util.logging.Logger;
 
 public class MenuAdmin {
+
+    private static final Logger LOGGER = Logger.getLogger(MenuAdmin.class.getName());
+
+    private static final String ESCOLHA_UMA_OPCAO = "Escolha uma opção: ";
+    private static final String OPCAO = "Opção: ";
+    private static final String OPCAO_INVALIDA = "Opção inválida!";
+    private static final String ROTULO_ID = "ID: ";
+    private static final String ROTULO_NOME = "Nome: ";
+    private static final String SEPARADOR_NOME = " | Nome: ";
+    private static final String PREFIXO_ERRO = "Erro: ";
+    private static final String ID_A_DELETAR = "ID a deletar: ";
+    private static final String O_QUE_ATUALIZAR = "O que você deseja atualizar?";
+    private static final String OPCAO_NOME = "1 - Nome";
+    private static final String VALOR_NEGATIVO = "O valor não pode ser negativo!";
+    private static final String ERRO_GERAR_RELATORIO = "Erro ao gerar relatório: ";
+    private static final String ROTULO_NOVO_NOME = "Novo Nome (";
+
+    static {
+        LOGGER.setUseParentHandlers(false);
+        ConsoleHandler handler = new ConsoleHandler();
+        handler.setFormatter(new Formatter() {
+            @Override
+            public String format(LogRecord registro) {
+                return registro.getMessage() + System.lineSeparator();
+            }
+        });
+        LOGGER.addHandler(handler);
+    }
 
     private final ILojaFacade facade;
     private final Administrador usuarioLogado;
@@ -22,19 +54,40 @@ public class MenuAdmin {
         this.scanner = scanner;
     }
 
+    private void mostrar(String texto) {
+        LOGGER.info(texto);
+    }
+
+    private String ler(String pergunta) {
+        mostrar(pergunta);
+        return scanner.nextLine();
+    }
+
+    private BigDecimal lerValorNaoNegativo(String pergunta, String mensagemErro) {
+        BigDecimal valor;
+        try {
+            valor = new BigDecimal(ler(pergunta));
+        } catch (NumberFormatException e) {
+            throw new IllegalArgumentException(mensagemErro);
+        }
+        if (valor.compareTo(BigDecimal.ZERO) < 0) {
+            throw new IllegalArgumentException(VALOR_NEGATIVO);
+        }
+        return valor;
+    }
+
     public void exibir() {
         boolean ativo = true;
         while (ativo) {
-            System.out.println("\n=== PAINEL ADMINISTRATIVO: " + usuarioLogado.getNome().toUpperCase() + " ===");
-            System.out.println("1 - Gerenciar Usuários");
-            System.out.println("2 - Gerenciar Itens");
-            System.out.println("3 - Gerenciar Categorias");
-            System.out.println("4 - Gerenciar Fornecedores");
-            System.out.println("5 - Emitir Relatórios");
-            System.out.println("0 - Sair");
-            System.out.print("Escolha uma opção: ");
+            mostrar("\n=== PAINEL ADMINISTRATIVO: " + usuarioLogado.getNome().toUpperCase() + " ===");
+            mostrar("1 - Gerenciar Usuários");
+            mostrar("2 - Gerenciar Itens");
+            mostrar("3 - Gerenciar Categorias");
+            mostrar("4 - Gerenciar Fornecedores");
+            mostrar("5 - Emitir Relatórios");
+            mostrar("0 - Sair");
 
-            String opcao = scanner.nextLine();
+            String opcao = ler(ESCOLHA_UMA_OPCAO);
 
             switch (opcao) {
                 case "1" -> gerenciarUsuarios();
@@ -43,461 +96,472 @@ public class MenuAdmin {
                 case "4" -> gerenciarFornecedores();
                 case "5" -> emitirRelatorios();
                 case "0" -> {
-                    System.out.println("Saindo do painel administrativo...");
+                    mostrar("Saindo do painel administrativo...");
                     ativo = false;
                 }
-                default -> System.out.println("Opção inválida!");
+                default -> mostrar(OPCAO_INVALIDA);
             }
         }
     }
 
     private void gerenciarUsuarios() {
-        System.out.println("\nGERENCIAR USUÁRIOS");
-        System.out.println("1 - Cadastrar Usuário (Cliente/Func/Adm)");
-        System.out.println("2 - Listar Usuários");
-        System.out.println("3 - Atualizar Usuário");
-        System.out.println("4 - Desativar Usuário");
-        System.out.print("Escolha uma opção: ");
-        String subOpcao = scanner.nextLine();
+        mostrar("\nGERENCIAR USUÁRIOS");
+        mostrar("1 - Cadastrar Usuário (Cliente/Func/Adm)");
+        mostrar("2 - Listar Usuários");
+        mostrar("3 - Atualizar Usuário");
+        mostrar("4 - Desativar Usuário");
+        String subOpcao = ler(ESCOLHA_UMA_OPCAO);
 
         try {
-            if (subOpcao.equals("1")) { // cadastrar
-                System.out.println("Tipo: 1-Cliente | 2-Funcionário | 3-Administrador");
-                System.out.print("Escolha o tipo: ");
-                String tipo = scanner.nextLine();
-
-                System.out.print("ID: ");
-                String id = scanner.nextLine();
-
-                System.out.print("Nome: ");
-                String nome = scanner.nextLine();
-
-                System.out.print("Email/Login: ");
-                String email = scanner.nextLine();
-
-                System.out.print("Senha: ");
-                String senha = scanner.nextLine();
-
-                if (tipo.equals("1")) {
-                    facade.cadastrarCliente(new Cliente(id, nome, email, senha));
-                    System.out.println("Cliente cadastrado com sucesso!");
-                } else if (tipo.equals("2")) {
-                    System.out.print("Cargo do Funcionário: ");
-                    String cargo = scanner.nextLine();
-                    facade.cadastrarFuncionario(new Funcionario(id, nome, email, senha, cargo));
-                    System.out.println("Funcionário cadastrado com sucesso!");
-                } else if (tipo.equals("3")) {
-                    facade.cadastrarAdm(new Administrador(id, nome, email, senha));
-                    System.out.println("Administrador cadastrado com sucesso!");
-                } else {
-                    System.out.println("Tipo de usuário inválido!");
-                }
-
+            switch (subOpcao) {
+                case "1" -> cadastrarUsuario();
+                case "2" -> listarUsuarios();
+                case "3" -> atualizarUsuario();
+                case "4" -> desativarUsuario();
+                default -> mostrar(OPCAO_INVALIDA);
             }
-            else if (subOpcao.equals("2")) { // listar
-                System.out.println("1-Todos | 2-Por Perfil (CLIENTE/FUNCIONARIO/ADMINISTRADOR)");
-                System.out.print("Opção: ");
-                String listOpt = scanner.nextLine();
-
-                if (listOpt.equals("1")) {
-                    facade.listarUsuario().values().forEach(u -> System.out.println("ID: " + u.getId() + " | Nome: " + u.getNome() + " | Perfil: " + u.getPerfil()));
-                } else if (listOpt.equals("2")) {
-                    System.out.print("Perfil desejado: ");
-                    String perfil = scanner.nextLine().toUpperCase();
-                    if(facade.listarUsuarioPorPerfil(perfil).isEmpty()) throw new RuntimeException("Nehum usuário de perfil " + perfil);
-                    facade.listarUsuarioPorPerfil(perfil).values().forEach(u -> System.out.println("ID: " + u.getId() + " | Nome: " + u.getNome()));
-                } else {
-                    System.out.println("Digite uma opção válida!");
-                }
-
-            }
-            else if (subOpcao.equals("3")) { // atualizar
-                System.out.print("ID do usuário a atualizar: ");
-                String id = scanner.nextLine();
-
-                Usuario u = facade.buscarUsuario(id);
-
-                System.out.println("O que você deseja atualizar?");
-                System.out.println("1 - Nome");
-                System.out.println("2 - Email/Login");
-                System.out.println("3 - Senha");
-                System.out.println("4 - Cargo (quando aplicavel)");
-                String escolha = scanner.nextLine();
-
-                if (escolha.equals("1")) {
-                    System.out.print("Novo Nome (" + u.getNome() + "): ");
-                    String novoNome = scanner.nextLine();
-                    if (novoNome.isBlank()) throw new RuntimeException("nome inválido!");
-                    u.setNome(novoNome);
-                } else if (escolha.equals("2")) {
-                    System.out.print("Novo Email/Login (" + u.getLogin() + "): ");
-                    String novoLogin = scanner.nextLine();
-                    if (novoLogin.isBlank()) throw new RuntimeException("login inválido!");
-                    u.setLogin(novoLogin);
-                } else if (escolha.equals("3")) {
-                    System.out.print("Nova senha: ");
-                    String novaSenha = scanner.nextLine();
-                    if (novaSenha.isBlank() || novaSenha.length() < 3) throw new RuntimeException("Senha inválida!");
-                    u.setSenha(novaSenha);
-                } else if (escolha.equals("4") && !(u instanceof Funcionario)) {
-                    throw new RuntimeException("O usuário não é funcionário!");
-                } else if (escolha.equals("4")) {
-                    System.out.print("Novo cargo (" + ((Funcionario) u).getCargo() + "): ");
-                    String novoCargo = scanner.nextLine();
-                    if (novoCargo.isBlank()) throw new RuntimeException("Cargo inválido!");
-                    ((Funcionario) u).setCargo(novoCargo);
-                } else {
-                    throw new RuntimeException("Opção inválida!");
-                }
-
-                facade.atualizarUsuario(id, u);
-                System.out.println("Usuário atualizado com sucesso!");
-
-            }
-            else if (subOpcao.equals("4")) { // desativar
-                System.out.print("ID do usuário a desativar: ");
-                String id = scanner.nextLine();
-                facade.desativarUsuario(id);
-                System.out.println("Usuário desativado com sucesso.");
-            }
-
         } catch (RuntimeException e) {
-            System.out.println("Erro: " + e.getMessage());
+            mostrar(PREFIXO_ERRO + e.getMessage());
         }
+    }
+
+    private void cadastrarUsuario() {
+        mostrar("Tipo: 1-Cliente | 2-Funcionário | 3-Administrador");
+        String tipo = ler("Escolha o tipo: ");
+        String id = ler(ROTULO_ID);
+        String nome = ler(ROTULO_NOME);
+        String email = ler("Email/Login: ");
+        String senha = ler("Senha: ");
+
+        switch (tipo) {
+            case "1" -> {
+                facade.cadastrarCliente(new Cliente(id, nome, email, senha));
+                mostrar("Cliente cadastrado com sucesso!");
+            }
+            case "2" -> {
+                String cargo = ler("Cargo do Funcionário: ");
+                facade.cadastrarFuncionario(new Funcionario(id, nome, email, senha, cargo));
+                mostrar("Funcionário cadastrado com sucesso!");
+            }
+            case "3" -> {
+                facade.cadastrarAdm(new Administrador(id, nome, email, senha));
+                mostrar("Administrador cadastrado com sucesso!");
+            }
+            default -> mostrar("Tipo de usuário inválido!");
+        }
+    }
+
+    private void listarUsuarios() {
+        mostrar("1-Todos | 2-Por Perfil (CLIENTE/FUNCIONARIO/ADMINISTRADOR)");
+        String listOpt = ler(OPCAO);
+
+        if (listOpt.equals("1")) {
+            facade.listarUsuario().values()
+                    .forEach(usuario -> mostrar(ROTULO_ID + usuario.getId() + SEPARADOR_NOME + usuario.getNome() + " | Perfil: " + usuario.getPerfil()));
+        } else if (listOpt.equals("2")) {
+            listarUsuariosPorPerfil();
+        } else {
+            mostrar("Digite uma opção válida!");
+        }
+    }
+
+    private void listarUsuariosPorPerfil() {
+        String perfil = ler("Perfil desejado: ").toUpperCase();
+        Map<String, Usuario> usuarios = facade.listarUsuarioPorPerfil(perfil);
+
+        if (usuarios.isEmpty()) {
+            throw new IllegalStateException("Nenhum usuário de perfil " + perfil);
+        }
+        usuarios.values().forEach(usuario -> mostrar(ROTULO_ID + usuario.getId() + SEPARADOR_NOME + usuario.getNome()));
+    }
+
+    private void atualizarUsuario() {
+        String id = ler("ID do usuário a atualizar: ");
+        Usuario usuario = facade.buscarUsuario(id);
+        mostrar(O_QUE_ATUALIZAR);
+        mostrar(OPCAO_NOME);
+        mostrar("2 - Email/Login");
+        mostrar("3 - Senha");
+        mostrar("4 - Cargo (quando aplicavel)");
+        String escolha = scanner.nextLine();
+
+        switch (escolha) {
+            case "1" -> atualizarNome(usuario);
+            case "2" -> atualizarLogin(usuario);
+            case "3" -> atualizarSenha(usuario);
+            case "4" -> atualizarCargo(usuario);
+            default -> throw new IllegalArgumentException(OPCAO_INVALIDA);
+        }
+
+        facade.atualizarUsuario(id, usuario);
+        mostrar("Usuário atualizado com sucesso!");
+    }
+
+    private void atualizarNome(Usuario usuario) {
+        String novoNome = ler(ROTULO_NOVO_NOME + usuario.getNome() + "): ");
+        if (novoNome.isBlank()) throw new IllegalArgumentException("nome inválido!");
+        usuario.setNome(novoNome);
+    }
+
+    private void atualizarLogin(Usuario usuario) {
+        String novoLogin = ler("Novo Email/Login (" + usuario.getLogin() + "): ");
+        if (novoLogin.isBlank()) throw new IllegalArgumentException("login inválido!");
+        usuario.setLogin(novoLogin);
+    }
+
+    private void atualizarSenha(Usuario usuario) {
+        String novaSenha = ler("Nova senha: ");
+        if (novaSenha.isBlank() || novaSenha.length() < 3) {
+            throw new IllegalArgumentException("Senha inválida!");
+        }
+        usuario.setSenha(novaSenha);
+    }
+
+    private void atualizarCargo(Usuario usuario) {
+        if (!(usuario instanceof Funcionario funcionario)) {
+            throw new IllegalStateException("O usuário não é funcionário!");
+        }
+        String novoCargo = ler("Novo cargo (" + funcionario.getCargo() + "): ");
+        if (novoCargo.isBlank()) throw new IllegalArgumentException("Cargo inválido!");
+        funcionario.setCargo(novoCargo);
+    }
+
+    private void desativarUsuario() {
+        String id = ler("ID do usuário a desativar: ");
+        facade.desativarUsuario(id);
+        mostrar("Usuário desativado com sucesso.");
     }
 
     private void gerenciarItens() {
-        System.out.println("\nGERENCIAR ITENS");
-        System.out.println("1 - Cadastrar Item");
-        System.out.println("2 - Listar Itens");
-        System.out.println("3 - Atualizar Item");
-        System.out.println("4 - Deletar Item");
-        System.out.print("Escolha uma opção: ");
-        String subOpcao = scanner.nextLine();
+        mostrar("\nGERENCIAR ITENS");
+        mostrar("1 - Cadastrar Item");
+        mostrar("2 - Listar Itens");
+        mostrar("3 - Atualizar Item");
+        mostrar("4 - Deletar Item");
+        String subOpcao = ler(ESCOLHA_UMA_OPCAO);
 
         try {
-            if (subOpcao.equals("1")) {
-                Item item = new Item();
-
-                System.out.print("ID: ");
-                item.setId(scanner.nextLine());
-
-                System.out.print("Nome: ");
-                item.setNome(scanner.nextLine());
-
-                item.setStatus("DISPONIVEL");
-
-                System.out.print("ID Categoria: ");
-                item.setCategoria(facade.buscarCategoria(scanner.nextLine()));
-
-                System.out.print("ID Fornecedor: ");
-                item.setFornecedor(facade.buscarFornecedor(scanner.nextLine()));
-
-                try {
-                    System.out.print("Taxa Diária (XX.xx):  R$ ");
-                    BigDecimal novovalor = new BigDecimal(scanner.nextLine());
-                    if (novovalor.compareTo(BigDecimal.ZERO) < 0) {
-                        throw new RuntimeException("O valor não pode ser negativo!");
-                    }
-                    item.setTaxaDiaria(novovalor);
-                } catch (NumberFormatException e) {
-                    throw new RuntimeException("Valor inválido para taxa diária.");
-                }
-
-                try {
-                    System.out.print("Valor de reposição (XX.xx): R$ ");
-                    BigDecimal novovalor = new BigDecimal(scanner.nextLine());
-                    if (novovalor.compareTo(BigDecimal.ZERO) < 0) {
-                        throw new RuntimeException("O valor não pode ser negativo!");
-                    }
-                    item.setValorReposicao(novovalor);
-                } catch (NumberFormatException e) {
-                    throw new RuntimeException("Valor inválido para o valor de reposição.");
-                }
-
-                facade.cadastrarItem(item);
-                System.out.println("Item cadastrado!");
-
-            }
-            else if (subOpcao.equals("2")) {
-                System.out.println("1-Todos | 2-Por Status | 3-Por Categoria | 4-Por Fornecedor");
-                System.out.print("Opção: ");
-                String opt = scanner.nextLine();
-
-                if (opt.equals("1")) {
-                    facade.listarItem().values().forEach(i -> System.out.println("ID: " + i.getId() + " | Nome: " + i.getNome() + " | Status: " + i.getStatus()));
-                } else if (opt.equals("2")) {
-                    System.out.print("Status (DISPONIVEL/ALUGADO): ");
-                    String status = scanner.nextLine().toUpperCase();
-                    facade.listarItemPorStatus(status).values().forEach(i -> System.out.println("ID: " + i.getId() + " | Nome: " + i.getNome()));
-                } else if (opt.equals("3")) {
-                    System.out.print("ID Categoria: ");
-                    Categoria cat = facade.buscarCategoria(scanner.nextLine());
-                    facade.listarItemPorCategoria(cat).values().forEach(i -> System.out.println("ID: " + i.getId() + " | Nome: " + i.getNome()));
-                } else if (opt.equals("4")) {
-                    System.out.print("ID Fornecedor: ");
-                    Fornecedor forn = facade.buscarFornecedor(scanner.nextLine());
-                    facade.listarItemPorFornecedor(forn).values().forEach(i -> System.out.println("ID: " + i.getId() + " | Nome: " + i.getNome()));
-                }
-
-            }
-            else if (subOpcao.equals("3")) {
-                System.out.print("ID do Item: ");
-                Item item = facade.buscarItem(scanner.nextLine());
-
-                System.out.println("O que você deseja atualizar?");
-                System.out.println("1 - Nome");
-                System.out.println("2 - Taxa diária");
-                System.out.println("3 - Valor de reposição");
-                System.out.println("4 - Categoria");
-                System.out.println("5 - Fornecedor");
-                String escolha = scanner.nextLine();
-
-                if (escolha.equals("1")) {
-                    System.out.print("Novo Nome (" + item.getNome() + "): ");
-                    String novoNome = scanner.nextLine();
-                    if (novoNome.isBlank()) throw new RuntimeException("nome inválido!");
-                    item.setNome(novoNome);
-                } else if (escolha.equals("2")) {
-                    try {
-                        System.out.print("Nova taxa diária (" + item.getTaxaDiaria() + ")(XX.xx):  R$ ");
-                        BigDecimal novovalor = new BigDecimal(scanner.nextLine());
-                        if (novovalor.compareTo(BigDecimal.ZERO) < 0) {
-                            throw new RuntimeException("O valor não pode ser negativo!");
-                        }
-                        item.setTaxaDiaria(novovalor);
-                    } catch (NumberFormatException e) {
-                        throw new RuntimeException("Valor inválido para taxa diária.");
-                    }
-                } else if (escolha.equals("3")) {
-                    try {
-                        System.out.print("Valor de reposição (XX.xx): R$ ");
-                        BigDecimal novovalor = new BigDecimal(scanner.nextLine());
-                        if (novovalor.compareTo(BigDecimal.ZERO) < 0) {
-                            throw new RuntimeException("O valor não pode ser negativo!");
-                        }
-                        item.setValorReposicao(novovalor);
-                    } catch (NumberFormatException e) {
-                        throw new RuntimeException("Valor inválido para o valor de reposição.");
-                    }
-                } else if (escolha.equals("4")) {
-                    System.out.print("Digite o id da categoria (" + item.getCategoria().getId() + "): ");
-                    String novaCategoriaId = scanner.nextLine();
-                    item.setCategoria(facade.buscarCategoria(novaCategoriaId));
-                } else if (escolha.equals("5")) {
-                    System.out.print("Digite o id do fornecedor (" + item.getFornecedor().getId() + "): ");
-                    String novoFornecedorId = scanner.nextLine();
-                    item.setFornecedor(facade.buscarFornecedor(novoFornecedorId));
-                } else {
-                    throw new RuntimeException("Opção inválida!");
-                }
-
-                facade.atualizarItem(item);
-                System.out.println("Item atualizado com sucesso!");
-
-            }
-            else if (subOpcao.equals("4")) {
-                System.out.print("ID do Item a deletar: ");
-                facade.deletarItem(scanner.nextLine());
-                System.out.println("Item deletado do repositório.");
+            switch (subOpcao) {
+                case "1" -> cadastrarItem();
+                case "2" -> listarItens();
+                case "3" -> atualizarItem();
+                case "4" -> deletarItem();
+                default -> mostrar(OPCAO_INVALIDA);
             }
         } catch (RuntimeException e) {
-            System.out.println("Erro: " + e.getMessage());
+            mostrar(PREFIXO_ERRO + e.getMessage());
         }
     }
 
+    private void cadastrarItem() {
+        Item item = new Item();
+        item.setId(ler(ROTULO_ID));
+        item.setNome(ler(ROTULO_NOME));
+        item.setStatus("DISPONIVEL");
+        item.setCategoria(facade.buscarCategoria(ler("ID Categoria: ")));
+        item.setFornecedor(facade.buscarFornecedor(ler("ID Fornecedor: ")));
+        item.setTaxaDiaria(lerValorNaoNegativo("Taxa Diária (XX.xx):  R$ ", "Valor inválido para taxa diária."));
+        item.setValorReposicao(lerValorNaoNegativo("Valor de reposição (XX.xx): R$ ", "Valor inválido para o valor de reposição."));
+        facade.cadastrarItem(item);
+        mostrar("Item cadastrado!");
+    }
+
+    private void listarItens() {
+        mostrar("1-Todos | 2-Por Status | 3-Por Categoria | 4-Por Fornecedor");
+        String opt = ler(OPCAO);
+
+        switch (opt) {
+            case "1" -> facade.listarItem().values()
+                    .forEach(item -> mostrar(ROTULO_ID + item.getId() + SEPARADOR_NOME + item.getNome() + " | Status: " + item.getStatus()));
+            case "2" -> {
+                String status = ler("Status (DISPONIVEL/ALUGADO): ").toUpperCase();
+                facade.listarItemPorStatus(status).values()
+                        .forEach(item -> mostrar(ROTULO_ID + item.getId() + SEPARADOR_NOME + item.getNome()));
+            }
+            case "3" -> {
+                Categoria cat = facade.buscarCategoria(ler("ID Categoria: "));
+                facade.listarItemPorCategoria(cat).values()
+                        .forEach(item -> mostrar(ROTULO_ID + item.getId() + SEPARADOR_NOME + item.getNome()));
+            }
+            case "4" -> {
+                Fornecedor forn = facade.buscarFornecedor(ler("ID Fornecedor: "));
+                facade.listarItemPorFornecedor(forn).values()
+                        .forEach(item -> mostrar(ROTULO_ID + item.getId() + SEPARADOR_NOME + item.getNome()));
+            }
+            default -> mostrar("Digite uma opção válida!");
+        }
+    }
+
+    private void atualizarItem() {
+        Item item = facade.buscarItem(ler("ID do Item: "));
+        mostrar(O_QUE_ATUALIZAR);
+        mostrar(OPCAO_NOME);
+        mostrar("2 - Taxa diária");
+        mostrar("3 - Valor de reposição");
+        mostrar("4 - Categoria");
+        mostrar("5 - Fornecedor");
+        String escolha = scanner.nextLine();
+
+        switch (escolha) {
+            case "1" -> atualizarNomeItem(item);
+            case "2" -> atualizarTaxaDiaria(item);
+            case "3" -> atualizarValorReposicao(item);
+            case "4" -> atualizarCategoriaItem(item);
+            case "5" -> atualizarFornecedorItem(item);
+            default -> throw new IllegalArgumentException(OPCAO_INVALIDA);
+        }
+
+        facade.atualizarItem(item);
+        mostrar("Item atualizado com sucesso!");
+    }
+
+    private void atualizarNomeItem(Item item) {
+        String novoNome = ler(ROTULO_NOVO_NOME + item.getNome() + "): ");
+        if (novoNome.isBlank()) throw new IllegalArgumentException("nome inválido!");
+        item.setNome(novoNome);
+    }
+
+    private void atualizarTaxaDiaria(Item item) {
+        item.setTaxaDiaria(lerValorNaoNegativo(
+                "Nova taxa diária (" + item.getTaxaDiaria() + ")(XX.xx):  R$ ",
+                "Valor inválido para taxa diária."));
+    }
+
+    private void atualizarValorReposicao(Item item) {
+        item.setValorReposicao(lerValorNaoNegativo(
+                "Valor de reposição (XX.xx): R$ ",
+                "Valor inválido para o valor de reposição."));
+    }
+
+    private void atualizarCategoriaItem(Item item) {
+        String novaCategoriaId = ler("Digite o id da categoria (" + item.getCategoria().getId() + "): ");
+        item.setCategoria(facade.buscarCategoria(novaCategoriaId));
+    }
+
+    private void atualizarFornecedorItem(Item item) {
+        String novoFornecedorId = ler("Digite o id do fornecedor (" + item.getFornecedor().getId() + "): ");
+        item.setFornecedor(facade.buscarFornecedor(novoFornecedorId));
+    }
+
+    private void deletarItem() {
+        facade.deletarItem(ler("ID do Item a deletar: "));
+        mostrar("Item deletado do repositório.");
+    }
+
     private void gerenciarCategorias() {
-        System.out.println("\nGERENCIAR CATEGORIAS");
-        System.out.println("1 - Cadastrar");
-        System.out.println("2 - Listar");
-        System.out.println("3 - Atualizar");
-        System.out.println("4 - Deletar");
-        System.out.print("Opção: ");
-        String subOpcao = scanner.nextLine();
+        mostrar("\nGERENCIAR CATEGORIAS");
+        mostrar("1 - Cadastrar");
+        mostrar("2 - Listar");
+        mostrar("3 - Atualizar");
+        mostrar("4 - Deletar");
+        String subOpcao = ler(OPCAO);
 
         try {
             if (subOpcao.equals("1")) {
-                System.out.print("ID: ");
-                String id = scanner.nextLine();
-                System.out.print("Nome: ");
-                String nome = scanner.nextLine();
+                String id = ler(ROTULO_ID);
+                String nome = ler(ROTULO_NOME);
                 facade.cadastrarCategoria(new Categoria(id, nome));
-                System.out.println("Categoria criada!");
+                mostrar("Categoria criada!");
 
             } else if (subOpcao.equals("2")) {
-                facade.listarCategoria().values().forEach(c -> System.out.println("ID: " + c.getId() + " | Nome: " + c.getNome()));
+                facade.listarCategoria().values().forEach(c -> mostrar(ROTULO_ID + c.getId() + SEPARADOR_NOME + c.getNome()));
 
             } else if (subOpcao.equals("3")) {
-                System.out.print("ID: ");
-                Categoria c = facade.buscarCategoria(scanner.nextLine());
-                System.out.print("Novo Nome: ");
-                c.setNome(scanner.nextLine());
+                Categoria c = facade.buscarCategoria(ler(ROTULO_ID));
+                c.setNome(ler("Novo Nome: "));
                 facade.atualizarCategoria(c);
-                System.out.println("Categoria atualizada!");
+                mostrar("Categoria atualizada!");
 
             } else if (subOpcao.equals("4")) {
-                System.out.print("ID a deletar: ");
-                facade.deletarCategoria(scanner.nextLine());
-                System.out.println("Categoria removida.");
+                facade.deletarCategoria(ler(ID_A_DELETAR));
+                mostrar("Categoria removida.");
             }
         } catch (RuntimeException e) {
-            System.out.println("Erro: " + e.getMessage());
+            mostrar(PREFIXO_ERRO + e.getMessage());
         }
     }
 
     private void gerenciarFornecedores() {
-        System.out.println("\nGERENCIAR FORNECEDORES");
-        System.out.println("1 - Cadastrar");
-        System.out.println("2 - Listar");
-        System.out.println("3 - Atualizar");
-        System.out.println("4 - Deletar");
-        System.out.print("Opção: ");
-        String subOpcao = scanner.nextLine();
+        mostrar("\nGERENCIAR FORNECEDORES");
+        mostrar("1 - Cadastrar");
+        mostrar("2 - Listar");
+        mostrar("3 - Atualizar");
+        mostrar("4 - Deletar");
+        String subOpcao = ler(OPCAO);
 
         try {
-            if (subOpcao.equals("1")) {
-                System.out.print("ID: ");
-                String id = scanner.nextLine();
-                System.out.print("Nome: ");
-                String nome = scanner.nextLine();
-                System.out.print("CNPJ: ");
-                String cnpj = scanner.nextLine();
-                System.out.print("Telefone: ");
-                String telefone = scanner.nextLine();
-
-                facade.cadastrarFornecedor(new Fornecedor(id, nome, cnpj, telefone));
-                System.out.println("Fornecedor criado!");
-            } else if (subOpcao.equals("2")) {
-                facade.listarFornecedor().values().forEach(f -> System.out.println("ID: " + f.getId() + " | Nome: " + f.getNome() + " | CNPJ: " + f.getCnpj() + " | Telefone: " + f.getTelefone()));
-
-            } else if (subOpcao.equals("3")) {
-                System.out.print("ID: ");
-                Fornecedor f = facade.buscarFornecedor(scanner.nextLine());
-
-                System.out.println("O que você deseja atualizar?");
-                System.out.println("1 - Nome");
-                System.out.println("2 - CNPJ");
-                System.out.println("3 - Telefone");
-                System.out.print("Opção: ");
-                String escolha = scanner.nextLine();
-
-                if (escolha.equals("1")) {
-                    System.out.print("Novo Nome (" + f.getNome() + "): ");
-                    String novoNome = scanner.nextLine();
-                    if (novoNome.isBlank()) throw new RuntimeException("Nome inválido!");
-                    f.setNome(novoNome);
-                } else if (escolha.equals("2")) {
-                    System.out.print("Novo CNPJ (" + f.getCnpj() + "): ");
-                    String novoCnpj = scanner.nextLine();
-                    if (novoCnpj.isBlank()) throw new RuntimeException("CNPJ inválido!");
-                    f.setCnpj(novoCnpj);
-                } else if (escolha.equals("3")) {
-                    System.out.print("Novo Telefone (" + f.getTelefone() + "): ");
-                    String novoTelefone = scanner.nextLine();
-                    if (novoTelefone.isBlank()) throw new RuntimeException("Telefone inválido!");
-                    f.setTelefone(novoTelefone);
-                } else {
-                    throw new RuntimeException("Opção inválida!");
-                }
-
-                facade.atualizarFornecedor(f);
-                System.out.println("Fornecedor atualizado!");
-            } else if (subOpcao.equals("4")) {
-                System.out.print("ID a deletar: ");
-                facade.deletarFornecedor(scanner.nextLine());
-                System.out.println("Fornecedor removido.");
+            switch (subOpcao) {
+                case "1" -> cadastrarFornecedor();
+                case "2" -> listarFornecedores();
+                case "3" -> atualizarFornecedor();
+                case "4" -> deletarFornecedor();
+                default -> mostrar(OPCAO_INVALIDA);
             }
         } catch (RuntimeException e) {
-            System.out.println("Erro: " + e.getMessage());
+            mostrar(PREFIXO_ERRO + e.getMessage());
         }
     }
 
-    private void emitirRelatorios() {
-        System.out.println("\nEMITIR RELATÓRIOS");
-        System.out.println("1 - Itens Disponíveis");
-        System.out.println("2 - Aluguéis Atuais (Ativos)");
-        System.out.println("3 - Aluguel de um Cliente (Histórico)");
-        System.out.println("4 - Financeiro (Faturamento)");
-        System.out.print("Opção: ");
-        String subOpcao = scanner.nextLine();
+    private void cadastrarFornecedor() {
+        String id = ler(ROTULO_ID);
+        String nome = ler(ROTULO_NOME);
+        String cnpj = ler("CNPJ: ");
+        String telefone = ler("Telefone: ");
 
-        if (subOpcao.equals("1")) {
-            System.out.println("\nITENS DISPONÍVEIS");
-            try {
-                Map<String, Item> itens = facade.listarItensDisponiveis();
-                if (itens.isEmpty()) {
-                    System.out.println("Não há itens disponíveis para aluguel no momento.");
-                } else {
-                    for (Item item : itens.values()) {
-                        System.out.println("ID: " + item.getId() + " | Nome: " + item.getNome() + " | Valor Diário: " + item.getTaxaDiaria());
-                    }
-                }
-            } catch (RuntimeException e) {
-                System.out.println("Erro ao listar itens: " + e.getMessage());
-            }
+        facade.cadastrarFornecedor(new Fornecedor(id, nome, cnpj, telefone));
+        mostrar("Fornecedor criado!");
+    }
 
-        } else if (subOpcao.equals("2")) {
-            System.out.println("\nRELATÓRIO DE CONTRATOS ATIVOS");
-            try {
-                String relatorio = facade.gerarRelatorioItensAlugados();
-                System.out.println(relatorio);
-            } catch (RuntimeException e) {
-                System.out.println("Erro ao gerar relatório: " + e.getMessage());
-            }
+    private void listarFornecedores() {
+        facade.listarFornecedor().values()
+                .forEach(fornecedor -> mostrar(ROTULO_ID + fornecedor.getId() + SEPARADOR_NOME + fornecedor.getNome()
+                        + " | CNPJ: " + fornecedor.getCnpj() + " | Telefone: " + fornecedor.getTelefone()));
+    }
 
-        } else if (subOpcao.equals("3")) {
-            System.out.println("\nRELATÓRIO DE CONTRATOS POR CLIENTE");
-            System.out.print("ID do Cliente: ");
-            String clienteId = scanner.nextLine();
-            try {
-                Map<String, ContratoAluguel> contratos = facade.consultarHistoricoCliente(clienteId);
-                if (contratos.isEmpty()) {
-                    System.out.println("Não há histórico de contratos para esse cliente.");
-                } else {
-                    for (ContratoAluguel c : contratos.values()) {
-                        System.out.println("ID: " + c.getId() + " | Item: " + c.getItem().getNome() + " | Valor total: " + c.getValorTotal() + " | Status: " + c.getStatus() + " | Devolução prevista: " + c.getDataPrevDevolucao());
-                    }
-                }
-            } catch (RuntimeException e) {
-                System.out.println("Erro ao listar contratos: " + e.getMessage());
-            }
+    private void atualizarFornecedor() {
+        Fornecedor fornecedor = facade.buscarFornecedor(ler(ROTULO_ID));
 
-        } else if (subOpcao.equals("4")) {
-            System.out.println("\nRELATÓRIO FINANCEIRO");
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-            LocalDate ini = null;
-            LocalDate fim = null;
+        mostrar(O_QUE_ATUALIZAR);
+        mostrar(OPCAO_NOME);
+        mostrar("2 - CNPJ");
+        mostrar("3 - Telefone");
+        String escolha = ler(OPCAO);
 
-            while (ini == null) {
-                try {
-                    System.out.print("Data Inicial (dd/MM/yyyy): ");
-                    ini = LocalDate.parse(scanner.nextLine(), formatter);
-                } catch (DateTimeParseException e) {
-                    System.out.println("Data inválida, tente novamente.");
-                }
-            }
-
-            while (fim == null) {
-                try {
-                    System.out.print("Data Final (dd/MM/yyyy): ");
-                    fim = LocalDate.parse(scanner.nextLine(), formatter);
-                    if (fim.isBefore(ini)) {
-                        System.out.println("Data final não pode ser anterior à data inicial.");
-                        fim = null;
-                    }
-                } catch (DateTimeParseException e) {
-                    System.out.println("Data inválida, tente novamente.");
-                }
-            }
-
-            try {
-                System.out.println(facade.gerarRelatorioFaturamento(ini, fim));
-            } catch (RuntimeException e) {
-                System.out.println("Erro ao gerar relatório: " + e.getMessage());
-            }
-
-        } else {
-            System.out.println("Opção inválida!");
+        switch (escolha) {
+            case "1" -> atualizarNomeFornecedor(fornecedor);
+            case "2" -> atualizarCnpjFornecedor(fornecedor);
+            case "3" -> atualizarTelefoneFornecedor(fornecedor);
+            default -> throw new IllegalArgumentException(OPCAO_INVALIDA);
         }
+
+        facade.atualizarFornecedor(fornecedor);
+        mostrar("Fornecedor atualizado!");
+    }
+
+    private void atualizarNomeFornecedor(Fornecedor fornecedor) {
+        String novoNome = ler(ROTULO_NOVO_NOME + fornecedor.getNome() + "): ");
+        if (novoNome.isBlank()) throw new IllegalArgumentException("Nome inválido!");
+        fornecedor.setNome(novoNome);
+    }
+
+    private void atualizarCnpjFornecedor(Fornecedor fornecedor) {
+        String novoCnpj = ler("Novo CNPJ (" + fornecedor.getCnpj() + "): ");
+        if (novoCnpj.isBlank()) throw new IllegalArgumentException("CNPJ inválido!");
+        fornecedor.setCnpj(novoCnpj);
+    }
+
+    private void atualizarTelefoneFornecedor(Fornecedor fornecedor) {
+        String novoTelefone = ler("Novo Telefone (" + fornecedor.getTelefone() + "): ");
+        if (novoTelefone.isBlank()) throw new IllegalArgumentException("Telefone inválido!");
+        fornecedor.setTelefone(novoTelefone);
+    }
+
+    private void deletarFornecedor() {
+        facade.deletarFornecedor(ler(ID_A_DELETAR));
+        mostrar("Fornecedor removido.");
+    }
+
+    private void emitirRelatorios() {
+        mostrar("\nEMITIR RELATÓRIOS");
+        mostrar("1 - Itens Disponíveis");
+        mostrar("2 - Aluguéis Atuais (Ativos)");
+        mostrar("3 - Aluguel de um Cliente (Histórico)");
+        mostrar("4 - Financeiro (Faturamento)");
+        String subOpcao = ler(OPCAO);
+
+        switch (subOpcao) {
+            case "1" -> relatorioItensDisponiveis();
+            case "2" -> relatorioContratosAtivos();
+            case "3" -> relatorioHistoricoCliente();
+            case "4" -> relatorioFinanceiro();
+            default -> mostrar(OPCAO_INVALIDA);
+        }
+    }
+
+    private void relatorioItensDisponiveis() {
+        mostrar("\nITENS DISPONÍVEIS");
+        try {
+            Map<String, Item> itens = facade.listarItensDisponiveis();
+            if (itens.isEmpty()) {
+                mostrar("Não há itens disponíveis para aluguel no momento.");
+            } else {
+                for (Item item : itens.values()) {
+                    mostrar(ROTULO_ID + item.getId() + SEPARADOR_NOME + item.getNome() + " | Valor Diário: " + item.getTaxaDiaria());
+                }
+            }
+        } catch (RuntimeException e) {
+            mostrar("Erro ao listar itens: " + e.getMessage());
+        }
+    }
+
+    private void relatorioContratosAtivos() {
+        mostrar("\nRELATÓRIO DE CONTRATOS ATIVOS");
+        try {
+            String relatorio = facade.gerarRelatorioItensAlugados();
+            mostrar(relatorio);
+        } catch (RuntimeException e) {
+            mostrar(ERRO_GERAR_RELATORIO + e.getMessage());
+        }
+    }
+
+    private void relatorioHistoricoCliente() {
+        mostrar("\nRELATÓRIO DE CONTRATOS POR CLIENTE");
+        String clienteId = ler("ID do Cliente: ");
+        try {
+            Map<String, ContratoAluguel> contratos = facade.consultarHistoricoCliente(clienteId);
+            if (contratos.isEmpty()) {
+                mostrar("Não há histórico de contratos para esse cliente.");
+            } else {
+                for (ContratoAluguel contrato : contratos.values()) {
+                    mostrar(ROTULO_ID + contrato.getId() + " | Item: " + contrato.getItem().getNome()
+                            + " | Valor total: " + contrato.getValorTotal() + " | Status: " + contrato.getStatus()
+                            + " | Devolução prevista: " + contrato.getDataPrevDevolucao());
+                }
+            }
+        } catch (RuntimeException e) {
+            mostrar("Erro ao listar contratos: " + e.getMessage());
+        }
+    }
+
+    private void relatorioFinanceiro() {
+        mostrar("\nRELATÓRIO FINANCEIRO");
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+
+        LocalDate ini = lerData("Data Inicial (dd/MM/yyyy): ", formatter);
+        LocalDate fim = lerDataFinal(formatter, ini);
+
+        try {
+            mostrar(facade.gerarRelatorioFaturamento(ini, fim));
+        } catch (RuntimeException e) {
+            mostrar(ERRO_GERAR_RELATORIO + e.getMessage());
+        }
+    }
+
+    private LocalDate lerData(String mensagem, DateTimeFormatter formatter) {
+        LocalDate data = null;
+        while (data == null) {
+            try {
+                data = LocalDate.parse(ler(mensagem), formatter);
+            } catch (DateTimeParseException e) {
+                mostrar("Data inválida, tente novamente.");
+            }
+        }
+        return data;
+    }
+
+    private LocalDate lerDataFinal(DateTimeFormatter formatter, LocalDate ini) {
+        LocalDate fim = null;
+        while (fim == null) {
+            try {
+                fim = LocalDate.parse(ler("Data Final (dd/MM/yyyy): "), formatter);
+                if (fim.isBefore(ini)) {
+                    mostrar("Data final não pode ser anterior à data inicial.");
+                    fim = null;
+                }
+            } catch (DateTimeParseException e) {
+                mostrar("Data inválida, tente novamente.");
+            }
+        }
+        return fim;
     }
 }
