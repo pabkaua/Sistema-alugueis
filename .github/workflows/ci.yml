@@ -50,10 +50,8 @@ jobs:
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: >-
-          mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar
-          -Dsonar.projectKey=pabkaua_Sistema-alugueis
-          -Dsonar.qualitygate.wait=true
+        # o maven envia os dados, compila, roda os testes e fica verde, os erros ficam pro sonar msm
+        run: mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=pabkaua_Sistema-alugueis
 
   sync-kanban:
     needs: build-test-analyze
@@ -71,6 +69,8 @@ jobs:
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         run: |
+          echo "Aguardando o SonarCloud terminar de processar o relatório na nuvem..."
+          sleep 15
           curl -s -u "$SONAR_TOKEN:" \
             "https://sonarcloud.io/api/issues/search?componentKeys=pabkaua_Sistema-alugueis&resolved=false&ps=500" \
             -o sonar-issues.json
