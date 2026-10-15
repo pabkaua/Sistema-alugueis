@@ -2,7 +2,7 @@ name: CI
 
 on:
   push:
-    branches: [main]
+    branches: [develop]
   pull_request:
     branches: [develop, main]
     types: [opened, synchronize, reopened]
@@ -49,14 +49,19 @@ jobs:
       - name: Build, testes e analise sonar
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-        run: mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=pabkaua_Sistema-alugueis
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: >-
+          mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar
+          -Dsonar.projectKey=pabkaua_Sistema-alugueis
+          -Dsonar.qualitygate.wait=true
 
   sync-kanban:
     needs: build-test-analyze
     runs-on: ubuntu-latest
     permissions:
       contents: read
-    if: github.event_name == 'push'
+    # Roda apenas em push direto na develop (commits diretos ou merge de PRs na develop)
+    if: github.event_name == 'push' && github.ref == 'refs/heads/develop'
     steps:
       - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5
         with:
