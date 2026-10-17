@@ -1,6 +1,6 @@
 package com.loja.padraofacade;
 
-import com.loja.business.BusinessException;
+import com.loja.exceptions.BusinessException;
 import com.loja.padraofacade.interfaces.ILojaFacade;
 import com.loja.business.interfaces.*;
 import com.loja.model.*;

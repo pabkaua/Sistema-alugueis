@@ -1,6 +1,7 @@
 package com.loja.business;
 
 import com.loja.business.interfaces.ICategoriaBusiness;
+import com.loja.exceptions.BusinessException;
 import com.loja.model.Categoria;
 import com.loja.repositories.interfaces.ICategoriaRepository;
 

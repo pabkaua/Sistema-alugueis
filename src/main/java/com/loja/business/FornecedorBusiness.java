@@ -1,6 +1,7 @@
 package com.loja.business;
 
 import com.loja.business.interfaces.IFornecedorBusiness;
+import com.loja.exceptions.BusinessException;
 import com.loja.model.Fornecedor;
 import com.loja.repositories.interfaces.IFornecedorRepository;
 import java.util.Map;
