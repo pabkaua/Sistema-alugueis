@@ -35,6 +35,20 @@
             <version>2.10.1</version>
         </dependency>
 
+        <!-- Módulo principal de controles UI -->
+        <dependency>
+            <groupId>org.openjfx</groupId>
+            <artifactId>javafx-controls</artifactId>
+            <version>21.0.2</version>
+        </dependency>
+
+        <!-- Módulo para carregar arquivos FXML com SceneBuilder -->
+        <dependency>
+            <groupId>org.openjfx</groupId>
+            <artifactId>javafx-fxml</artifactId>
+            <version>21.0.2</version>
+        </dependency>
+
     </dependencies>
 
     <build>
