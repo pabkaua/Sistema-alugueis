@@ -23,13 +23,6 @@
 
     <dependencies>
 
-        <!-- JavaFX para a interface gráfica -->
-        <dependency>
-            <groupId>org.openjfx</groupId>
-            <artifactId>javafx-controls</artifactId>
-            <version>${javafx.version}</version>
-        </dependency>
-
         <!-- JUnit 5 para os testes -->
         <dependency>
             <groupId>org.junit.jupiter</groupId>
