@@ -1,4 +1,3 @@
-<?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0
@@ -6,8 +5,8 @@
 
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>br.upe</groupId>
-    <artifactId>javafx-intro</artifactId>
+    <groupId>com.lojaaluga</groupId>
+    <artifactId>loja-aluga-tudo</artifactId>
     <version>1.0-SNAPSHOT</version>
     <packaging>jar</packaging>
 
@@ -16,9 +15,7 @@
         <maven.compiler.source>21</maven.compiler.source>
         <maven.compiler.target>21</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-
-        <javafx.version>21.0.4</javafx.version>
-        <junit.version>5.11.0</junit.version>
+        <sonar.organization>pabkaua</sonar.organization>
     </properties>
 
     <dependencies>
@@ -27,7 +24,7 @@
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter</artifactId>
-            <version>${junit.version}</version>
+            <version>5.10.2</version>
             <scope>test</scope>
         </dependency>
 
@@ -72,22 +69,11 @@
                 <configuration>
                     <archive>
                         <manifest>
-                            <mainClass>br.upe.javafxintro.HelloApp</mainClass>
+                            <mainClass>com.loja.Main</mainClass>
                         </manifest>
                     </archive>
                 </configuration>
             </plugin>
-
-            <!-- Plugin para executar a aplicação JavaFX -->
-            <plugin>
-                <groupId>org.openjfx</groupId>
-                <artifactId>javafx-maven-plugin</artifactId>
-                <version>0.0.8</version>
-                <configuration>
-                    <mainClass>br.upe.javafxintro.HelloApp</mainClass>
-                </configuration>
-            </plugin>
-
         </plugins>
     </build>
 
