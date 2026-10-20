@@ -4,6 +4,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.StackPane;
@@ -60,7 +61,7 @@ public class SidebarClienteController {
         try {
             URL url = getClass().getResource(caminhoFXML);
             if (url == null) {
-                System.err.println("Arquivo FXML não encontrado: " + caminhoFXML);
+                exibirAlertaErro("Arquivo não encontrado", "O arquivo '" + caminhoFXML + "' não foi localizado.");
                 return;
             }
 
@@ -68,9 +69,16 @@ public class SidebarClienteController {
             this.conteudo.getChildren().setAll(novaTela);
 
         } catch (IOException e) {
-            System.err.println("Houve um erro ao carregar a tela:");
-            e.printStackTrace();
+            exibirAlertaErro("Falha ao abrir a tela", "Houve um erro ao carregar a tela.");
         }
+    }
+
+    private void exibirAlertaErro(String titulo, String mensagem) {
+        Alert alerta = new Alert(Alert.AlertType.ERROR);
+        alerta.setTitle("Erro");
+        alerta.setHeaderText(titulo);
+        alerta.setContentText(mensagem);
+        alerta.showAndWait();
     }
 
     @FXML
