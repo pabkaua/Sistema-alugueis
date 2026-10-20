@@ -12,7 +12,7 @@
 <?import javafx.scene.paint.Stop?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="1080.0" prefWidth="1980.0" stylesheets="@../css/sidebar-cliente.css" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.loja.controllers.SidebarClienteController">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="1080.0" prefWidth="1980.0" stylesheets="@../../css/sidebar-cliente.css" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.loja.controllers.SidebarClienteController">
    <left>
       <VBox fx:id="sidebarVbox" minWidth="420.0" prefWidth="420.0" spacing="20.0" styleClass="sidebar" BorderPane.alignment="CENTER">
          <padding>
