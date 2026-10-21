@@ -4,11 +4,14 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.net.URL;
@@ -50,11 +53,6 @@ public class SidebarClienteController {
         boolean visivel = !submenuRelatorios.isVisible();
         submenuRelatorios.setVisible(visivel);
         botaoRelatorios.setText(visivel ? "⌃   Relatórios" : "⌄   Relatórios");
-    }
-
-    @FXML
-    void fazerLogout(ActionEvent event) {
-
     }
 
     private void carregarTela(String caminhoFXML) {
@@ -101,4 +99,23 @@ public class SidebarClienteController {
         carregarTela("/ui/cliente/disponiveis-cliente.fxml");
     }
 
+    @FXML
+    void fazerLogout(ActionEvent event) {
+        try {
+            URL url = getClass().getResource("/ui/LoginScreen.fxml");
+            if (url == null) {
+                exibirAlertaErro("Não foi possivel fazer o logout", "O arquivo LoginScreen.fxml não foi localizado.");
+                return;
+            }
+
+            Parent telaLogin = FXMLLoader.load(url);
+            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow(); // pra ele saber em qual tela tá
+
+            Scene loginScene = new Scene(telaLogin);
+            stage.setScene(loginScene);
+
+        } catch (IOException e) {
+            exibirAlertaErro("Falha ao abrir a tela", "Houve um erro ao carregar a tela.");
+        }
+    }
 }
