@@ -35,7 +35,7 @@ public class SidebarClienteController {
         submenuPessoal.managedProperty().bind(submenuPessoal.visibleProperty());
         submenuRelatorios.managedProperty().bind(submenuRelatorios.visibleProperty());
 
-        //carregarTela("/ui/cliente/dashboard-cliente.fxml");
+        carregarTela("/ui/cliente/dashboard-cliente.fxml");
     }
 
     @FXML
