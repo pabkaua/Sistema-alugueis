@@ -11,32 +11,26 @@
 /* ===== PAINEL CENTRAL ===== */
 .login-panel {
     -fx-background-color: #19051F;
-    -fx-background-radius: 36px;
-    -fx-padding: 45px 60px;
-    -fx-spacing: 18px;
+    -fx-background-radius: 36 36 0 0;
 }
 
 .login-title {
        -fx-text-fill: white;
        -fx-font-family: "Arial";
-       -fx-font-size: 44px;
+       -fx-font-size: 50px;
        -fx-font-weight: bold;
-       -fx-alignment: CENTER;
-       -fx-max-width: Infinity;
    }
 
 .login-label {
     -fx-text-fill: white;
-    -fx-font-size: 22px;
+    -fx-font-size: 30px;
     -fx-font-weight: bold;
 }
 
 .login-input {
     -fx-background-color: #D0CECE;
     -fx-background-radius: 12px;
-    -fx-font-size: 20px;
-    -fx-pref-height: 64px;
-    -fx-min-height: 64px;
+    -fx-font-size: 30px;
 }
 
 .login-button {
@@ -45,8 +39,6 @@
     -fx-text-fill: white;
     -fx-font-size: 22px;
     -fx-font-weight: bold;
-    -fx-pref-height: 63px;
-    -fx-min-height: 63px;
     -fx-cursor: hand;
 }
 
