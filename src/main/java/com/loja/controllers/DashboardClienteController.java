@@ -44,7 +44,6 @@ public class DashboardClienteController {
 
         } catch (IOException e) {
             exibirAlertaErro("Falha ao abrir a tela", "Houve um erro ao carregar a tela.");
-            e.printStackTrace();
         }
     }
 
