@@ -45,7 +45,7 @@
         <VBox spacing="4.0">
           <children>
             <Button fx:id="btnFuncAlugueis" alignment="BASELINE_LEFT" maxWidth="1.7976931348623157E308" mnemonicParsing="false" styleClass="btn-principal" text="⌄   Alugueis" />
-            <VBox fx:id="submenuPessoal" spacing="4.0" styleClass="submenu-card" visible="false">
+            <VBox fx:id="submenuAlugueisFunc" spacing="4.0" styleClass="submenu-card" visible="false">
               <padding>
                 <Insets bottom="6.0" left="8.0" right="8.0" top="6.0" />
               </padding>
@@ -59,7 +59,7 @@
             <VBox layoutX="34.0" layoutY="310.0" spacing="4.0">
                <children>
                   <Button fx:id="btnFuncGerenciarClientes" alignment="BASELINE_LEFT" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#alternarRelatorios" styleClass="btn-principal" text="⌄  Gerenciar Clientes" />
-                  <VBox fx:id="submenuRelatorios1" spacing="4.0" styleClass="submenu-card" visible="false">
+                  <VBox fx:id="submenuGerenciarClientesFunc" spacing="4.0" styleClass="submenu-card" visible="false">
                      <padding>
                         <Insets bottom="6.0" left="8.0" right="8.0" top="6.0" />
                      </padding>
@@ -72,7 +72,7 @@
         <VBox spacing="4.0">
           <children>
             <Button fx:id="btnFuncRelatorios" alignment="BASELINE_LEFT" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#alternarRelatorios" styleClass="btn-principal" text="⌄   Relatórios" />
-            <VBox fx:id="submenuRelatorios" spacing="4.0" styleClass="submenu-card" visible="false">
+            <VBox fx:id="submenuRelatoriosFunc" spacing="4.0" styleClass="submenu-card" visible="false">
               <padding>
                 <Insets bottom="6.0" left="8.0" right="8.0" top="6.0" />
               </padding>
