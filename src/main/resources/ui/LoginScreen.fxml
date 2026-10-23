@@ -3,6 +3,7 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.Region?>
@@ -38,11 +39,11 @@
                   <VBox spacing="20.0">
                      <children>
                         <Label maxWidth="1.7976931348623157E308" styleClass="login-label" stylesheets="@../css/login.css" text="Senha" />
-                        <TextField fx:id="inputSenha" styleClass="login-input">
+                        <PasswordField fx:id="inputSenha" styleClass="login-input">
                            <font>
                               <Font size="24.0" />
                            </font>
-                        </TextField>
+                        </PasswordField>
                      </children>
                   </VBox>
                   <Button fx:id="botaoEntrar" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#validarDados" prefHeight="100.0" prefWidth="1300.0" styleClass="login-button" stylesheets="@../css/login.css" text="Entrar" />

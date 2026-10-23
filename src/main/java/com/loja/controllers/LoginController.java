@@ -3,6 +3,7 @@ package com.loja.controllers;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 
 public class LoginController {
@@ -14,7 +15,7 @@ public class LoginController {
     private TextField inputLogin;
 
     @FXML
-    private TextField inputSenha;
+    private PasswordField inputSenha;
 
     @FXML
     void validarDados(ActionEvent event) {
