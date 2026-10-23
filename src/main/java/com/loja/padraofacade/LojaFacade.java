@@ -1,9 +1,12 @@
 package com.loja.padraofacade;
 
+import com.loja.business.*;
 import com.loja.exceptions.BusinessException;
 import com.loja.padraofacade.interfaces.ILojaFacade;
 import com.loja.business.interfaces.*;
 import com.loja.model.*;
+import com.loja.repositories.*;
+import com.loja.repositories.interfaces.*;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -26,12 +29,24 @@ public class LojaFacade implements ILojaFacade{
     private final IContratoBusiness contratoBusiness;
     private final IMultaBusiness multaBusiness;
 
-    public LojaFacade(IUsuarioBusiness usuarioBusiness, 
-                    IItemBusiness itemBusiness,
-                    ICategoriaBusiness categoriaBusiness,
-                    IFornecedorBusiness fornecedorBusiness,
-                    IContratoBusiness contratoBusiness,
-                    IMultaBusiness multaBusiness){
+    public LojaFacade(){
+
+        // camada de persistência
+        IUsuarioRepository usuarioRepo = new UsuarioPersistenciaCSV("dados/usuarios.csv");
+        IItemRepository itemRepo = new ItemPersistenciaCSV("dados/itens.csv");
+        ICategoriaRepository categoriaRepo = new CategoriaPersistenciaCSV("dados/categorias.csv");
+        IFornecedorRepository fornecedorRepo = new FornecedorPersistenciaCSV("dados/fornecedores.csv");
+        IContratoRepository contratoRepo = new ContratoPersistenciaCSV("dados/contratos.csv");
+        IMultaRepository multaRepo = new MultaPersistenciaCSV("dados/multas.csv");
+
+        // camada de negócio
+        IUsuarioBusiness usuarioBusiness = new UsuarioBusiness(usuarioRepo);
+        ICategoriaBusiness categoriaBusiness = new CategoriaBusiness(categoriaRepo);
+        IFornecedorBusiness fornecedorBusiness = new FornecedorBusiness(fornecedorRepo);
+        IItemBusiness itemBusiness = new ItemBusiness(itemRepo, categoriaRepo, fornecedorRepo);
+        IContratoBusiness contratoBusiness = new ContratoBusiness(contratoRepo, itemBusiness, usuarioBusiness);
+        IMultaBusiness multaBusiness = new MultaBusiness(multaRepo);
+
         this.usuarioBusiness = usuarioBusiness;
         this.itemBusiness = itemBusiness;
         this.categoriaBusiness = categoriaBusiness;
