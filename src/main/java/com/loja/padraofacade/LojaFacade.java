@@ -32,27 +32,27 @@ public class LojaFacade implements ILojaFacade{
     public LojaFacade(){
 
         // camada de persistência
-        IUsuarioRepository usuarioRepo = new UsuarioPersistenciaCSV("dados/usuarios.csv");
-        IItemRepository itemRepo = new ItemPersistenciaCSV("dados/itens.csv");
-        ICategoriaRepository categoriaRepo = new CategoriaPersistenciaCSV("dados/categorias.csv");
-        IFornecedorRepository fornecedorRepo = new FornecedorPersistenciaCSV("dados/fornecedores.csv");
-        IContratoRepository contratoRepo = new ContratoPersistenciaCSV("dados/contratos.csv");
-        IMultaRepository multaRepo = new MultaPersistenciaCSV("dados/multas.csv");
+        IUsuarioRepository usuarioR = new UsuarioPersistenciaCSV("dados/usuarios.csv");
+        IItemRepository itemR = new ItemPersistenciaCSV("dados/itens.csv");
+        ICategoriaRepository categoriaR = new CategoriaPersistenciaCSV("dados/categorias.csv");
+        IFornecedorRepository fornecedorR = new FornecedorPersistenciaCSV("dados/fornecedores.csv");
+        IContratoRepository contratoR = new ContratoPersistenciaCSV("dados/contratos.csv");
+        IMultaRepository multaR = new MultaPersistenciaCSV("dados/multas.csv");
 
         // camada de negócio
-        IUsuarioBusiness usuarioBusiness = new UsuarioBusiness(usuarioRepo);
-        ICategoriaBusiness categoriaBusiness = new CategoriaBusiness(categoriaRepo);
-        IFornecedorBusiness fornecedorBusiness = new FornecedorBusiness(fornecedorRepo);
-        IItemBusiness itemBusiness = new ItemBusiness(itemRepo, categoriaRepo, fornecedorRepo);
-        IContratoBusiness contratoBusiness = new ContratoBusiness(contratoRepo, itemBusiness, usuarioBusiness);
-        IMultaBusiness multaBusiness = new MultaBusiness(multaRepo);
+        IUsuarioBusiness usuarioB = new UsuarioBusiness(usuarioR);
+        ICategoriaBusiness categoriaB = new CategoriaBusiness(categoriaR);
+        IFornecedorBusiness fornecedorB = new FornecedorBusiness(fornecedorR);
+        IItemBusiness itemB = new ItemBusiness(itemR, categoriaR, fornecedorR);
+        IContratoBusiness contratoB = new ContratoBusiness(contratoR, itemB, usuarioB);
+        IMultaBusiness multaB = new MultaBusiness(multaR);
 
-        this.usuarioBusiness = usuarioBusiness;
-        this.itemBusiness = itemBusiness;
-        this.categoriaBusiness = categoriaBusiness;
-        this.fornecedorBusiness = fornecedorBusiness;
-        this.contratoBusiness = contratoBusiness;
-        this.multaBusiness = multaBusiness;
+        this.usuarioBusiness = usuarioB;
+        this.itemBusiness = itemB;
+        this.categoriaBusiness = categoriaB;
+        this.fornecedorBusiness = fornecedorB;
+        this.contratoBusiness = contratoB;
+        this.multaBusiness = multaB;
         resolverDependencias();
     }
     /* =========================================================================
