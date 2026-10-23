@@ -56,7 +56,7 @@ public class LoginController {
 
             //redirecionar(usuario);
 
-        } catch (RuntimeException | IOException e) {
+        } catch (RuntimeException e) {
             exibirAlerta("Erro ao autenticar: " + e.getMessage());
         }
     }
