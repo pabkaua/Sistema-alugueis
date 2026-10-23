@@ -65,15 +65,15 @@ public class LoginController {
 
 /*private void redirecionar(Usuario usuario)throws IOException {
     if (usuario instanceof Administrador adm) {
-        FXMLLoader loader = abrirTela("/com/loja/views/MenuAdmin.fxml", "Painel do Administrador");
+        FXMLLoader loader = abrirTela("/ui/admin/MenuAdmin.fxml", "Painel do Administrador");
         ((MenuAdminController) loader.getController()).setContexto(facade, adm);
 
     } else if (usuario instanceof Funcionario func) {
-        FXMLLoader loader = abrirTela("/com/loja/views/MenuFuncionario.fxml", "Painel do Funcionário");
+        FXMLLoader loader = abrirTela("/ui/funcionario/MenuFuncionario.fxml", "Painel do Funcionário");
         ((MenuFuncionarioController) loader.getController()).setContexto(facade, func);
 
     } else if (usuario instanceof Cliente cliente) {
-        FXMLLoader loader = abrirTela("/com/loja/views/MenuCliente.fxml", "Área do Cliente");
+        FXMLLoader loader = abrirTela("/ui/cliente/MenuCliente.fxml", "Área do Cliente");
         ((MenuClienteController) loader.getController()).setContexto(facade, cliente);
     }
 }
