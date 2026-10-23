@@ -19,6 +19,9 @@ public class LoginController {
 
     @FXML
     void validarDados(ActionEvent event) {
+        String email = inputLogin.getText();
+        String senha = inputSenha.getText();
+
 
     }
 
