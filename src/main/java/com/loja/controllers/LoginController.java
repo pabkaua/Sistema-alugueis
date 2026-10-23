@@ -30,15 +30,18 @@ public class LoginController {
         String email = inputLogin.getText().trim();
         String senha = inputSenha.getText();
 
-        if (email.isEmpty() || senha.isEmpty()){
-
+        if (email.isEmpty() || senha.isEmpty()) {
+            exibirAlerta("Preencha o e-mail e a senha.");
+            return;
         }
 
-        private void exibirAlerta(String mensagem) {
-            Alert alerta = new Alert(Alert.AlertType.WARNING);
-            alerta.setHeaderText(null);
-            alerta.setContentText(mensagem);
-            alerta.showAndWait();
+    }
+
+    private void exibirAlerta(String msg) {
+        Alert alerta = new Alert(Alert.AlertType.WARNING);
+        alerta.setHeaderText(null);
+        alerta.setContentText(msg);
+        alerta.showAndWait();
         }
     }
 
