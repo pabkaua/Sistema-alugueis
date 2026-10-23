@@ -8,7 +8,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 
-public class disponiveisClienteController {
+public class DisponiveisClienteController {
 
     @FXML
     private Button botaoBuscar;
