@@ -2,7 +2,6 @@ package com.loja.controllers;
 
 import com.loja.model.Cliente;
 import com.loja.model.ContratoAluguel;
-import com.loja.model.Item;
 import com.loja.model.Multa;
 import com.loja.padraofacade.interfaces.ILojaFacade;
 import javafx.beans.property.SimpleStringProperty;
@@ -19,7 +18,6 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 
 import java.math.BigDecimal;
-import java.time.format.DateTimeFormatter;
 import java.util.Map;
 
 public class MultasClienteController {
