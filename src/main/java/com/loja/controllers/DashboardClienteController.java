@@ -1,5 +1,6 @@
 package com.loja.controllers;
 
+import com.loja.model.Cliente;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
@@ -14,6 +15,10 @@ import java.net.URL;
 public class DashboardClienteController {
 
     @FXML private Label labelBoasVindas;
+
+    public void setUsuario(Cliente usuario){
+        labelBoasVindas.setText("Olá, " + usuario.getNome() + "!");
+    }
 
     private void exibirAlertaErro(String titulo, String mensagem) {
         Alert alerta = new Alert(Alert.AlertType.ERROR);

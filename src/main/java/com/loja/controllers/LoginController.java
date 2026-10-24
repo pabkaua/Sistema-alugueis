@@ -56,9 +56,9 @@ public class LoginController {
             }
 
             try {
-                redirecionar(usuario);
+                redirecionar(usuario, event);
             } catch (NullPointerException e){
-                exibirAlerta("deu erro de nullpointer");
+                exibirAlerta("O controller da sidebar não foi encontrado");
             }
 
         } catch (RuntimeException e) {
@@ -66,11 +66,12 @@ public class LoginController {
         }
     }
 
-    private void redirecionar(Usuario usuario) {
+    private void redirecionar(Usuario usuario, ActionEvent event) {
         if (usuario instanceof Cliente cliente) {
             FXMLLoader loader = abrirTela("/ui/cliente/sidebar-cliente.fxml", "Área do Cliente");
             SidebarClienteController controller = loader.getController();
             controller.setContexto(facade, cliente);
+            controller.navegarDashboard(event);
         }
         /*
         else if (usuario instanceof Administrador adm) {

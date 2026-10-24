@@ -73,8 +73,6 @@ public class SidebarClienteController {
     public void initialize() {
         submenuPessoal.managedProperty().bind(submenuPessoal.visibleProperty());
         submenuRelatorios.managedProperty().bind(submenuRelatorios.visibleProperty());
-
-        carregarTela("/ui/cliente/dashboard-cliente.fxml");
     }
 
     @FXML
@@ -95,7 +93,19 @@ public class SidebarClienteController {
     // funções de navegação
     @FXML
     void navegarDashboard(ActionEvent event) {
-        carregarTela("/ui/cliente/dashboard-cliente.fxml");
+        try {
+            URL url = getClass().getResource("/ui/cliente/dashboard-cliente.fxml");
+            FXMLLoader loader = new FXMLLoader(url);
+            Node tela = loader.load();
+
+            DashboardClienteController controller = loader.getController();
+            controller.setUsuario(usuario);
+
+            conteudo.getChildren().setAll(tela);
+        } catch (IOException e) {
+            exibirAlertaErro("Erro de navegação", e.getMessage());
+            // debug e.printStackTrace();
+        }
     }
 
     @FXML
