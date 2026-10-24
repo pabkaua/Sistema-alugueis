@@ -95,6 +95,12 @@ public class SidebarClienteController {
     void navegarDashboard(ActionEvent event) {
         try {
             URL url = getClass().getResource("/ui/cliente/dashboard-cliente.fxml");
+
+            if (url == null) {
+                exibirAlertaErro("Erro de navegação", "O arquivo dashboard-cliente.fxml não foi localizado.");
+                return;
+            }
+
             FXMLLoader loader = new FXMLLoader(url);
             Node tela = loader.load();
 
@@ -112,6 +118,12 @@ public class SidebarClienteController {
     void navegarAlugueis(ActionEvent event) {
         try {
             URL url = getClass().getResource("/ui/cliente/alugueis-cliente.fxml");
+
+            if (url == null) {
+                exibirAlertaErro("Erro de navegação", "O arquivo alugueis-cliente.fxml não foi localizado.");
+                return;
+            }
+
             FXMLLoader loader = new FXMLLoader(url);
             Node tela = loader.load();
 
@@ -140,15 +152,23 @@ public class SidebarClienteController {
         try {
             URL url = getClass().getResource("/ui/LoginScreen.fxml");
             if (url == null) {
-                exibirAlertaErro("Não foi possivel fazer o logout", "O arquivo LoginScreen.fxml não foi localizado.");
+                exibirAlertaErro("Erro de navegação", "O arquivo LoginScreen.fxml não foi localizado.");
                 return;
             }
 
-            Parent telaLogin = FXMLLoader.load(url);
-            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow(); // pra ele saber em qual tela tá
+            FXMLLoader loader = new FXMLLoader(url);
+            Parent telaLogin = loader.load();
+
+            LoginController controller = loader.getController();
+            controller.setFacade(this.facade);
+
+            Node botaoLogoutClicado = (Node) event.getSource();
+            Stage stage = (Stage) botaoLogoutClicado.getScene().getWindow();
 
             Scene loginScene = new Scene(telaLogin);
             stage.setScene(loginScene);
+            stage.setTitle("A Loja que aluga tudo");
+            stage.centerOnScreen();
 
         } catch (IOException e) {
             exibirAlertaErro("Falha ao abrir a tela", "Houve um erro ao carregar a tela.");
