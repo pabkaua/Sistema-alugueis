@@ -1,5 +1,8 @@
 package com.loja.controllers;
 
+import com.loja.model.Cliente;
+import com.loja.padraofacade.LojaFacade;
+import com.loja.padraofacade.interfaces.ILojaFacade;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -30,6 +33,14 @@ public class SidebarClienteController {
     @FXML private VBox submenuPessoal;
     @FXML private VBox submenuRelatorios;
     @FXML private Label tituloLoja;
+
+    private Cliente usuario;
+    private ILojaFacade facade;
+
+    public void setContexto(ILojaFacade facade, Cliente cliente){
+        this.usuario = cliente;
+        this.facade = facade;
+    }
 
     @FXML
     public void initialize() {
@@ -86,7 +97,20 @@ public class SidebarClienteController {
 
     @FXML
     void navegarAlugueis(ActionEvent event) {
-        carregarTela("/ui/cliente/alugueis-cliente.fxml");
+        try {
+            URL url = getClass().getResource("/ui/cliente/alugueis-cliente.fxml");
+            FXMLLoader loader = new FXMLLoader(url);
+            Node tela = loader.load();
+
+            AlugueisClienteController controller = loader.getController();
+            controller.setDados(usuario, facade);
+
+            conteudo.getChildren().setAll(tela);
+            //carregarTela("/ui/cliente/alugueis-cliente.fxml");
+        } catch (IOException e) {
+            exibirAlertaErro("Erro de navegação", e.getMessage());
+            e.printStackTrace();
+        }
     }
 
     @FXML

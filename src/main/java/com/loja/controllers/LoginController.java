@@ -17,6 +17,7 @@ import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.net.URL;
 
 public class LoginController {
 
@@ -54,43 +55,62 @@ public class LoginController {
                 return;
             }
 
-            //redirecionar(usuario);
+            try {
+                redirecionar(usuario);
+            } catch (NullPointerException e){
+                exibirAlerta("deu erro de nullpointer");
+            }
 
         } catch (RuntimeException e) {
             exibirAlerta("Erro ao autenticar: " + e.getMessage());
         }
     }
 
+    private void redirecionar(Usuario usuario) {
+        if (usuario instanceof Cliente cliente) {
+            FXMLLoader loader = abrirTela("/ui/cliente/sidebar-cliente.fxml", "Área do Cliente");
+            SidebarClienteController controller = loader.getController();
+            controller.setContexto(facade, cliente);
+        }
+        /*
+        else if (usuario instanceof Administrador adm) {
+            FXMLLoader loader = abrirTela("/ui/admin/sidebar-admin.fxml", "Painel do Administrador");
+            ((MenuAdminController) loader.getController()).setContexto(facade, adm);
 
+        }
+        else if (usuario instanceof Funcionario func) {
+            FXMLLoader loader = abrirTela("/ui/funcionario/sidebar-funcionario.fxml", "Painel do Funcionário");
+            ((MenuFuncionarioController) loader.getController()).setContexto(facade, func);
 
-/*private void redirecionar(Usuario usuario)throws IOException {
-    if (usuario instanceof Administrador adm) {
-        FXMLLoader loader = abrirTela("/ui/admin/MenuAdmin.fxml", "Painel do Administrador");
-        ((MenuAdminController) loader.getController()).setContexto(facade, adm);
-
-    } else if (usuario instanceof Funcionario func) {
-        FXMLLoader loader = abrirTela("/ui/funcionario/MenuFuncionario.fxml", "Painel do Funcionário");
-        ((MenuFuncionarioController) loader.getController()).setContexto(facade, func);
-
-    } else if (usuario instanceof Cliente cliente) {
-        FXMLLoader loader = abrirTela("/ui/cliente/MenuCliente.fxml", "Área do Cliente");
-        ((MenuClienteController) loader.getController()).setContexto(facade, cliente);
+        }
+         */
     }
-}
 
-private FXMLLoader abrirTela(String caminhoFxml, String titulo) throws IOException {
-    FXMLLoader loader = new FXMLLoader(getClass().getResource(caminhoFxml));
-    Parent root = loader.load();
+    private FXMLLoader abrirTela(String caminhoFxml, String titulo) {
+        try {
+            URL url = getClass().getResource(caminhoFxml);
+            if (url == null) {
+                exibirAlerta("Arquivo não encontrado: " + caminhoFxml);
+                return null;
+            }
 
-    Stage stage = (Stage) botaoEntrar.getScene().getWindow();
-    stage.setTitle(titulo);
-    stage.setScene(new Scene(root));
-    stage.centerOnScreen();
+            FXMLLoader loader = new FXMLLoader(url);
+            Parent tela = loader.load();
 
-    return loader;
-}*/
+            Stage stage = (Stage) botaoEntrar.getScene().getWindow();
+            stage.setTitle(titulo);
+            stage.setScene(new Scene(tela));
+            stage.centerOnScreen();
 
-private void exibirAlerta(String msg) {
+            return loader;
+        } catch (IOException e) {
+            // debug  e.printStackTrace();
+            exibirAlerta("Erro ao carregar a interface.");
+            return null;
+        }
+    }
+
+    private void exibirAlerta(String msg) {
         Alert alerta = new Alert(Alert.AlertType.WARNING);
         alerta.setHeaderText(null);
         alerta.setContentText(msg);
