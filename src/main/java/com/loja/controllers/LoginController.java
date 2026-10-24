@@ -26,8 +26,13 @@ public class LoginController {
     @FXML private Button botaoEntrar;
     @FXML private TextField inputLogin;
     @FXML private PasswordField inputSenha;
-    public void setFacade(ILojaFacade facade) {
 
+    public void initialize(){
+        botaoEntrar.setOnAction(this::validarDados);
+        botaoEntrar.setDefaultButton(true);
+    }
+
+    public void setFacade(ILojaFacade facade) {
         this.facade = facade;
     }
 
