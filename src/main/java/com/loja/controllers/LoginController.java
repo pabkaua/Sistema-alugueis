@@ -23,18 +23,13 @@ public class LoginController {
 
     private ILojaFacade facade;
 
+    @FXML private Button botaoEntrar;
+    @FXML private TextField inputLogin;
+    @FXML private PasswordField inputSenha;
     public void setFacade(ILojaFacade facade) {
+
         this.facade = facade;
     }
-
-    @FXML
-    private Button botaoEntrar;
-
-    @FXML
-    private TextField inputLogin;
-
-    @FXML
-    private PasswordField inputSenha;
 
     @FXML
     void validarDados(ActionEvent event) {

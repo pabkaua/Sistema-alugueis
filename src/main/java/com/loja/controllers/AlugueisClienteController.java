@@ -23,35 +23,16 @@ import java.util.Map;
 
 public class AlugueisClienteController {
 
-    Cliente usuario;
-    ILojaFacade facade;
-    Map<String, ContratoAluguel> mapContratosBruta;
-
     private FilteredList<ContratoAluguel> listaContratosFiltrada;
 
-    @FXML
-    private Button botaoBuscar;
-
-    @FXML
-    private TextField campoBusca;
-
-    @FXML
-    private TableColumn<ContratoAluguel, String> colunaDataDevolucao;
-
-    @FXML
-    private TableColumn<ContratoAluguel, String> colunaDataLocacao;
-
-    @FXML
-    private TableColumn<ContratoAluguel, String> colunaID;
-
-    @FXML
-    private TableColumn<ContratoAluguel, String> colunaItem;
-
-    @FXML
-    private ComboBox<String> listaColuna;
-
-    @FXML
-    private TableView<ContratoAluguel> tabelaAlugueis;
+    @FXML private Button botaoBuscar;
+    @FXML private TextField campoBusca;
+    @FXML private TableColumn<ContratoAluguel, String> colunaDataDevolucao;
+    @FXML private TableColumn<ContratoAluguel, String> colunaDataLocacao;
+    @FXML private TableColumn<ContratoAluguel, String> colunaID;
+    @FXML private TableColumn<ContratoAluguel, String> colunaItem;
+    @FXML private ComboBox<String> listaColuna;
+    @FXML private TableView<ContratoAluguel> tabelaAlugueis;
 
     public void initialize() {
         listaColuna.getItems().addAll("Todas", "ID", "Item", "Data Locação", "Data Devolução");
@@ -75,16 +56,17 @@ public class AlugueisClienteController {
             LocalDate data = dado.getValue().getDataPrevDevolucao();
             return new SimpleStringProperty(data != null ? data.format(formatador) : "");
         });
+
+        campoBusca.setOnAction(this::buscarAluguel);
     }
 
     public void setDados(Cliente usuario, ILojaFacade facade) {
-        this.usuario = usuario;
-        this.facade = facade;
-        this.mapContratosBruta = facade.consultarHistoricoCliente(usuario.getId());
+
+        Map<String, ContratoAluguel> mapContratosBruta = facade.consultarHistoricoCliente(usuario.getId());
 
         ObservableList<ContratoAluguel> listaContratosBruta;
-        if (this.mapContratosBruta != null) {
-            listaContratosBruta = FXCollections.observableArrayList(this.mapContratosBruta.values());
+        if (mapContratosBruta != null) {
+            listaContratosBruta = FXCollections.observableArrayList(mapContratosBruta.values());
         } else {
             listaContratosBruta = FXCollections.observableArrayList();
         }
