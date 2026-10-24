@@ -1,4 +1,4 @@
-package com.loja.business;
+package com.loja.exceptions;
 
 public class BusinessException extends RuntimeException {
     public BusinessException(String message){

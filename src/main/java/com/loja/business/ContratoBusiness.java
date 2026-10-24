@@ -3,6 +3,7 @@ package com.loja.business;
 import com.loja.business.interfaces.IContratoBusiness;
 import com.loja.business.interfaces.IItemBusiness;
 import com.loja.business.interfaces.IUsuarioBusiness;
+import com.loja.exceptions.BusinessException;
 import com.loja.model.Cliente;
 import com.loja.model.ContratoAluguel;
 import com.loja.model.Item;

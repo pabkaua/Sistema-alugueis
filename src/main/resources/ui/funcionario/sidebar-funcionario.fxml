@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.paint.Color?>
+<?import javafx.scene.paint.LinearGradient?>
+<?import javafx.scene.paint.Stop?>
+<?import javafx.scene.text.Font?>
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="1080.0" prefWidth="1920.0" stylesheets="@../../css/sidebar-cliente.css" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.loja.controllers.SidebarFuncionarioController">
+  <left>
+    <VBox fx:id="sidebarVbox" minWidth="420.0" prefWidth="420.0" spacing="20.0" styleClass="sidebar" BorderPane.alignment="CENTER">
+      <padding>
+        <Insets bottom="24.0" left="24.0" right="24.0" top="24.0" />
+      </padding>
+      <children>
+        <Label fx:id="tituloLoja" alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" styleClass="titulo-loja" text="Aluga Tudo">
+          <font>
+            <Font size="40.0" />
+          </font>
+          <textFill>
+            <LinearGradient endX="1.0" endY="1.0">
+              <stops>
+                <Stop>
+                  <color>
+                    <Color red="1.0" green="1.0" blue="1.0" />
+                  </color>
+                </Stop>
+                <Stop offset="1.0">
+                  <color>
+                    <Color red="1.0" green="1.0" blue="1.0" />
+                  </color>
+                </Stop>
+              </stops>
+            </LinearGradient>
+          </textFill>
+        </Label>
+        <Button fx:id="botaoDashboard" alignment="BASELINE_LEFT" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#navegarDashboard" styleClass="btn-principal" text="📊   Dashboard" />
+        <VBox spacing="4.0">
+          <children>
+            <Button fx:id="btnFuncAlugueis" alignment="BASELINE_LEFT" maxWidth="1.7976931348623157E308" mnemonicParsing="false" styleClass="btn-principal" text="⌄   Alugueis" />
+            <VBox fx:id="submenuAlugueisFunc" spacing="4.0" styleClass="submenu-card" visible="false">
+              <padding>
+                <Insets bottom="6.0" left="8.0" right="8.0" top="6.0" />
+              </padding>
+              <children>
+                <Button fx:id="btnFuncRegistrarAluguel" alignment="BASELINE_LEFT" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#navegarAlugueis" styleClass="btn-subitem" text="○   Registrar Aluguel" />
+                <Button fx:id="btnFuncQuitarMulta" alignment="BASELINE_LEFT" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#navegarMultas" styleClass="btn-subitem" text="○   Quitar Multa" />
+              </children>
+            </VBox>
+          </children>
+        </VBox>
+            <VBox layoutX="34.0" layoutY="310.0" spacing="4.0">
+               <children>
+                  <Button fx:id="btnFuncGerenciarClientes" alignment="BASELINE_LEFT" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#alternarRelatorios" styleClass="btn-principal" text="⌄  Gerenciar Clientes" />
+                  <VBox fx:id="submenuGerenciarClientesFunc" spacing="4.0" styleClass="submenu-card" visible="false">
+                     <padding>
+                        <Insets bottom="6.0" left="8.0" right="8.0" top="6.0" />
+                     </padding>
+                     <children>
+                        <Button fx:id="btnFuncCadastrarCliente" alignment="BASELINE_LEFT" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#navegarItensDisponiveis" styleClass="btn-subitem" text="○   Cadastrar Cliente" />
+                     </children>
+                  </VBox>
+               </children>
+            </VBox>
+        <VBox spacing="4.0">
+          <children>
+            <Button fx:id="btnFuncRelatorios" alignment="BASELINE_LEFT" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#alternarRelatorios" styleClass="btn-principal" text="⌄   Relatórios" />
+            <VBox fx:id="submenuRelatoriosFunc" spacing="4.0" styleClass="submenu-card" visible="false">
+              <padding>
+                <Insets bottom="6.0" left="8.0" right="8.0" top="6.0" />
+              </padding>
+              <children>
+                <Button fx:id="btnFuncItensDisponiveis" alignment="BASELINE_LEFT" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#navegarItensDisponiveis" styleClass="btn-subitem" text="○   Itens disponíveis" />
+                        <Button fx:id="btnFuncContratosAtivos" alignment="BASELINE_LEFT" layoutX="18.0" layoutY="16.0" maxWidth="1.7976931348623157E308" mnemonicParsing="false" styleClass="btn-subitem" text="○   Contratos Ativos" />
+                        <Button fx:id="btnFuncContratosPorClientes" alignment="BASELINE_LEFT" layoutX="18.0" layoutY="54.0" maxWidth="1.7976931348623157E308" mnemonicParsing="false" styleClass="btn-subitem" text="○   Contratos por Cliente" />
+              </children>
+            </VBox>
+          </children>
+        </VBox>
+        <Region maxHeight="1.7976931348623157E308" minHeight="0.0" prefWidth="0.0" VBox.vgrow="ALWAYS" />
+        <Button fx:id="botaoLogout" alignment="CENTER" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#fazerLogout" styleClass="btn-logout" text="↪   Logout" />
+      </children>
+    </VBox>
+  </left>
+  <center>
+    <ScrollPane fitToHeight="true" fitToWidth="true" hbarPolicy="NEVER" minHeight="0.0" minWidth="0.0" style="-fx-background-color: #181721; -fx-background: transparent;" BorderPane.alignment="CENTER">
+      <content>
+        <StackPane fx:id="conteudo" styleClass="content-area" />
+      </content>
+    </ScrollPane>
+  </center>
+</BorderPane>

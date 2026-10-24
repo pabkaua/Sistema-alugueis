@@ -1,4 +1,5 @@
 package com.loja.repositories;
+import com.loja.exceptions.PersistenciaException;
 import com.loja.model.Categoria;
 import com.loja.model.Fornecedor;
 import com.loja.model.Item;

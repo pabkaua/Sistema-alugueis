@@ -1,5 +1,6 @@
 package com.loja.repositories;
 
+import com.loja.exceptions.PersistenciaException;
 import com.loja.model.Cliente;
 import com.loja.model.ContratoAluguel;
 import com.loja.model.Item;

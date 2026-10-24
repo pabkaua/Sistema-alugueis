@@ -1,8 +1,9 @@
 package com.loja.business;
 
 import com.loja.business.interfaces.IUsuarioBusiness;
+import com.loja.exceptions.BusinessException;
 import com.loja.model.Usuario;
-import com.loja.repositories.PersistenciaException;
+import com.loja.exceptions.PersistenciaException;
 import com.loja.repositories.interfaces.IUsuarioRepository;
 
 import java.util.Map;

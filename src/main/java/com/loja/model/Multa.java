@@ -20,10 +20,8 @@ public class Multa {
         this.valorDiario = valorDiario;
         this.diasAtraso = diasAtraso;
         this.status = status;
-        this.valorTotal = valorDiario.multiply(BigDecimal.valueOf(diasAtraso)); // multiplica o bigdecimal por um int
-
-        BigDecimal totalDiario = valorDiario.multiply(BigDecimal.valueOf(diasAtraso));
-        this.valorTotal = valorFixo.add(totalDiario);
+        BigDecimal totalDias = valorDiario.multiply(BigDecimal.valueOf(diasAtraso));
+        this.valorTotal = valorFixo != null ? valorFixo.add(totalDias) : totalDias;
     }
 
     public String getId(){

@@ -1,10 +1,11 @@
 package com.loja.business;
 
 import com.loja.business.interfaces.IItemBusiness;
+import com.loja.exceptions.BusinessException;
 import com.loja.model.Categoria;
 import com.loja.model.Fornecedor;
 import com.loja.model.Item;
-import com.loja.repositories.PersistenciaException;
+import com.loja.exceptions.PersistenciaException;
 import com.loja.repositories.interfaces.ICategoriaRepository;
 import com.loja.repositories.interfaces.IFornecedorRepository;
 import com.loja.repositories.interfaces.IItemRepository;
