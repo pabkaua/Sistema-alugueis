@@ -77,6 +77,48 @@ public class SidebarAdminController {
     submenuAdminRelatorios.managedProperty().bind(submenuAdminRelatorios.visibleProperty());
   }
 
+  public void setContexto(ILojaFacade facade, Administrador usuario){
+    this.facade = facade;
+    this.usuarioLogado = usuario;
+  }
+
+  // Menus
+  private void alternarSubmenu(VBox submenu, Button botaoPrincipal, String titulo){
+    boolean estaVisivel = submenu.isVisible();
+    submenu.setVisible(!estaVisivel);
+
+    if(!estaVisivel){
+      botaoPrincipal.setText("⌃   " + titulo);
+    } else {
+      botaoPrincipal.setText("⌄   " + titulo);
+    }
+  }
+
+  @FXML
+  void abrirMenuUsuarios(ActionEvent event){
+    alternarSubmenu(submenuAdminGerenciarUsuarios, btnAdminGerenciarUsuarios, "Gerenciar Usuários");
+  }
+
+  @FXML
+  void abrirMenuItens(ActionEvent event){
+    alternarSubmenu(submenuAdminGerenciarItens, btnAdminGerenciarItens, "Gerenciar Itens");
+  }
+
+  @FXML
+  void abrirMenuCategorias(ActionEvent event){
+    alternarSubmenu(submenuAdminGerenciarCategorias, btnAdminGerenciarCategorias, "Gerenciar Categorias");
+  }
+
+  @FXML
+  void abrirMenuFornecedores(ActionEvent event){
+    alternarSubmenu(submenuAdminGerenciarFornecedores, btnAdminGerenciarFornecedores, "Gerenciar Fornecedores");
+  }
+
+  @FXML
+  void abrirMenuRelatorios(ActionEvent event){
+    alternarSubmenu(submenuAdminRelatorios, btnAdminRelatorios, "Relatórios");
+  }
+
   @FXML
   void fazerLogout(ActionEvent event){
 
