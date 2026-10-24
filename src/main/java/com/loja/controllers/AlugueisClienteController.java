@@ -17,6 +17,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Map;
@@ -31,27 +32,31 @@ public class AlugueisClienteController {
     @FXML private TableColumn<ContratoAluguel, String> colunaDataLocacao;
     @FXML private TableColumn<ContratoAluguel, String> colunaID;
     @FXML private TableColumn<ContratoAluguel, String> colunaItem;
+    @FXML private TableColumn<ContratoAluguel, String> colunaStatus;
+    @FXML private TableColumn<ContratoAluguel, String> colunaValor;
     @FXML private ComboBox<String> listaColuna;
     @FXML private TableView<ContratoAluguel> tabelaAlugueis;
 
     public void initialize() {
-        listaColuna.getItems().addAll("Todas", "ID", "Item", "Data Locação", "Data Devolução");
+        DateTimeFormatter formatador = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+
+        listaColuna.getItems().addAll("Todas", "ID", "Item", "Data Locação", "Data Devolução", "Status", "Valor Total");
         listaColuna.setValue("Todas");
-
         colunaID.setCellValueFactory(dado -> new SimpleStringProperty(dado.getValue().getId()));
-
+        colunaStatus.setCellValueFactory(dado -> new SimpleStringProperty(dado.getValue().getStatus()));
         colunaItem.setCellValueFactory(dado -> {
             Item item = dado.getValue().getItem();
             return new SimpleStringProperty(item != null ? item.getNome() : "");
         });
-
-        DateTimeFormatter formatador = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-
+        colunaValor.setCellValueFactory(dado -> {
+            BigDecimal taxa = dado.getValue().getValorTotal();
+            String valorFormatado = taxa != null ? String.format("R$ %.2f", taxa).replace(".", ",") : "R$ 0,00";
+            return new SimpleStringProperty(valorFormatado);
+        });
         colunaDataLocacao.setCellValueFactory(dado -> {
             LocalDate data = dado.getValue().getDataRetirada();
             return new SimpleStringProperty(data != null ? data.format(formatador) : "");
         });
-
         colunaDataDevolucao.setCellValueFactory(dado -> {
             LocalDate data = dado.getValue().getDataPrevDevolucao();
             return new SimpleStringProperty(data != null ? data.format(formatador) : "");
@@ -97,13 +102,18 @@ public class AlugueisClienteController {
             String nomeItem = (contrato.getItem() != null && contrato.getItem().getNome() != null) ? contrato.getItem().getNome().toLowerCase() : "";
             String dataLocacao = contrato.getDataRetirada() != null ? contrato.getDataRetirada().format(formatadorData) : "";
             String dataDevolucao = contrato.getDataPrevDevolucao() != null ? contrato.getDataPrevDevolucao().format(formatadorData) : "";
+            String status = contrato.getStatus() != null ? contrato.getStatus().toLowerCase() : "STATUS NÃO DEFINIDO";
+            String valor = contrato.getValorTotal() != null ? String.format("%.2f", contrato.getValorTotal()).replace(".", ",") : "";
+
 
             if (colunaEscolhida == null || colunaEscolhida.equalsIgnoreCase("Todas")) {
                 // algum desses vai retornar true caso encontre o valor
                 return id.contains(formatado)
                         || nomeItem.contains(formatado)
                         || dataLocacao.contains(formatado)
-                        || dataDevolucao.contains(formatado);
+                        || dataDevolucao.contains(formatado)
+                        || status.contains(formatado)
+                        || valor.contains(formatado);
             }
 
             return switch (colunaEscolhida) {
@@ -111,6 +121,8 @@ public class AlugueisClienteController {
                 case "Item" -> nomeItem.contains(formatado);
                 case "Data Locação" -> dataLocacao.contains(formatado);
                 case "Data Devolução" -> dataDevolucao.contains(formatado);
+                case "Status" -> status.contains(formatado);
+                case "Valor Total" -> valor.contains(formatado);
                 default -> false;
             };
         });

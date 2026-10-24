@@ -34,6 +34,8 @@
           <TableColumn fx:id="colunaItem" prefWidth="400.0" text="Item" />
             <TableColumn fx:id="colunaDataLocacao" prefWidth="250.0" text="Data da locação" />
             <TableColumn fx:id="colunaDataDevolucao" prefWidth="250.0" text="Data de devolução" />
+            <TableColumn fx:id="colunaStatus" prefWidth="250.0" text="Status" />
+            <TableColumn fx:id="colunaValor" prefWidth="250.0" text="Valor total" />
         </columns>
          <columnResizePolicy>
             <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
