@@ -27,7 +27,6 @@ public class AlugueisClienteController {
     ILojaFacade facade;
     Map<String, ContratoAluguel> mapContratosBruta;
 
-    private ObservableList<ContratoAluguel> listaContratosBruta;
     private FilteredList<ContratoAluguel> listaContratosFiltrada;
 
     @FXML
@@ -83,13 +82,14 @@ public class AlugueisClienteController {
         this.facade = facade;
         this.mapContratosBruta = facade.consultarHistoricoCliente(usuario.getId());
 
+        ObservableList<ContratoAluguel> listaContratosBruta;
         if (this.mapContratosBruta != null) {
-            this.listaContratosBruta = FXCollections.observableArrayList(this.mapContratosBruta.values());
+            listaContratosBruta = FXCollections.observableArrayList(this.mapContratosBruta.values());
         } else {
-            this.listaContratosBruta = FXCollections.observableArrayList();
+            listaContratosBruta = FXCollections.observableArrayList();
         }
 
-        this.listaContratosFiltrada = new FilteredList<>(this.listaContratosBruta, aluguel -> true);
+        this.listaContratosFiltrada = new FilteredList<>(listaContratosBruta, aluguel -> true);
         SortedList<ContratoAluguel> listaContratosOrdenada = new SortedList<>(this.listaContratosFiltrada);
         listaContratosOrdenada.comparatorProperty().bind(tabelaAlugueis.comparatorProperty());
         tabelaAlugueis.setItems(listaContratosOrdenada);

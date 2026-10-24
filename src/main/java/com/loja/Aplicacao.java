@@ -43,7 +43,6 @@ public class Aplicacao extends Application {
     }
 
     protected ILojaFacade criarFacade(){
-        // facade
         return new LojaFacade();
     }
 

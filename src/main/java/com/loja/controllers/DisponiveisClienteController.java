@@ -36,7 +36,7 @@ public class DisponiveisClienteController {
 
     @FXML
     void buscar(ActionEvent event) {
-
+        // a fazer
     }
 
 }

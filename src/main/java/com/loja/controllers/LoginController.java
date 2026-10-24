@@ -55,11 +55,7 @@ public class LoginController {
                 return;
             }
 
-            try {
-                redirecionar(usuario, event);
-            } catch (NullPointerException e){
-                exibirAlerta("O controller da sidebar não foi encontrado");
-            }
+            redirecionar(usuario, event);
 
         } catch (RuntimeException e) {
             exibirAlerta("Erro ao autenticar: " + e.getMessage());
@@ -69,6 +65,10 @@ public class LoginController {
     private void redirecionar(Usuario usuario, ActionEvent event) {
         if (usuario instanceof Cliente cliente) {
             FXMLLoader loader = abrirTela("/ui/cliente/sidebar-cliente.fxml", "Área do Cliente");
+            if(loader == null){
+                exibirAlerta("Não foi possivel logar, houve um erro no redirecionamento da tela");
+                return;
+            }
             SidebarClienteController controller = loader.getController();
             controller.setContexto(facade, cliente);
             controller.navegarDashboard(event);
