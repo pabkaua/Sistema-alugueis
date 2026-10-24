@@ -1,5 +1,7 @@
 package com.loja.controllers;
 
+import com.loja.model.Cliente;
+import com.loja.padraofacade.interfaces.ILojaFacade;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -9,6 +11,9 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 
 public class MultasClienteController {
+
+    Cliente usuario;
+    ILojaFacade facade;
 
     @FXML
     private Button botaoBuscar;
@@ -36,6 +41,11 @@ public class MultasClienteController {
 
     @FXML
     private TableView<?> tabelaMultas;
+
+    public void setDados(Cliente usuario, ILojaFacade facade) {
+        this.usuario = usuario;
+        this.facade = facade;
+    }
 
     @FXML
     void buscarMulta(ActionEvent event) {

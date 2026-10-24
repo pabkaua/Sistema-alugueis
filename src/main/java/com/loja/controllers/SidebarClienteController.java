@@ -43,22 +43,6 @@ public class SidebarClienteController {
         this.facade = facade;
     }
 
-    private void carregarTela(String caminhoFXML) {
-        try {
-            URL url = getClass().getResource(caminhoFXML);
-            if (url == null) {
-                exibirAlertaErro("Arquivo não encontrado", "O arquivo '" + caminhoFXML + "' não foi localizado.");
-                return;
-            }
-
-            Node novaTela = FXMLLoader.load(url);
-            this.conteudo.getChildren().setAll(novaTela);
-
-        } catch (IOException e) {
-            exibirAlertaErro("Falha ao abrir a tela", "Houve um erro ao carregar a tela.");
-        }
-    }
-
     private void exibirAlertaErro(String titulo, String mensagem) {
         Alert alerta = new Alert(Alert.AlertType.ERROR);
         alerta.setTitle("Erro");
@@ -110,7 +94,6 @@ public class SidebarClienteController {
             conteudo.getChildren().setAll(tela);
         } catch (IOException e) {
             exibirAlertaErro("Erro de navegação", e.getMessage());
-            // debug e.printStackTrace();
         }
     }
 
@@ -133,18 +116,51 @@ public class SidebarClienteController {
             conteudo.getChildren().setAll(tela);
         } catch (IOException e) {
             exibirAlertaErro("Erro de navegação", e.getMessage());
-            // debug e.printStackTrace();
         }
     }
 
     @FXML
     void navegarMultas(ActionEvent event) {
-        carregarTela("/ui/cliente/multas-cliente.fxml");
+        try {
+            URL url = getClass().getResource("/ui/cliente/multas-cliente.fxml");
+
+            if (url == null) {
+                exibirAlertaErro("Erro de navegação", "O arquivo multas-cliente.fxml não foi localizado.");
+                return;
+            }
+
+            FXMLLoader loader = new FXMLLoader(url);
+            Node tela = loader.load();
+
+            MultasClienteController controller = loader.getController();
+            controller.setDados(usuario, facade);
+
+            conteudo.getChildren().setAll(tela);
+        } catch (IOException e) {
+            exibirAlertaErro("Erro de navegação", e.getMessage());
+        }
     }
 
     @FXML
     void navegarItensDisponiveis(ActionEvent event) {
-        carregarTela("/ui/cliente/disponiveis-cliente.fxml");
+        try {
+            URL url = getClass().getResource("/ui/cliente/disponiveis-cliente.fxml");
+
+            if (url == null) {
+                exibirAlertaErro("Erro de navegação", "O arquivo disponiveis-cliente.fxml não foi localizado.");
+                return;
+            }
+
+            FXMLLoader loader = new FXMLLoader(url);
+            Node tela = loader.load();
+
+            DisponiveisClienteController controller = loader.getController();
+            controller.setDados(facade);
+
+            conteudo.getChildren().setAll(tela);
+        } catch (IOException e) {
+            exibirAlertaErro("Erro de navegação", e.getMessage());
+        }
     }
 
     @FXML
