@@ -102,7 +102,7 @@ public class AlugueisClienteController {
             String nomeItem = (contrato.getItem() != null && contrato.getItem().getNome() != null) ? contrato.getItem().getNome().toLowerCase() : "";
             String dataLocacao = contrato.getDataRetirada() != null ? contrato.getDataRetirada().format(formatadorData) : "";
             String dataDevolucao = contrato.getDataPrevDevolucao() != null ? contrato.getDataPrevDevolucao().format(formatadorData) : "";
-            String status = contrato.getStatus() != null ? contrato.getStatus().toLowerCase() : "STATUS NÃO DEFINIDO";
+            String status = contrato.getStatus() != null ? contrato.getStatus().toLowerCase() : "";
             String valor = contrato.getValorTotal() != null ? String.format("%.2f", contrato.getValorTotal()).replace(".", ",") : "";
 
 

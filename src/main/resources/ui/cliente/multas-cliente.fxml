@@ -35,6 +35,7 @@
                 <TableColumn fx:id="colunaIdContrato" prefWidth="250.0" text="ID do contrato" />
             <TableColumn fx:id="colunaAtraso" prefWidth="250.0" text="Dias em atraso" />
                 <TableColumn fx:id="colunaValor" prefWidth="250.0" text="Valor" />
+            <TableColumn fx:id="colunaStatus" prefWidth="250.0" text="Status" />
             </columns>
             <columnResizePolicy>
                 <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
