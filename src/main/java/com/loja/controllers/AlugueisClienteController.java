@@ -1,5 +1,8 @@
 package com.loja.controllers;
 
+import com.loja.model.Cliente;
+import com.loja.model.ContratoAluguel;
+import com.loja.padraofacade.interfaces.ILojaFacade;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -8,8 +11,19 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 
+import java.util.Map;
+
 public class AlugueisClienteController {
 
+    Cliente usuario;
+    ILojaFacade facade;
+    Map<String, ContratoAluguel> historico;
+
+    public void setDados(Cliente usuario, ILojaFacade facade){
+        this.usuario = usuario;
+        this.facade = facade;
+        this.historico = facade.consultarHistoricoCliente(usuario.getId());
+    }
     @FXML
     private Button botaoBuscar;
 

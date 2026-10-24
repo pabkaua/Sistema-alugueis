@@ -48,25 +48,8 @@ public class Aplicacao extends Application {
     }
 
     protected ILojaFacade criarFacade(){
-
-        // camada de persistência
-        IUsuarioRepository usuarioRepo = new UsuarioPersistenciaCSV("dados/usuarios.csv");
-        IItemRepository itemRepo = new ItemPersistenciaCSV("dados/itens.csv");
-        ICategoriaRepository categoriaRepo = new CategoriaPersistenciaCSV("dados/categorias.csv");
-        IFornecedorRepository fornecedorRepo = new FornecedorPersistenciaCSV("dados/fornecedores.csv");
-        IContratoRepository contratoRepo = new ContratoPersistenciaCSV("dados/contratos.csv");
-        IMultaRepository multaRepo = new MultaPersistenciaCSV("dados/multas.csv");
-
-        // camada de negócio
-        IUsuarioBusiness usuarioBusiness = new UsuarioBusiness(usuarioRepo);
-        ICategoriaBusiness categoriaBusiness = new CategoriaBusiness(categoriaRepo);
-        IFornecedorBusiness fornecedorBusiness = new FornecedorBusiness(fornecedorRepo);
-        IItemBusiness itemBusiness = new ItemBusiness(itemRepo, categoriaRepo, fornecedorRepo);
-        IContratoBusiness contratoBusiness = new ContratoBusiness(contratoRepo, itemBusiness, usuarioBusiness);
-        IMultaBusiness multaBusiness = new MultaBusiness(multaRepo);
-
         // facade
-        return new LojaFacade(usuarioBusiness, itemBusiness, categoriaBusiness, fornecedorBusiness, contratoBusiness, multaBusiness);
+        return new LojaFacade();
     }
 
     private void exibirAlerta(String msg) {
