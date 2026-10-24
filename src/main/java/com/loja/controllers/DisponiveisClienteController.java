@@ -69,9 +69,6 @@ public class DisponiveisClienteController {
 
     @FXML
     void buscar(ActionEvent event) {
-        if (this.listaItensFiltrada == null) {
-            return;
-        }
 
         String valorBuscado = campoBusca.getText();
         String colunaEscolhida = listaColuna.getValue();
