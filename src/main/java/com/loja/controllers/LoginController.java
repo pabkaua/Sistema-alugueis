@@ -100,7 +100,6 @@ public class LoginController {
 
             return loader;
         } catch (IOException e) {
-            // debug  e.printStackTrace();
             exibirAlerta("Erro ao carregar a interface.");
             return null;
         }

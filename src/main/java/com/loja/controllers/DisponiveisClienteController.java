@@ -3,7 +3,6 @@ package com.loja.controllers;
 import com.loja.model.Item;
 import com.loja.padraofacade.interfaces.ILojaFacade;
 import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;

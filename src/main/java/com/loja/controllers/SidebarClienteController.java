@@ -1,7 +1,6 @@
 package com.loja.controllers;
 
 import com.loja.model.Cliente;
-import com.loja.padraofacade.LojaFacade;
 import com.loja.padraofacade.interfaces.ILojaFacade;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
