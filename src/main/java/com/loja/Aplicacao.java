@@ -1,12 +1,8 @@
 package com.loja;
 
-import com.loja.business.*;
-import com.loja.business.interfaces.*;
 import com.loja.controllers.LoginController;
 import com.loja.padraofacade.LojaFacade;
 import com.loja.padraofacade.interfaces.ILojaFacade;
-import com.loja.repositories.*;
-import com.loja.repositories.interfaces.*;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -42,7 +38,6 @@ public class Aplicacao extends Application {
             controller.setFacade(criarFacade());
 
         } catch (IOException e) {
-            // debug e.printStackTrace();
             exibirAlerta("Erro ao carregar a interface.");
         }
     }
