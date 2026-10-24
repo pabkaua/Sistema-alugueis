@@ -22,8 +22,8 @@ public class SidebarAdminController {
   @FXML private Button btnAdminListarItens;
   @FXML private StackPane conteudo;
   @FXML private VBox sidebarVbox;
-  @FXML private submenuAdminGerenciarItens;
-  @FXML private submenuAdminGerenciarUsuarios;
+  @FXML private VBox submenuAdminGerenciarItens;
+  @FXML private VBox submenuAdminGerenciarUsuarios;
   @FXML private Label tituloLoja;
 
 
