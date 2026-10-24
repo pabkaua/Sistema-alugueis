@@ -37,33 +37,10 @@ public class SidebarClienteController {
     private Cliente usuario;
     private ILojaFacade facade;
 
+    // funções da classe
     public void setContexto(ILojaFacade facade, Cliente cliente){
         this.usuario = cliente;
         this.facade = facade;
-    }
-
-    @FXML
-    public void initialize() {
-        // esse .bind vai meio que cruzar as propriedades, fazendo uma se espelhar na outra
-        // managed serve pra dizer se o componente conta ou não no calculo dos tamanho
-        submenuPessoal.managedProperty().bind(submenuPessoal.visibleProperty());
-        submenuRelatorios.managedProperty().bind(submenuRelatorios.visibleProperty());
-
-        carregarTela("/ui/cliente/dashboard-cliente.fxml");
-    }
-
-    @FXML
-    void alternarPessoal(ActionEvent event) {
-        boolean visivel = !submenuPessoal.isVisible();
-        submenuPessoal.setVisible(visivel);
-        botaoPessoal.setText(visivel ? "⌃   Pessoal" : "⌄   Pessoal");
-    }
-
-    @FXML
-    void alternarRelatorios(ActionEvent event) {
-        boolean visivel = !submenuRelatorios.isVisible();
-        submenuRelatorios.setVisible(visivel);
-        botaoRelatorios.setText(visivel ? "⌃   Relatórios" : "⌄   Relatórios");
     }
 
     private void carregarTela(String caminhoFXML) {
@@ -89,7 +66,33 @@ public class SidebarClienteController {
         alerta.setContentText(mensagem);
         alerta.showAndWait();
     }
+    // ====================================================================================
 
+    // funções do fxml
+    @FXML
+    public void initialize() {
+        submenuPessoal.managedProperty().bind(submenuPessoal.visibleProperty());
+        submenuRelatorios.managedProperty().bind(submenuRelatorios.visibleProperty());
+
+        carregarTela("/ui/cliente/dashboard-cliente.fxml");
+    }
+
+    @FXML
+    void alternarPessoal(ActionEvent event) {
+        boolean visivel = !submenuPessoal.isVisible();
+        submenuPessoal.setVisible(visivel);
+        botaoPessoal.setText(visivel ? "⌃   Pessoal" : "⌄   Pessoal");
+    }
+
+    @FXML
+    void alternarRelatorios(ActionEvent event) {
+        boolean visivel = !submenuRelatorios.isVisible();
+        submenuRelatorios.setVisible(visivel);
+        botaoRelatorios.setText(visivel ? "⌃   Relatórios" : "⌄   Relatórios");
+    }
+    // ====================================================================================
+
+    // funções de navegação
     @FXML
     void navegarDashboard(ActionEvent event) {
         carregarTela("/ui/cliente/dashboard-cliente.fxml");
@@ -106,10 +109,9 @@ public class SidebarClienteController {
             controller.setDados(usuario, facade);
 
             conteudo.getChildren().setAll(tela);
-            //carregarTela("/ui/cliente/alugueis-cliente.fxml");
         } catch (IOException e) {
             exibirAlertaErro("Erro de navegação", e.getMessage());
-            e.printStackTrace();
+            // debug e.printStackTrace();
         }
     }
 
@@ -142,4 +144,5 @@ public class SidebarClienteController {
             exibirAlertaErro("Falha ao abrir a tela", "Houve um erro ao carregar a tela.");
         }
     }
+    // ====================================================================================
 }
