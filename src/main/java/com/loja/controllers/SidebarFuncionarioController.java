@@ -47,27 +47,26 @@ public class SidebarFuncionarioController {
 
     @FXML
     void alternarAlugueis(ActionEvent event) {
-        alternarSubmenu(submenuAlugueisFunc);
+        //alternarSubmenu(submenuAlugueisFunc);
     }
 
     @FXML
     void alternarGerenciarClientes(ActionEvent event) {
-        alternarSubmenu(submenuGerenciarClientesFunc);
+        //alternarSubmenu(submenuGerenciarClientesFunc);
     }
 
     @FXML
     void alternarRelatorios(ActionEvent event) {
-        alternarSubmenu(submenuRelatoriosFunc);
-    }
 
-    private void alternarSubmenu(VBox submenu) {
-        boolean mostrar = !submenu.isVisible();
-        submenu.setVisible(mostrar);
-        submenu.setManaged(mostrar);
     }
 
     @FXML
     void fazerLogout(ActionEvent event) {
+
+    }
+
+    @FXML
+    void navegarAlugueis(ActionEvent event) {
 
     }
 
@@ -77,32 +76,13 @@ public class SidebarFuncionarioController {
     }
 
     @FXML
-    void navegarRegistrarAluguel(ActionEvent event) {
-
-    }
-
-    @FXML
-    void navegarQuitarMulta(ActionEvent event) {
-
-    }
-
-    @FXML
-    void navegarCadastrarCliente(ActionEvent event) {
-
-    }
-
-    @FXML
     void navegarItensDisponiveis(ActionEvent event) {
 
     }
 
     @FXML
-    void navegarContratosAtivos(ActionEvent event) {
+    void navegarMultas(ActionEvent event) {
 
     }
 
-    @FXML
-    void navegarContratosPorCliente(ActionEvent event) {
-
-    }
 }
