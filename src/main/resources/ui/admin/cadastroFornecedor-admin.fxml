@@ -22,22 +22,22 @@
             <Insets top="20.0" />
          </padding>
       </Label>
-      <TextField maxWidth="-Infinity" prefHeight="45.0" prefWidth="300.0" promptText="ID">
+      <TextField fx:id="CadastroID" maxWidth="-Infinity" prefHeight="45.0" prefWidth="300.0" promptText="ID">
          <VBox.margin>
             <Insets left="25.0" top="20.0" />
          </VBox.margin>
       </TextField>
-      <TextField layoutX="37.0" layoutY="99.0" maxWidth="-Infinity" prefHeight="45.0" prefWidth="300.0" promptText="NOME">
+      <TextField fx:id="CadastroNome" layoutX="37.0" layoutY="99.0" maxWidth="-Infinity" prefHeight="45.0" prefWidth="300.0" promptText="NOME">
          <VBox.margin>
             <Insets left="25.0" top="20.0" />
          </VBox.margin>
       </TextField>
-      <TextField layoutX="37.0" layoutY="164.0" maxWidth="-Infinity" prefHeight="45.0" prefWidth="300.0" promptText="CNPJ">
+      <TextField fx:id="CadastroCnpj" layoutX="37.0" layoutY="164.0" maxWidth="-Infinity" prefHeight="45.0" prefWidth="300.0" promptText="CNPJ">
          <VBox.margin>
             <Insets left="25.0" top="20.0" />
          </VBox.margin>
       </TextField>
-      <TextField layoutX="37.0" layoutY="229.0" maxWidth="-Infinity" prefHeight="45.0" prefWidth="300.0" promptText="CELL">
+      <TextField fx:id="CadastroTel" layoutX="37.0" layoutY="229.0" maxWidth="-Infinity" prefHeight="45.0" prefWidth="300.0" promptText="CELL">
          <VBox.margin>
             <Insets left="25.0" top="20.0" />
          </VBox.margin>
