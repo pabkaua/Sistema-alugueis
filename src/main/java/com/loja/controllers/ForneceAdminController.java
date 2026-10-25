@@ -1,5 +1,6 @@
 package com.loja.controllers;
 
+import com.loja.model.Fornecedor;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -20,22 +21,22 @@ public class ForneceAdminController {
     private TextField campoBusca;
 
     @FXML
-    private TableColumn<?, ?> colunaCNPJ;
+    private TableColumn<Fornecedor, String> colunaCNPJ;
 
     @FXML
-    private TableColumn<?, ?> colunaID;
+    private TableColumn<Fornecedor, String> colunaID;
 
     @FXML
-    private TableColumn<?, ?> colunaNome;
+    private TableColumn<Fornecedor, String>colunaNome;
 
     @FXML
-    private TableColumn<?, ?> colunaTelefone;
+    private TableColumn<Fornecedor, String> colunaTelefone;
 
     @FXML
-    private ComboBox<?> listaColuna;
+    private ComboBox<String> listaColuna;
 
     @FXML
-    private TableView<?> tabela;
+    private TableView<Fornecedor> tabela;
 
     @FXML
     void buscar(ActionEvent event) {
