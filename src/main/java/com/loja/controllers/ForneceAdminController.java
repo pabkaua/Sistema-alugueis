@@ -4,6 +4,7 @@ import com.loja.model.Fornecedor;
 import com.loja.padraofacade.interfaces.ILojaFacade;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.collections.transformation.FilteredList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -11,6 +12,7 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.scene.control.cell.PropertyValueFactory;
 
 public class ForneceAdminController {
 
@@ -44,6 +46,15 @@ public class ForneceAdminController {
     private ILojaFacade facade;
 
     private final ObservableList<Fornecedor> dados = FXCollections.observableArrayList();
+    private FilteredList<Fornecedor> filtrados;
+
+    @FXML public void initialize(){
+        colunaID.setCellValueFactory(new PropertyValueFactory<>("id"));
+        colunaNome.setCellValueFactory(new PropertyValueFactory<>("nome"));
+        colunaCNPJ.setCellValueFactory(new PropertyValueFactory<>("cnpj"));
+        colunaTelefone.setCellValueFactory(new PropertyValueFactory<>("telefone"));
+
+    }
 
     @FXML
     void buscar(ActionEvent event) {
