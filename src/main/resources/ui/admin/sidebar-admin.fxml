@@ -44,7 +44,7 @@
             <Button fx:id="botaoDashboard" alignment="BASELINE_LEFT" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#navegarDashboard" styleClass="btn-principal" text="📊   Dashboard" />
             <VBox spacing="4.0">
                <children>
-                  <Button fx:id="btnAdminGerenciarUsuarios" alignment="BASELINE_LEFT" maxWidth="1.7976931348623157E308" mnemonicParsing="false" styleClass="btn-principal" text="⌄   Gerenciar Usuários" />
+                  <Button fx:id="btnAdminGerenciarUsuarios" alignment="BASELINE_LEFT" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#abrirMenuUsuarios" styleClass="btn-principal" text="⌄   Gerenciar Usuários" />
                   <VBox fx:id="submenuAdminGerenciarUsuarios" spacing="4.0" styleClass="submenu-card" visible="false">
                      <padding>
                         <Insets bottom="6.0" left="8.0" right="8.0" top="6.0" />
@@ -60,7 +60,7 @@
             </VBox>
             <VBox spacing="4.0">
                <children>
-                  <Button fx:id="btnAdminGerenciarItens" alignment="BASELINE_LEFT" maxWidth="1.7976931348623157E308" mnemonicParsing="false" styleClass="btn-principal" text="⌄   Gerenciar Itens" />
+                  <Button fx:id="btnAdminGerenciarItens" alignment="BASELINE_LEFT" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#abrirMenuItens" styleClass="btn-principal" text="⌄   Gerenciar Itens" />
                   <VBox fx:id="submenuAdminGerenciarItens" spacing="4.0" styleClass="submenu-card" visible="false">
                      <padding>
                         <Insets bottom="6.0" left="8.0" right="8.0" top="6.0" />
@@ -76,7 +76,7 @@
             </VBox>
             <VBox layoutX="34.0" layoutY="386.0" spacing="4.0">
                <children>
-                  <Button fx:id="btnAdminGerenciarCategorias" alignment="BASELINE_LEFT" maxWidth="1.7976931348623157E308" mnemonicParsing="false" styleClass="btn-principal" text="⌄   Gerenciar Categorias" />
+                  <Button fx:id="btnAdminGerenciarCategorias" alignment="BASELINE_LEFT" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#abrirMenuCategorias" styleClass="btn-principal" text="⌄   Gerenciar Categorias" />
                   <VBox fx:id="submenuAdminGerenciarCategorias" spacing="4.0" styleClass="submenu-card" visible="false">
                      <padding>
                         <Insets bottom="6.0" left="8.0" right="8.0" top="6.0" />
@@ -92,7 +92,7 @@
             </VBox>
             <VBox layoutX="34.0" layoutY="610.0" spacing="4.0">
                <children>
-                  <Button fx:id="btnAdminGerenciarFornecedores" alignment="BASELINE_LEFT" maxWidth="1.7976931348623157E308" mnemonicParsing="false" styleClass="btn-principal" text="⌄   Gerenciar Fornecedores" />
+                  <Button fx:id="btnAdminGerenciarFornecedores" alignment="BASELINE_LEFT" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#abrirMenuFornecedores" styleClass="btn-principal" text="⌄   Gerenciar Fornecedores" />
                   <VBox fx:id="submenuAdminGerenciarFornecedores" spacing="4.0" styleClass="submenu-card" visible="false">
                      <padding>
                         <Insets bottom="6.0" left="8.0" right="8.0" top="6.0" />
@@ -108,7 +108,7 @@
             </VBox>
             <VBox layoutX="34.0" layoutY="834.0" spacing="4.0">
                <children>
-                  <Button fx:id="btnAdminRelatorios" alignment="BASELINE_LEFT" maxWidth="1.7976931348623157E308" mnemonicParsing="false" styleClass="btn-principal" text="⌄   Relatórios" />
+                  <Button fx:id="btnAdminRelatorios" alignment="BASELINE_LEFT" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#abrirMenuRelatorios" styleClass="btn-principal" text="⌄   Relatórios" />
                   <VBox fx:id="submenuAdminRelatorios" spacing="4.0" styleClass="submenu-card" visible="false">
                      <padding>
                         <Insets bottom="6.0" left="8.0" right="8.0" top="6.0" />
