@@ -54,6 +54,8 @@ public class ForneceAdminController {
         colunaCNPJ.setCellValueFactory(new PropertyValueFactory<>("cnpj"));
         colunaTelefone.setCellValueFactory(new PropertyValueFactory<>("telefone"));
 
+        listaColuna.getItems().addAll("Todos", "ID", "Nome","CNPJ", "Telefone");
+        listaColuna.getSelectionModel().select("Todos");
     }
 
     @FXML
