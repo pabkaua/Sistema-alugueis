@@ -1,6 +1,9 @@
 package com.loja.controllers;
 
 import com.loja.model.Fornecedor;
+import com.loja.padraofacade.interfaces.ILojaFacade;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -37,6 +40,10 @@ public class ForneceAdminController {
 
     @FXML
     private TableView<Fornecedor> tabela;
+
+    private ILojaFacade facade;
+
+    private final ObservableList<Fornecedor> dados = FXCollections.observableArrayList();
 
     @FXML
     void buscar(ActionEvent event) {
