@@ -73,6 +73,11 @@ public class LoginController {
             controller.setContexto(facade, cliente);
             controller.navegarDashboard(event);
         }
+        else if (usuario instanceof Administrador adm){
+          FXMLLoader loader = abrirTela("/ui/admin/sidebar-admin.fxml", "Painel do Administrador");
+          SidebarAdminController controller = loader.getController();
+           controller.setContexto(facade, adm);
+        }
         /*
         else if (usuario instanceof Administrador adm) {
             FXMLLoader loader = abrirTela("/ui/admin/sidebar-admin.fxml", "Painel do Administrador");
