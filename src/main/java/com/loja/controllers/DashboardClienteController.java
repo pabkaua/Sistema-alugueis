@@ -20,19 +20,11 @@ public class DashboardClienteController {
         labelBoasVindas.setText("Olá, " + usuario.getNome() + "!");
     }
 
-    private void exibirAlertaErro(String titulo, String mensagem) {
-        Alert alerta = new Alert(Alert.AlertType.ERROR);
-        alerta.setTitle("Erro");
-        alerta.setHeaderText(titulo);
-        alerta.setContentText(mensagem);
-        alerta.showAndWait();
-    }
-
     private void carregarTela(MouseEvent event, String caminhoFXML) {
         try {
             URL url = getClass().getResource(caminhoFXML);
             if (url == null) {
-                exibirAlertaErro("Arquivo não encontrado", "O arquivo '" + caminhoFXML + "' não foi localizado.");
+                Alerta.exibirAlertaErro("Arquivo não encontrado", "O arquivo '" + caminhoFXML + "' não foi localizado.");
                 return;
             }
 
@@ -44,11 +36,11 @@ public class DashboardClienteController {
             if (conteudo != null) {
                 conteudo.getChildren().setAll(novaTela);
             } else {
-                exibirAlertaErro("Falha ao abrir a tela", "Houve um erro ao carregar a tela.");
+                Alerta.exibirAlertaErro("Falha ao abrir a tela", "Houve um erro ao carregar a tela.");
             }
 
         } catch (IOException e) {
-            exibirAlertaErro("Falha ao abrir a tela", "Houve um erro ao carregar a tela.");
+            Alerta.exibirAlertaErro("Falha ao abrir a tela", "Houve um erro ao carregar a tela.");
         }
     }
 

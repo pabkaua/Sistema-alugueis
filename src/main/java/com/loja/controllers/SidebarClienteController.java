@@ -42,13 +42,6 @@ public class SidebarClienteController {
         this.facade = facade;
     }
 
-    private void exibirAlertaErro(String titulo, String mensagem) {
-        Alert alerta = new Alert(Alert.AlertType.ERROR);
-        alerta.setTitle("Erro");
-        alerta.setHeaderText(titulo);
-        alerta.setContentText(mensagem);
-        alerta.showAndWait();
-    }
     // ====================================================================================
 
     // funções do fxml
@@ -80,7 +73,7 @@ public class SidebarClienteController {
             URL url = getClass().getResource("/ui/cliente/dashboard-cliente.fxml");
 
             if (url == null) {
-                exibirAlertaErro("Erro de navegação", "O arquivo dashboard-cliente.fxml não foi localizado.");
+                Alerta.exibirAlertaErro("Erro de navegação", "O arquivo dashboard-cliente.fxml não foi localizado.");
                 return;
             }
 
@@ -92,7 +85,7 @@ public class SidebarClienteController {
 
             conteudo.getChildren().setAll(tela);
         } catch (IOException e) {
-            exibirAlertaErro("Erro de navegação", e.getMessage());
+            Alerta.exibirAlertaErro("Erro de navegação", e.getMessage());
         }
     }
 
@@ -102,7 +95,7 @@ public class SidebarClienteController {
             URL url = getClass().getResource("/ui/cliente/alugueis-cliente.fxml");
 
             if (url == null) {
-                exibirAlertaErro("Erro de navegação", "O arquivo alugueis-cliente.fxml não foi localizado.");
+                Alerta.exibirAlertaErro("Erro de navegação", "O arquivo alugueis-cliente.fxml não foi localizado.");
                 return;
             }
 
@@ -114,7 +107,7 @@ public class SidebarClienteController {
 
             conteudo.getChildren().setAll(tela);
         } catch (IOException e) {
-            exibirAlertaErro("Erro de navegação", e.getMessage());
+            Alerta.exibirAlertaErro("Erro de navegação", e.getMessage());
         }
     }
 
@@ -124,7 +117,7 @@ public class SidebarClienteController {
             URL url = getClass().getResource("/ui/cliente/multas-cliente.fxml");
 
             if (url == null) {
-                exibirAlertaErro("Erro de navegação", "O arquivo multas-cliente.fxml não foi localizado.");
+                Alerta.exibirAlertaErro("Erro de navegação", "O arquivo multas-cliente.fxml não foi localizado.");
                 return;
             }
 
@@ -136,7 +129,7 @@ public class SidebarClienteController {
 
             conteudo.getChildren().setAll(tela);
         } catch (IOException e) {
-            exibirAlertaErro("Erro de navegação", e.getMessage());
+            Alerta.exibirAlertaErro("Erro de navegação", e.getMessage());
         }
     }
 
@@ -146,7 +139,7 @@ public class SidebarClienteController {
             URL url = getClass().getResource("/ui/cliente/disponiveis-cliente.fxml");
 
             if (url == null) {
-                exibirAlertaErro("Erro de navegação", "O arquivo disponiveis-cliente.fxml não foi localizado.");
+                Alerta.exibirAlertaErro("Erro de navegação", "O arquivo disponiveis-cliente.fxml não foi localizado.");
                 return;
             }
 
@@ -158,7 +151,7 @@ public class SidebarClienteController {
 
             conteudo.getChildren().setAll(tela);
         } catch (IOException e) {
-            exibirAlertaErro("Erro de navegação", e.getMessage());
+            Alerta.exibirAlertaErro("Erro de navegação", e.getMessage());
         }
     }
 
@@ -167,7 +160,7 @@ public class SidebarClienteController {
         try {
             URL url = getClass().getResource("/ui/LoginScreen.fxml");
             if (url == null) {
-                exibirAlertaErro("Erro de navegação", "O arquivo LoginScreen.fxml não foi localizado.");
+                Alerta.exibirAlertaErro("Erro de navegação", "O arquivo LoginScreen.fxml não foi localizado.");
                 return;
             }
 
@@ -186,7 +179,7 @@ public class SidebarClienteController {
             stage.centerOnScreen();
 
         } catch (IOException e) {
-            exibirAlertaErro("Falha ao abrir a tela", "Houve um erro ao carregar a tela.");
+            Alerta.exibirAlertaErro("Falha ao abrir a tela", "Houve um erro ao carregar a tela.");
         }
     }
     // ====================================================================================
