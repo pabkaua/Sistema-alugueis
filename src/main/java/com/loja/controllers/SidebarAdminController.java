@@ -148,7 +148,7 @@ public class SidebarAdminController {
   }
 
   @FXML
-  void navegarDashBoard(ActionEvent event){
+  void navegarDashboard(ActionEvent event){
     // carregar uma tela de dashboard
   }
 
