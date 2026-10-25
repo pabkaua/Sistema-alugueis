@@ -13,6 +13,8 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import java.net.URL;
+import java.io.IOException;
 
 public class SidebarAdminController {
 
