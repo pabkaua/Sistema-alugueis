@@ -119,14 +119,35 @@ public class SidebarAdminController {
     alternarSubmenu(submenuAdminRelatorios, btnAdminRelatorios, "Relatórios");
   }
 
+  private void exibirAlertaErro(String mensagem){
+    Alert alerta = new Alert(Alert.AlertType.ERROR);
+    alerta.setTitle("Erro");
+    alerta.setHeaderText(null);
+    alerta.setContentText(mensagem);
+    alerta.showAndWait();
+  }
   @FXML
   void fazerLogout(ActionEvent event){
+    try{
+      URL url = getClass().getResource("/ui/LoginScreen.fxml");
+      FXMLLoader loader = new FXMLLoader(url);
+      Parent root = loader.load();
 
+      LoginController controller = loader.getController();
+      controller.setFacade(this.facade);
+
+      Stage stage = (Stage) botaoLogout.getScene().getWindow();
+      stage.setScene(new Scene(root));
+      stage.setTitle("Login - Aluga Tudo");
+    } catch (IOException e){
+      e.printStackTrace();
+      exibirAlertaErro("Erro ao carregar a tela de login.");
+    }
   }
 
   @FXML
   void navegarDashBoard(ActionEvent event){
-
+    // carregar uma tela de dashboard
   }
 
 }
