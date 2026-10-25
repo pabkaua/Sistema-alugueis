@@ -63,6 +63,14 @@ public class ForneceAdminController {
         ordenados.comparatorProperty().bind(tabela.comparatorProperty());
         tabela.setItems(ordenados);
 
+        campoBusca.textProperty().addListener((obs, antigo, novo) -> aplicarFiltro());
+
+
+
+    }
+
+    private void aplicarFiltro(){
+        String texto = campoBusca.getText() == null ? "" : campoBusca.getText().toLowerCase().trim();
     }
 
     @FXML
