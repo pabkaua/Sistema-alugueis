@@ -74,6 +74,16 @@
                     </archive>
                 </configuration>
             </plugin>
+
+            <!-- Plugin para rodar o JavaFX com mvn javafx:run -->
+            <plugin>
+                <groupId>org.openjfx</groupId>
+                <artifactId>javafx-maven-plugin</artifactId>
+                <version>0.0.8</version>
+                <configuration>
+                    <mainClass>com.loja.Main</mainClass>
+                </configuration>
+            </plugin>
         </plugins>
     </build>
 
