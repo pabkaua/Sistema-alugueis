@@ -10,7 +10,6 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
@@ -81,6 +80,7 @@ public class LoginController {
             }
             SidebarAdminController controller = loader.getController();
             controller.setContexto(facade, adm);
+            controller.navegarDashboard(event);
         }
         /*
         else if (usuario instanceof Administrador adm) {
