@@ -1,12 +1,14 @@
 package com.loja.controllers;
 
 import com.loja.model.Cliente;
+import com.loja.padraofacade.interfaces.ILojaFacade;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.StackPane;
+import javafx.scene.layout.Pane;
 
 import java.io.IOException;
 import java.net.URL;
@@ -14,48 +16,80 @@ import java.net.URL;
 public class DashboardClienteController {
 
     @FXML private Label labelBoasVindas;
+    private ILojaFacade facade;
+    private Cliente usuario;
+    private Pane conteudo;
 
-    public void setUsuario(Cliente usuario){
+    public void setDados(Cliente usuario, ILojaFacade facade, Pane conteudo){
         labelBoasVindas.setText("Olá, " + usuario.getNome() + "!");
+        this.usuario = usuario;
+        this.facade = facade;
+        this.conteudo = conteudo;
     }
 
-    private void carregarTela(MouseEvent event, String caminhoFXML) {
+    @FXML
+    void navegarAlugueis() {
         try {
-            URL url = getClass().getResource(caminhoFXML);
+            URL url = getClass().getResource("/ui/cliente/alugueis-cliente.fxml");
+
             if (url == null) {
-                Alerta.exibirAlertaErro("Arquivo não encontrado", "O arquivo '" + caminhoFXML + "' não foi localizado.");
+                Alerta.exibirAlertaErro("Erro de navegação", "O arquivo alugueis-cliente.fxml não foi localizado.");
                 return;
             }
 
-            Node novaTela = FXMLLoader.load(url);
+            FXMLLoader loader = new FXMLLoader(url);
+            Node tela = loader.load();
 
-            Node origem = (Node) event.getSource();
-            StackPane conteudo = (StackPane) origem.getScene().lookup("#conteudo");
+            AlugueisClienteController controller = loader.getController();
+            controller.setDados(usuario, facade);
 
-            if (conteudo != null) {
-                conteudo.getChildren().setAll(novaTela);
-            } else {
-                Alerta.exibirAlertaErro("Falha ao abrir a tela", "Houve um erro ao carregar a tela.");
-            }
-
+            conteudo.getChildren().setAll(tela);
         } catch (IOException e) {
-            Alerta.exibirAlertaErro("Falha ao abrir a tela", "Houve um erro ao carregar a tela.");
+            Alerta.exibirAlertaErro("Erro de navegação", e.getMessage());
         }
     }
 
     @FXML
-    void navegarAlugueis(MouseEvent event) {
-        carregarTela(event, "/ui/cliente/alugueis-cliente.fxml");
+    void navegarItensDisponiveis() {
+        try {
+            URL url = getClass().getResource("/ui/cliente/disponiveis-cliente.fxml");
+
+            if (url == null) {
+                Alerta.exibirAlertaErro("Erro de navegação", "O arquivo disponiveis-cliente.fxml não foi localizado.");
+                return;
+            }
+
+            FXMLLoader loader = new FXMLLoader(url);
+            Node tela = loader.load();
+
+            DisponiveisClienteController controller = loader.getController();
+            controller.setDados(facade);
+
+            conteudo.getChildren().setAll(tela);
+        } catch (IOException e) {
+            Alerta.exibirAlertaErro("Erro de navegação", e.getMessage());
+        }
     }
 
     @FXML
-    void navegarItensDisponiveis(MouseEvent event) {
-        carregarTela(event, "/ui/cliente/disponiveis-cliente.fxml");
-    }
+    void navegarMultas() {
+        try {
+            URL url = getClass().getResource("/ui/cliente/multas-cliente.fxml");
 
-    @FXML
-    void navegarMultas(MouseEvent event) {
-        carregarTela(event, "/ui/cliente/multas-cliente.fxml");
-    }
+            if (url == null) {
+                Alerta.exibirAlertaErro("Erro de navegação", "O arquivo multas-cliente.fxml não foi localizado.");
+                return;
+            }
 
+            FXMLLoader loader = new FXMLLoader(url);
+            Node tela = loader.load();
+
+            MultasClienteController controller = loader.getController();
+            controller.setDados(usuario, facade);
+
+            conteudo.getChildren().setAll(tela);
+        } catch (IOException e) {
+            Alerta.exibirAlertaErro("Erro de navegação", e.getMessage());
+        }
+    }
 }

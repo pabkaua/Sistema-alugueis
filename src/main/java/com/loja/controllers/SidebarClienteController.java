@@ -80,7 +80,7 @@ public class SidebarClienteController {
             Node tela = loader.load();
 
             DashboardClienteController controller = loader.getController();
-            controller.setUsuario(usuario);
+            controller.setDados(usuario, facade, conteudo);
 
             conteudo.getChildren().setAll(tela);
         } catch (IOException e) {
