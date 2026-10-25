@@ -16,16 +16,21 @@
         <Insets bottom="60.0" left="80.0" right="80.0" top="60.0" />
     </padding>
     <children>
-        <Label text="Fornecedores" textFill="WHITE">
-            <font>
-                <Font name="System Bold" size="32.0" />
-            </font>
-        </Label>
+      <HBox prefHeight="78.0" prefWidth="1340.0" spacing="980.0">
+         <children>
+              <Label prefHeight="47.0" prefWidth="352.0" text="Fornecedores" textFill="WHITE">
+                  <font>
+                      <Font name="System Bold" size="32.0" />
+                  </font>
+              </Label>
+            <Button fx:id="botaoBuscar1" mnemonicParsing="false" onAction="#buscar" prefHeight="44.0" prefWidth="274.0" style="-fx-background-color: #3b0764; -fx-background-radius: 8; -fx-cursor: hand; -fx-font-weight: bold;" text="Novo fornecedor" textFill="WHITE" />
+         </children>
+      </HBox>
         <HBox alignment="CENTER_LEFT" prefHeight="48.0" spacing="12.0">
             <children>
                 <ComboBox fx:id="listaColuna" prefHeight="44.0" prefWidth="180.0" promptText="COLUNA" />
                 <TextField fx:id="campoBusca" prefHeight="44.0" promptText="Digite o valor que deseja buscar na coluna especificada..." HBox.hgrow="ALWAYS" />
-                <Button fx:id="botaoBuscar" mnemonicParsing="false" onAction="#buscar" prefHeight="44.0" prefWidth="120.0" style="-fx-background-color: #3b0764; -fx-background-radius: 8; -fx-cursor: hand; -fx-font-weight: bold;" text="Buscar" textFill="WHITE" />
+            <Button fx:id="botaoBuscar11" layoutX="1230.0" layoutY="12.0" mnemonicParsing="false" onAction="#buscar" prefHeight="44.0" prefWidth="120.0" style="-fx-background-color: #3b0764; -fx-background-radius: 8; -fx-cursor: hand; -fx-font-weight: bold;" text="Buscar" textFill="WHITE" />
             </children>
         </HBox>
         <TableView fx:id="tabela" maxWidth="1.7976931348623157E308" prefHeight="200.0" prefWidth="200.0" VBox.vgrow="ALWAYS">
