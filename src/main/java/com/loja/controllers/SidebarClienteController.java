@@ -182,7 +182,7 @@ public class SidebarClienteController {
 
             Scene loginScene = new Scene(telaLogin);
             stage.setScene(loginScene);
-            stage.setTitle("A Loja que aluga tudo");
+            stage.setTitle("Login - Aluga Tudo");
             stage.centerOnScreen();
 
         } catch (IOException e) {

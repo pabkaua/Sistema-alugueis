@@ -74,9 +74,13 @@ public class LoginController {
             controller.navegarDashboard(event);
         }
         else if (usuario instanceof Administrador adm){
-          FXMLLoader loader = abrirTela("/ui/admin/sidebar-admin.fxml", "Painel do Administrador");
-          SidebarAdminController controller = loader.getController();
-           controller.setContexto(facade, adm);
+            FXMLLoader loader = abrirTela("/ui/admin/sidebar-admin.fxml", "Painel do Administrador");
+            if(loader == null){
+                exibirAlerta("Não foi possivel logar, houve um erro no redirecionamento da tela");
+                return;
+            }
+            SidebarAdminController controller = loader.getController();
+            controller.setContexto(facade, adm);
         }
         /*
         else if (usuario instanceof Administrador adm) {

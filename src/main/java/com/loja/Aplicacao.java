@@ -30,7 +30,7 @@ public class Aplicacao extends Application {
             FXMLLoader loader = new FXMLLoader(url);
             Parent telaLogin = loader.load();
 
-            stage.setTitle("A Loja que aluga tudo");
+            stage.setTitle("Login - Aluga Tudo");
             stage.setScene(new Scene(telaLogin, 1920, 1080));
             stage.show();
 
