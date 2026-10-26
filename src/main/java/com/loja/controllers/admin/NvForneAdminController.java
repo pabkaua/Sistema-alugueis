@@ -5,6 +5,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
+import javafx.stage.Stage;
 
 public class NvForneAdminController {
 
@@ -55,11 +56,29 @@ public class NvForneAdminController {
             Alerta.exibirAlertaAviso("Preencha nome, CNPJ e telefone.");
             return;
         }
-
-
+        try {
+            if (fornecedor == null) {
+                facade.cadastrarFornecedor(new Fornecedor(id, nome, cnpj, telefone));
+                Alerta.exibirAlertaSucesso("Fornecedor criado!");
+            } else {
+                fornecedor.setNome(nome);
+                fornecedor.setCnpj(cnpj);
+                fornecedor.setTelefone(telefone);
+                facade.atualizarFornecedor(fornecedor);
+                Alerta.exibirAlertaSucesso("Fornecedor atualizado!");
+            }
+            fechar();
+        } catch (RuntimeException e) {
+            Alerta.exibirAlertaErro("Erro ao salvar fornecedor", e.getMessage());
+        }
+    }
     @FXML
-    void buscar(ActionEvent event) {
-
+    void cancelar(ActionEvent event) {
+        fechar();
     }
 
+    private void fechar() {
+        ((Stage) CadastroNome.getScene().getWindow()).close();
+    }
 }
+
