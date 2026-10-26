@@ -47,6 +47,7 @@ public class ForneceAdminController {
     private ILojaFacade facade;
 
     private final ObservableList<Fornecedor> dados = FXCollections.observableArrayList();
+
     private FilteredList<Fornecedor> filtrados;
 
     @FXML public void initialize(){
@@ -67,11 +68,31 @@ public class ForneceAdminController {
 
 
 
+
     }
 
-    private void aplicarFiltro(){
+    private void aplicarFiltro() {
         String texto = campoBusca.getText() == null ? "" : campoBusca.getText().toLowerCase().trim();
+        String coluna = listaColuna.getValue() == null ? "Todos" : listaColuna.getValue();
+
+        filtrados.setPredicate(f -> {
+            if (texto.isEmpty()) return true;
+            return switch (coluna) {
+                case "ID" -> contem(f.getId(), texto);
+                case "Nome" -> contem(f.getNome(), texto);
+                case "CNPJ" -> contem(f.getCnpj(), texto);
+                case "Telefone" -> contem(f.getTelefone(), texto);
+                default -> contem(f.getId(), texto) || contem(f.getNome(), texto)
+                        || contem(f.getCnpj(), texto) || contem(f.getTelefone(), texto);
+            };
+        });
     }
+
+    private boolean contem(String valor, String texto) {
+        return valor != null && valor.toLowerCase().contains(texto);
+    }
+
+
 
     @FXML
     void buscar(ActionEvent event) {
