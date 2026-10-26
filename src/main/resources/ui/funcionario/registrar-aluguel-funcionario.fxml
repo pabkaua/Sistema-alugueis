@@ -19,7 +19,7 @@
                 <Font name="System Bold" size="32.0" />
             </font>
         </Label>
-        <VBox maxWidth="720.0" spacing="20.0" style="-fx-background-color: #14131a; -fx-background-radius: 16px; -fx-border-color: #27272a; -fx-border-radius: 16px;">
+        <VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" spacing="20.0" style="-fx-background-color: #14131a; -fx-background-radius: 16px; -fx-border-color: #27272a; -fx-border-radius: 16px;">
             <padding>
                 <Insets bottom="32.0" left="32.0" right="32.0" top="32.0" />
             </padding>
