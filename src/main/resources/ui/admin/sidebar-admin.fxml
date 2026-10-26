@@ -44,59 +44,10 @@
                      </textFill>
                   </Label>
                   <Button fx:id="botaoDashboard" alignment="BASELINE_LEFT" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#navegarDashboard" styleClass="btn-principal" text="📊   Dashboard" />
-                  <VBox spacing="4.0">
-                     <children>
-                        <Button fx:id="btnAdminGerenciarUsuarios" alignment="BASELINE_LEFT" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#navegarGerenciarUsuarios" styleClass="btn-principal" text="👤   Gerenciar Usuários" />
-                     </children>
-                  </VBox>
-                  <VBox spacing="4.0">
-                     <children>
-                        <Button fx:id="btnAdminGerenciarItens" alignment="BASELINE_LEFT" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#abrirMenuItens" styleClass="btn-principal" text="⌄   Gerenciar Itens" />
-                        <VBox fx:id="submenuAdminGerenciarItens" spacing="4.0" styleClass="submenu-card" visible="false">
-                           <padding>
-                              <Insets bottom="6.0" left="8.0" right="8.0" top="6.0" />
-                           </padding>
-                           <children>
-                              <Button fx:id="btnAdminCadastrarItem" alignment="BASELINE_LEFT" maxWidth="1.7976931348623157E308" mnemonicParsing="false" styleClass="btn-subitem" text="○   Cadastrar Item" />
-                              <Button fx:id="btnAdminListarItens" alignment="BASELINE_LEFT" layoutX="18.0" layoutY="16.0" maxWidth="1.7976931348623157E308" mnemonicParsing="false" styleClass="btn-subitem" text="○   Listar Itens" />
-                              <Button fx:id="btnAdminAtualizarItem" alignment="BASELINE_LEFT" layoutX="18.0" layoutY="54.0" maxWidth="1.7976931348623157E308" mnemonicParsing="false" styleClass="btn-subitem" text="○   Atualizar Item" />
-                              <Button fx:id="btnAdminDeletarItem" alignment="BASELINE_LEFT" layoutX="18.0" layoutY="92.0" maxWidth="1.7976931348623157E308" mnemonicParsing="false" styleClass="btn-subitem" text="○   Deletar Item" />
-                           </children>
-                        </VBox>
-                     </children>
-                  </VBox>
-                  <VBox layoutX="34.0" layoutY="386.0" spacing="4.0">
-                     <children>
-                        <Button fx:id="btnAdminGerenciarCategorias" alignment="BASELINE_LEFT" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#abrirMenuCategorias" styleClass="btn-principal" text="⌄   Gerenciar Categorias" />
-                        <VBox fx:id="submenuAdminGerenciarCategorias" spacing="4.0" styleClass="submenu-card" visible="false">
-                           <padding>
-                              <Insets bottom="6.0" left="8.0" right="8.0" top="6.0" />
-                           </padding>
-                           <children>
-                              <Button fx:id="btnAdminCadastrarCategoria" alignment="BASELINE_LEFT" maxWidth="1.7976931348623157E308" mnemonicParsing="false" styleClass="btn-subitem" text="○   Cadastrar Categoria" />
-                              <Button fx:id="btnAdminListarCategorias" alignment="BASELINE_LEFT" layoutX="18.0" layoutY="16.0" maxWidth="1.7976931348623157E308" mnemonicParsing="false" styleClass="btn-subitem" text="○   Listar Categorias" />
-                              <Button fx:id="btnAdminAtualizarCategoria" alignment="BASELINE_LEFT" layoutX="18.0" layoutY="54.0" maxWidth="1.7976931348623157E308" mnemonicParsing="false" styleClass="btn-subitem" text="○   Atualizar Categoria" />
-                              <Button fx:id="btnAdminDeletarCategoria" alignment="BASELINE_LEFT" layoutX="18.0" layoutY="92.0" maxWidth="1.7976931348623157E308" mnemonicParsing="false" styleClass="btn-subitem" text="○   Deletar Categoria" />
-                           </children>
-                        </VBox>
-                     </children>
-                  </VBox>
-                  <VBox layoutX="34.0" layoutY="610.0" spacing="4.0">
-                     <children>
-                        <Button fx:id="btnAdminGerenciarFornecedores" alignment="BASELINE_LEFT" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#abrirMenuFornecedores" styleClass="btn-principal" text="⌄   Gerenciar Fornecedores" />
-                        <VBox fx:id="submenuAdminGerenciarFornecedores" spacing="4.0" styleClass="submenu-card" visible="false">
-                           <padding>
-                              <Insets bottom="6.0" left="8.0" right="8.0" top="6.0" />
-                           </padding>
-                           <children>
-                              <Button fx:id="btnAdminCadastrarFornecedor" alignment="BASELINE_LEFT" maxWidth="1.7976931348623157E308" mnemonicParsing="false" styleClass="btn-subitem" text="○   Cadastrar Fornecedor" />
-                              <Button fx:id="btnAdminListarFornecedores" alignment="BASELINE_LEFT" layoutX="18.0" layoutY="16.0" maxWidth="1.7976931348623157E308" mnemonicParsing="false" styleClass="btn-subitem" text="○   Listar Fornecedores" />
-                              <Button fx:id="btnAdminAtualizarFornecedor" alignment="BASELINE_LEFT" layoutX="18.0" layoutY="54.0" maxWidth="1.7976931348623157E308" mnemonicParsing="false" styleClass="btn-subitem" text="○   Atualizar Fornecedor" />
-                              <Button fx:id="btnAdminDeletarFornecedor" alignment="BASELINE_LEFT" layoutX="18.0" layoutY="92.0" maxWidth="1.7976931348623157E308" mnemonicParsing="false" styleClass="btn-subitem" text="○   Deletar Fornecedor" />
-                           </children>
-                        </VBox>
-                     </children>
-                  </VBox>
+                  <Button fx:id="btnAdminGerenciarUsuarios" alignment="BASELINE_LEFT" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#navegarGerenciarUsuarios" styleClass="btn-principal" text="👤   Gerenciar Usuários" />
+                  <Button fx:id="btnAdminGerenciarItens" alignment="BASELINE_LEFT" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#navegarGerenciarItens" styleClass="btn-principal" text="🛍️   Gerenciar Itens" />
+                  <Button fx:id="btnAdminGerenciarCategorias" alignment="BASELINE_LEFT" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#navegarGerenciarCategorias" styleClass="btn-principal" text="🛒   Gerenciar Categorias" />
+                  <Button fx:id="btnAdminGerenciarFornecedores" alignment="BASELINE_LEFT" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#navegarGerenciarFornecedores" styleClass="btn-principal" text="👥   Gerenciar Fornecedores" />
                   <VBox layoutX="34.0" layoutY="834.0" spacing="4.0">
                      <children>
                         <Button fx:id="btnAdminRelatorios" alignment="BASELINE_LEFT" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#abrirMenuRelatorios" styleClass="btn-principal" text="⌄   Relatórios" />
