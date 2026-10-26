@@ -122,6 +122,8 @@ public class CategAdminController {
     }
 
     private void configurarBotoesDeAcao() {
+        botaoCateAdd.setOnAction(this::adicionar);
+        botaoEditar.setOnAction(this::editar);
 
         var mostrar = selecionada.isNotNull().and(modoEdicao.not());
 
