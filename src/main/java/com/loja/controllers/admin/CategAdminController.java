@@ -40,7 +40,7 @@ public class CategAdminController {
     private TextField campoBusca;
 
     @FXML
-    private TableColumn<Categoria, String> colunaID;
+    private TableColumn<Categoria, Void> colunaID;
 
     @FXML
     private TableColumn<Categoria, String> colunaNome;
@@ -66,7 +66,7 @@ public class CategAdminController {
 
     public void setFacade(ILojaFacade facade) {
         this.facade = facade;
-        //recarregarTabela();
+        recarregarTabela();
     }
 
     private void configurarColunas() {
@@ -122,7 +122,7 @@ public class CategAdminController {
     }
 
     private void configurarBotoesDeAcao() {
-        // Editar e Excluir só aparecem com uma categoria marcada e fora da edição
+
         var mostrar = selecionada.isNotNull().and(modoEdicao.not());
 
         botaoEditar.visibleProperty().bind(mostrar);
@@ -132,11 +132,11 @@ public class CategAdminController {
     }
 
     private void configurarTeclado() {
-        // Enter nos campos confirma (cadastra ou salva a edição)
+
         NomeCategoria.setOnAction(e -> confirmar());
         IdCategoria.setOnAction(e -> confirmar());
 
-        // Esc cancela a edição
+
         NomeCategoria.setOnKeyPressed(e -> {
             if (e.getCode() == KeyCode.ESCAPE && modoEdicao.get()) {
                 voltarAoEstadoInicial();
@@ -247,10 +247,68 @@ public class CategAdminController {
     }
 
 
+    @FXML
+    void adicionar(ActionEvent event) {
+        confirmar();
+    }
+
+    @FXML
+    void editar(ActionEvent event) {
+        emEdicao = selecionada.get();
+        if (emEdicao == null) return;
+
+        modoEdicao.set(true);
+        IdCategoria.setText(emEdicao.getId());
+        IdCategoria.setDisable(true); // ID não pode mudar
+        NomeCategoria.setText(emEdicao.getNome());
+        botaoCateAdd.setText("Salvar");
+
+        NomeCategoria.requestFocus();
+        NomeCategoria.selectAll();
+    }
+
+    @FXML
+    void excluir(ActionEvent event) {
+        Categoria categoria = selecionada.get();
+        if (categoria == null) return;
+
+        Alert confirmacao = new Alert(Alert.AlertType.CONFIRMATION,
+                "Deseja excluir a categoria \"" + categoria.getNome() + "\" (ID " + categoria.getId() + ")?",
+                ButtonType.OK, ButtonType.CANCEL);
+        confirmacao.setHeaderText(null);
+        confirmacao.setTitle("Excluir categoria");
+
+        boolean confirmou = confirmacao.showAndWait()
+                .filter(resposta -> resposta == ButtonType.OK)
+                .isPresent();
+
+        if (confirmou) {
+            try {
+                facade.deletarCategoria(categoria.getId());
+                recarregarTabela();
+                mostrarInfo("Categoria removida.");
+            } catch (RuntimeException e) {
+                mostrarErro(e.getMessage());
+            }
+        }
+
+        voltarAoEstadoInicial();
+    }
 
     @FXML
     void buscar(ActionEvent event) {
+        aplicarFiltro();
+    }
 
+
+    @FXML
+    public void initialize() {
+        configurarColunas();
+        configurarColunaSelecionar();
+        configurarBusca();
+        configurarBotoesDeAcao();
+        configurarTeclado();
+        voltarAoEstadoInicial();
     }
 
 }
