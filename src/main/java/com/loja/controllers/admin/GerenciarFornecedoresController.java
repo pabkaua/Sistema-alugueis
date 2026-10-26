@@ -21,7 +21,7 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 
-public class ForneceAdminController {
+public class GerenciarFornecedoresController {
 
     @FXML
     private Button botaoBuscar11;
