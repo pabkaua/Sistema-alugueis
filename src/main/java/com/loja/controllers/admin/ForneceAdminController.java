@@ -8,12 +8,10 @@ import javafx.collections.transformation.FilteredList;
 import javafx.collections.transformation.SortedList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
+import javafx.geometry.Pos;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.HBox;
 
 public class ForneceAdminController {
 
@@ -92,11 +90,43 @@ public class ForneceAdminController {
         return valor != null && valor.toLowerCase().contains(texto);
     }
 
-
-
     @FXML
     void buscar(ActionEvent event) {
+        aplicarFiltro();
 
     }
+
+    private void criarColunaAcoes() {
+        TableColumn<Fornecedor, Void> colunaAcoes = new TableColumn<>("Ações");
+        colunaAcoes.setSortable(false);
+        colunaAcoes.setPrefWidth(110);
+
+        colunaAcoes.setCellFactory(coluna -> new TableCell<Fornecedor, Void>() {
+            private final Button btnEditar = new Button("✎");
+            private final Button btnExcluir = new Button("🗑");
+            private final HBox caixa = new HBox(8, btnEditar, btnExcluir);
+
+            {
+                caixa.setAlignment(Pos.CENTER);
+                String estilo = "-fx-background-color: transparent; -fx-cursor: hand; -fx-font-size: 14;";
+                btnEditar.setStyle(estilo);
+                btnExcluir.setStyle(estilo);
+                btnEditar.setTooltip(new Tooltip("Editar"));
+                btnExcluir.setTooltip(new Tooltip("Excluir"));
+
+                btnEditar.setOnAction(e -> abrirFormulario(getTableRow().getItem()));
+                btnExcluir.setOnAction(e -> excluir(getTableRow().getItem()));
+            }
+
+            @Override
+            protected void updateItem(Void item, boolean empty) {
+                super.updateItem(item, empty);
+                setGraphic(empty || getTableRow().getItem() == null ? null : caixa);
+            }
+        });
+
+        tabela.getColumns().add(colunaAcoes);
+    }
+
 
 }
