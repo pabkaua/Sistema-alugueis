@@ -2,6 +2,10 @@ package com.loja.controllers;
 
 import com.loja.model.Categoria;
 import com.loja.padraofacade.interfaces.ILojaFacade;
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.ObjectProperty;
+import javafx.beans.property.SimpleBooleanProperty;
+import javafx.beans.property.SimpleObjectProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
@@ -55,6 +59,15 @@ public class CategAdminController {
 
     private final ObservableList<Categoria> dados = FXCollections.observableArrayList();
     private FilteredList<Categoria> filtrados;
+
+    private final ObjectProperty<Categoria> selecionada = new SimpleObjectProperty<>();
+
+    private final BooleanProperty modoEdicao = new SimpleBooleanProperty(false);
+    private Categoria emEdicao;
+
+
+
+
 
     @FXML
     void buscar(ActionEvent event) {
