@@ -1,5 +1,6 @@
 package com.loja.controllers;
 
+import com.loja.controllers.admin.GerenciarUsuariosController;
 import com.loja.model.Administrador;
 import com.loja.padraofacade.interfaces.ILojaFacade;
 import javafx.event.ActionEvent;
@@ -107,6 +108,7 @@ public class SidebarAdminController {
       conteudo.getChildren().setAll(tela);
     } catch (IOException e){
       Alerta.exibirAlertaErro("Erro de carregamento", "Erro ao carregar a tela de usuarios");
+      e.printStackTrace();
     }
   }
 
