@@ -23,7 +23,7 @@
                       <Font name="System Bold" size="32.0" />
                   </font>
               </Label>
-            <Button fx:id="botaoNovoForne" mnemonicParsing="false" onAction="#buscar" prefHeight="44.0" prefWidth="274.0" style="-fx-background-color: #3b0764; -fx-background-radius: 8; -fx-cursor: hand; -fx-font-weight: bold;" text="Novo fornecedor" textFill="WHITE" />
+            <Button fx:id="botaoBuscar1" mnemonicParsing="false" onAction="#buscar" prefHeight="44.0" prefWidth="274.0" style="-fx-background-color: #3b0764; -fx-background-radius: 8; -fx-cursor: hand; -fx-font-weight: bold;" text="Novo fornecedor" textFill="WHITE" />
          </children>
       </HBox>
         <HBox alignment="CENTER_LEFT" prefHeight="48.0" spacing="12.0">
@@ -36,9 +36,9 @@
         <TableView fx:id="tabela" maxWidth="1.7976931348623157E308" prefHeight="200.0" prefWidth="200.0" VBox.vgrow="ALWAYS">
             <columns>
                 <TableColumn fx:id="colunaID" prefWidth="120.0" text="ID" />
-                <TableColumn fx:id="colunaNome" prefWidth="400.0" text="Nome" />
-                <TableColumn fx:id="colunaCNPJ" prefWidth="250.0" text="CNPJ" />
-                <TableColumn fx:id="colunaTelefone" prefWidth="250.0" text="Telefone" />
+                <TableColumn fx:id="colunaItem" prefWidth="400.0" text="Nome" />
+                <TableColumn fx:id="colunaCategoria" prefWidth="250.0" text="CNPJ" />
+                <TableColumn fx:id="colunaValor" prefWidth="250.0" text="Telefone" />
             </columns>
             <columnResizePolicy>
                 <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
