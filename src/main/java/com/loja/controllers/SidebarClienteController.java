@@ -176,10 +176,13 @@ public class SidebarClienteController {
             Node botaoLogoutClicado = (Node) event.getSource();
             Stage stage = (Stage) botaoLogoutClicado.getScene().getWindow();
 
-            Scene loginScene = new Scene(telaLogin);
-            stage.setScene(loginScene);
             stage.setTitle("Login - Aluga Tudo");
-            stage.centerOnScreen();
+
+            if (stage.getScene() != null) {
+                stage.getScene().setRoot(telaLogin);
+            } else {
+                stage.setScene(new Scene(telaLogin));
+            }
 
         } catch (IOException e) {
             Alerta.exibirAlertaErro("Falha ao abrir a tela", "Houve um erro ao carregar a tela.");

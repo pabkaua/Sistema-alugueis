@@ -140,6 +140,11 @@ public class SidebarAdminController {
   void fazerLogout(ActionEvent event){
     try{
       URL url = getClass().getResource("/ui/LoginScreen.fxml");
+      if (url == null) {
+        Alerta.exibirAlertaErro("Erro de navegação", "O arquivo LoginScreen.fxml não foi localizado.");
+        return;
+      }
+
       FXMLLoader loader = new FXMLLoader(url);
       Parent root = loader.load();
 
@@ -147,10 +152,17 @@ public class SidebarAdminController {
       controller.setFacade(this.facade);
 
       Stage stage = (Stage) botaoLogout.getScene().getWindow();
-      stage.setScene(new Scene(root));
       stage.setTitle("Login - Aluga Tudo");
-    } catch (IOException e){
-      Alerta.exibirAlertaErro("Erro de navegação", "O arquivo LoginScreen.fxml não foi localizado.");
+
+      if (stage.getScene() != null) {
+        stage.getScene().setRoot(root);
+      } else {
+        stage.setScene(new Scene(root));
+      }
+
+
+    } catch (IOException e) {
+      Alerta.exibirAlertaErro("Erro de navegação", "Erro ao carregar a tela de login.");
     }
   }
 }

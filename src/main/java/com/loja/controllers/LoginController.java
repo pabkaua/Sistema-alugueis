@@ -103,8 +103,12 @@ public class LoginController {
 
             Stage stage = (Stage) botaoEntrar.getScene().getWindow();
             stage.setTitle(titulo);
-            stage.setScene(new Scene(tela));
-            stage.centerOnScreen();
+
+            if (stage.getScene() != null) {
+                stage.getScene().setRoot(tela);
+            } else {
+                stage.setScene(new Scene(tela));
+            }
 
             return loader;
         } catch (IOException e) {

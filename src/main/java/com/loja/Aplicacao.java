@@ -32,6 +32,7 @@ public class Aplicacao extends Application {
 
             stage.setTitle("Login - Aluga Tudo");
             stage.setScene(new Scene(telaLogin, 1920, 1080));
+            stage.setMaximized(true);
             stage.show();
 
             LoginController controller = loader.getController();
