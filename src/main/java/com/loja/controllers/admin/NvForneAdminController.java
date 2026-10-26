@@ -1,3 +1,4 @@
+import com.loja.controllers.Alerta;
 import com.loja.model.Fornecedor;
 import com.loja.padraofacade.interfaces.ILojaFacade;
 import javafx.event.ActionEvent;
@@ -42,6 +43,18 @@ public class NvForneAdminController {
         CadastroCnpj.setText(fornecedor.getCnpj());
         CadastroTel.setText(fornecedor.getTelefone());
     }
+
+    @FXML
+    void salvar(ActionEvent event) {
+        String id = CadastroID.getText().trim();
+        String nome = CadastroNome.getText().trim();
+        String cnpj = CadastroCnpj.getText().trim();
+        String telefone = CadastroTel.getText().trim();
+
+        if (nome.isEmpty() || cnpj.isEmpty() || telefone.isEmpty()) {
+            Alerta.exibirAlertaAviso("Preencha nome, CNPJ e telefone.");
+            return;
+        }
 
 
     @FXML
