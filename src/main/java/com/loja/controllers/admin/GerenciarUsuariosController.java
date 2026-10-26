@@ -5,6 +5,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import javafx.collections.transformation.SortedList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import com.loja.padraofacade.interfaces.ILojaFacade;
@@ -43,7 +44,6 @@ public class GerenciarUsuariosController {
 
         adminTabelaUsuarios.setPlaceholder(new Label("Nenhum usuário encontrado."));
         filtroDeBusca();
-
     }
 
     private void carregarDados(){
@@ -72,5 +72,20 @@ public class GerenciarUsuariosController {
         SortedList<Usuario> listaOrdenada = new SortedList<>(listaFiltrada);
         listaOrdenada.comparatorProperty().bind(adminTabelaUsuarios.comparatorProperty());
         adminTabelaUsuarios.setItems(listaOrdenada);
+    }
+
+    @FXML
+    void acaoAdicionarUsuario(ActionEvent event) {
+
+    }
+
+    @FXML
+    void acaoDesativarUsuario(ActionEvent event) {
+
+    }
+
+    @FXML
+    void acaoEditarUsuario(ActionEvent event) {
+
     }
 }

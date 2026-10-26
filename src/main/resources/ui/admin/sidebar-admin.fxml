@@ -46,7 +46,7 @@
                   <Button fx:id="botaoDashboard" alignment="BASELINE_LEFT" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#navegarDashboard" styleClass="btn-principal" text="📊   Dashboard" />
                   <VBox spacing="4.0">
                      <children>
-                        <Button fx:id="btnAdminGerenciarUsuarios" alignment="BASELINE_LEFT" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#navegarGerenciarUsuarios" styleClass="btn-principal" text="⛭   Gerenciar Usuários" />
+                        <Button fx:id="btnAdminGerenciarUsuarios" alignment="BASELINE_LEFT" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#navegarGerenciarUsuarios" styleClass="btn-principal" text="👤   Gerenciar Usuários" />
                      </children>
                   </VBox>
                   <VBox spacing="4.0">
