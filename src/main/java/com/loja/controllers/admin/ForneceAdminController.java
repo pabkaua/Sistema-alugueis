@@ -161,7 +161,28 @@ public class ForneceAdminController {
         }
     }
 
+    private void excluir(Fornecedor fornecedor) {
+        if (fornecedor == null) return;
+
+        boolean confirmou = Alerta.confirmar("Excluir fornecedor",
+                "Deseja excluir o fornecedor \"" + fornecedor.getNome() + "\" (ID " + fornecedor.getId() + ")?");
+        if (!confirmou) return;
+
+        try {
+            facade.deletarFornecedor(fornecedor.getId());
+            recarregarTabela();
+            Alerta.exibirAlertaSucesso("Fornecedor removido.");
+        } catch (RuntimeException e) {
+            Alerta.exibirAlertaErro("Erro ao excluir fornecedor", e.getMessage());
+        }
+    }
 
 
+
+    private void recarregarTabela() {
+        if (facade == null) return;
+        dados.setAll(facade.listarFornecedor().values());
+        tabela.refresh();
+    }
 
 }
