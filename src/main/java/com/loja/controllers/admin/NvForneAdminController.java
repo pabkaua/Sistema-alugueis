@@ -1,3 +1,5 @@
+package com.loja.controllers.admin;
+
 import com.loja.controllers.Alerta;
 import com.loja.model.Fornecedor;
 import com.loja.padraofacade.interfaces.ILojaFacade;
