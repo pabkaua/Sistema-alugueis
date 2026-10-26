@@ -1,5 +1,7 @@
 package com.loja.controllers.admin;
 
+import com.loja.controllers.Alerta;
+import com.loja.exceptions.BusinessException;
 import com.loja.model.Categoria;
 import com.loja.model.Fornecedor;
 import com.loja.model.Item;
@@ -76,7 +78,13 @@ public class GerenciarItensController {
 
     @FXML
     void acaoDeletar(ActionEvent event) {
-        // fazer
+        Item itemSelecionado = adminTabelaItens.getSelectionModel().getSelectedItem();
+        try {
+            facade.deletarItem(itemSelecionado.getId());
+            carregarTabela();
+        } catch (BusinessException e){
+            Alerta.exibirAlertaErro("Erro ao deletar!", e.getMessage());
+        }
     }
 
     @FXML
