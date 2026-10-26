@@ -92,7 +92,22 @@ public class SidebarAdminController {
 
   @FXML
   void navegarGerenciarUsuarios(ActionEvent event){
-    // implementar dps
+    try {
+      java.net.URL url = getClass().getResource("/ui/admin/gerenciar-usuarios.fxml");
+      if (url == null){
+        Alerta.exibirAlertaErro("Erro: 404 Not Found", " Arquivo gerenciar-usuarios.fxml não encontrado");
+        return;
+      }
+
+      javafx.fxml.FXMLLoader loader = new javafx.fxml.FXMLLoader(url);
+      javafx.scene.Node tela = loader.load();
+
+      GerenciarUsuariosController controller = loader.getController();
+      controller.setContexto(this.facade);
+      conteudo.getChildren().setAll(tela);
+    } catch (IOException e){
+      Alerta.exibirAlertaErro("Erro de carregamento", "Erro ao carregar a tela de usuarios");
+    }
   }
 
   @FXML
