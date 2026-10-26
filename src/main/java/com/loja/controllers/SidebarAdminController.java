@@ -25,11 +25,6 @@ public class SidebarAdminController {
 
   // Gerenciar Usuarios
   @FXML private Button btnAdminGerenciarUsuarios;
-  @FXML private VBox submenuAdminGerenciarUsuarios;
-  @FXML private Button btnAdminAtualizarUsuario;
-  @FXML private Button btnAdminCadastrarUsuario;
-  @FXML private Button btnAdminDesativarUsuario;
-  @FXML private Button btnAdminListarUsuarios;
 
   // Gerenciar Itens
   @FXML private Button btnAdminGerenciarItens;
@@ -71,7 +66,7 @@ public class SidebarAdminController {
 
   @FXML 
   public void initialize(){
-    submenuAdminGerenciarUsuarios.managedProperty().bind(submenuAdminGerenciarUsuarios.visibleProperty());
+    //submenuAdminGerenciarUsuarios.managedProperty().bind(submenuAdminGerenciarUsuarios.visibleProperty());
     submenuAdminGerenciarItens.managedProperty().bind(submenuAdminGerenciarItens.visibleProperty());
     submenuAdminGerenciarCategorias.managedProperty().bind(submenuAdminGerenciarCategorias.visibleProperty());
     submenuAdminGerenciarFornecedores.managedProperty().bind(submenuAdminGerenciarFornecedores.visibleProperty());
@@ -96,8 +91,8 @@ public class SidebarAdminController {
   }
 
   @FXML
-  void abrirMenuUsuarios(ActionEvent event){
-    alternarSubmenu(submenuAdminGerenciarUsuarios, btnAdminGerenciarUsuarios, "Gerenciar Usuários");
+  void navegarGerenciarUsuarios(ActionEvent event){
+    // implementar dps
   }
 
   @FXML
