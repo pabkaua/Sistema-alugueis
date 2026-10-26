@@ -1,10 +1,15 @@
 package com.loja.controllers;
 
+import java.io.IOException;
+import java.net.URL;
+
 import com.loja.model.Funcionario;
 import com.loja.padraofacade.interfaces.ILojaFacade;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.StackPane;
@@ -47,21 +52,21 @@ public class SidebarFuncionarioController {
 
     @FXML
     void alternarAlugueis(ActionEvent event) {
-        //alternarSubmenu(submenuAlugueisFunc);
+        alternarSubmenu(submenuAlugueisFunc);
     }
 
     @FXML
     void alternarGerenciarClientes(ActionEvent event) {
-        //alternarSubmenu(submenuGerenciarClientesFunc);
+        alternarSubmenu(submenuGerenciarClientesFunc);
     }
 
     @FXML
     void alternarRelatorios(ActionEvent event) {
-
+        alternarSubmenu(submenuRelatoriosFunc);
     }
 
     @FXML
-    void fazerLogout(ActionEvent event) {
+    void navegarDashboard(ActionEvent event) {
 
     }
 
@@ -71,18 +76,69 @@ public class SidebarFuncionarioController {
     }
 
     @FXML
-    void navegarDashboard(ActionEvent event) {
+    void navegarMultas(ActionEvent event) {
+
+    }
+
+    @FXML
+    void navegarCadastrarCliente(ActionEvent event) {
 
     }
 
     @FXML
     void navegarItensDisponiveis(ActionEvent event) {
+        FXMLLoader loader = carregarTela("/ui/funcionario/itens-disponiveis.fxml");
+
+        if (loader != null) {
+            ItensDisponiveisController controller = loader.getController();
+            controller.setFacade(facade);
+            controller.carregarItens();
+        }
+    }
+
+    @FXML
+    void navegarContratosAtivos(ActionEvent event) {
 
     }
 
     @FXML
-    void navegarMultas(ActionEvent event) {
+    void navegarContratosPorCliente(ActionEvent event) {
+        FXMLLoader loader = carregarTela("/ui/funcionario/contratos-por-cliente.fxml");
+
+        if (loader != null) {
+            ContratosPorClienteController controller = loader.getController();
+            controller.setFacade(facade);
+        }
+    }
+
+    @FXML
+    void fazerLogout(ActionEvent event) {
+
 
     }
 
+    private void alternarSubmenu(VBox submenu) {
+        boolean mostrar = !submenu.isVisible();
+        submenu.setVisible(mostrar);
+        submenu.setManaged(mostrar);
+    }
+
+    private FXMLLoader carregarTela(String caminho) {
+        URL url = getClass().getResource(caminho);
+
+        if (url == null) {
+            System.out.println("Tela não encontrada: " + caminho);
+            return null;
+        }
+
+        try {
+            FXMLLoader loader = new FXMLLoader(url);
+            Parent tela = loader.load();
+            conteudo.getChildren().setAll(tela);
+            return loader;
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
 }
