@@ -1,5 +1,6 @@
 package com.loja.controllers.admin;
 
+import com.loja.controllers.Alerta;
 import com.loja.model.Fornecedor;
 import com.loja.padraofacade.interfaces.ILojaFacade;
 import javafx.collections.FXCollections;
@@ -8,10 +9,17 @@ import javafx.collections.transformation.FilteredList;
 import javafx.collections.transformation.SortedList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.HBox;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
+
+import java.io.IOException;
 
 public class ForneceAdminController {
 
@@ -127,6 +135,33 @@ public class ForneceAdminController {
 
         tabela.getColumns().add(colunaAcoes);
     }
+
+    private void abrirFormulario(Fornecedor fornecedor) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/ui/admin/fornecedor-form.fxml"));
+            Parent raiz = loader.load();
+
+            NvForneAdminController controller = loader.getController();
+            controller.setFacade(facade);
+            controller.setFornecedor(fornecedor);
+
+            Stage stage = new Stage();
+            stage.setTitle(fornecedor == null ? "Novo fornecedor" : "Editar fornecedor");
+            stage.setScene(new Scene(raiz));
+            stage.initModality(Modality.APPLICATION_MODAL);
+            stage.initOwner(tabela.getScene().getWindow());
+            stage.setResizable(false);
+            stage.showAndWait();
+
+            recarregarTabela();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+            Alerta.exibirAlertaErro("Erro ao abrir formulário", "Não foi possível carregar a tela de fornecedor.");
+        }
+    }
+
+
 
 
 }
