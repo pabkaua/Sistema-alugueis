@@ -30,7 +30,7 @@
         <columns>
             <TableColumn fx:id="adminColunaId" prefWidth="75.0" text="ID" />
           <TableColumn fx:id="adminColunaNome" prefWidth="75.0" text="Nome" />
-          <TableColumn fx:id="adminColunaEmail" prefWidth="75.0" text="E-mail" />
+          <TableColumn fx:id="adminColunaLogin" prefWidth="75.0" text="Login" />
             <TableColumn fx:id="adminColunaPerfil" prefWidth="75.0" text="Perfil" />
             <TableColumn fx:id="adminColunaSituacao" prefWidth="75.0" text="Situação" />
         </columns>
