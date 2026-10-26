@@ -46,18 +46,7 @@
                   <Button fx:id="botaoDashboard" alignment="BASELINE_LEFT" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#navegarDashboard" styleClass="btn-principal" text="📊   Dashboard" />
                   <VBox spacing="4.0">
                      <children>
-                        <Button fx:id="btnAdminGerenciarUsuarios" alignment="BASELINE_LEFT" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#abrirMenuUsuarios" styleClass="btn-principal" text="⌄   Gerenciar Usuários" />
-                        <VBox fx:id="submenuAdminGerenciarUsuarios" spacing="4.0" styleClass="submenu-card" visible="false">
-                           <padding>
-                              <Insets bottom="6.0" left="8.0" right="8.0" top="6.0" />
-                           </padding>
-                           <children>
-                              <Button fx:id="btnAdminCadastrarUsuario" alignment="BASELINE_LEFT" maxWidth="1.7976931348623157E308" mnemonicParsing="false" styleClass="btn-subitem" text="○   Cadastrar Usuário" />
-                              <Button fx:id="btnAdminListarUsuarios" alignment="BASELINE_LEFT" maxWidth="1.7976931348623157E308" mnemonicParsing="false" styleClass="btn-subitem" text="○   Listar Usuários" />
-                              <Button fx:id="btnAdminAtualizarUsuario" alignment="BASELINE_LEFT" layoutX="18.0" layoutY="54.0" maxWidth="1.7976931348623157E308" mnemonicParsing="false" styleClass="btn-subitem" text="○   Atualizar Usuário" />
-                              <Button fx:id="btnAdminDesativarUsuario" alignment="BASELINE_LEFT" layoutX="18.0" layoutY="92.0" maxWidth="1.7976931348623157E308" mnemonicParsing="false" styleClass="btn-subitem" text="○   Desativar Usuário" />
-                           </children>
-                        </VBox>
+                        <Button fx:id="btnAdminGerenciarUsuarios" alignment="BASELINE_LEFT" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#navegarGerenciarUsuarios" styleClass="btn-principal" text="⛭   Gerenciar Usuários" />
                      </children>
                   </VBox>
                   <VBox spacing="4.0">
