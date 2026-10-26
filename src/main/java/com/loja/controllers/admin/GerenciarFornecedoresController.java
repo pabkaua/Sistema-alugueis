@@ -52,7 +52,9 @@ public class GerenciarFornecedoresController {
     }
 
     private void aplicarFiltro(){
-        String texto = campoBusca.getText() == null ? "" : campoBusca.getText().toLowerCase().trim();
+        String texto = campoBusca.getText() == null ? "" : campoBusca.getText().toLowerCase().trim()
+
+                ;
     }
 
     @FXML
