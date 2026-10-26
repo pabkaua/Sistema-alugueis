@@ -44,6 +44,7 @@ public class GerenciarUsuariosController {
 
         adminTabelaUsuarios.setPlaceholder(new Label("Nenhum usuário encontrado."));
         filtroDeBusca();
+
     }
 
     private void carregarDados(){
@@ -75,17 +76,21 @@ public class GerenciarUsuariosController {
     }
 
     @FXML
-    void acaoAdicionarUsuario(ActionEvent event) {
+    void acaoDesativarUsuario(ActionEvent event){
+        Usuario selecionado = adminTabelaUsuarios.getSelectionModel().getSelectedItem();
+        if (selecionado == null) return;
 
-    }
+        Alert alerta = new Alert(Alert.AlertType.CONFIRMATION);
+        alerta.setTitle("Confirmar Desativação");
+        alerta.setHeaderText("Desativar o usuário: " + selecionado.getNome());
+        alerta.setContentText("Tem certeza? O histórico de aluguéis dele será mantido no sistema.");
 
-    @FXML
-    void acaoDesativarUsuario(ActionEvent event) {
-
-    }
-
-    @FXML
-    void acaoEditarUsuario(ActionEvent event) {
+        alerta.showAndWait().ifPresent(resposta -> {
+            if (resposta == ButtonType.OK) {
+                facade.desativarUsuario(selecionado.getId());
+                carregarDados(); // Atualiza a tabela para mostrar o status Inativo
+            }
+        });
 
     }
 }
