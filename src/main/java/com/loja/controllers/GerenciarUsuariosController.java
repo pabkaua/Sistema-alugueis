@@ -30,6 +30,48 @@ public class GerenciarUsuariosController {
 
     @FXML
     public void initialize() {
+        adminColunaId.setCellValueFactory(c -> new SimpleStringProperty(c.getValue().getId()));
+        adminColunaNome.setCellValueFactory(c -> new SimpleStringProperty(c.getValue().getNome()));
+        adminColunaLogin.setCellValueFactory(c -> new SimpleStringProperty(c.getValue().getLogin()));
+        adminColunaPerfil.setCellValueFactory(c -> new SimpleStringProperty(c.getValue().getPerfil()));
 
+        adminColunaSituacao.setCellValueFactory(c -> {
+            return new SimpleStringProperty(c.getValue().isAtivo() ? "Ativo" : "Inativo");
+        });
+
+        btnAdminEditarUsuario.disableProperty().bind(adminTabelaUsuarios.getSelectionModel().selectedItemProperty().isNull());
+        btnAdminDesativarUsuario.disableProperty().bind(adminTabelaUsuarios.getSelectionModel().selectedItemProperty().isNull());
+
+        adminTabelaUsuarios.setPlaceholder(new Label("Nenhum usuário encontrado."));
+        filtroDeBusca();
+
+    }
+
+    private void carregarDados(){
+        if(facade != null && facade.listarUsuario() != null){
+            listaUsuarios.setAll(facade.listarUsuario().values());
+        }
+    }
+    public void setContexto(ILojaFacade facade){
+        this.facade = facade;
+        carregarDados();
+    }
+
+    private void filtroDeBusca(){
+        FilteredList<Usuario> listaFiltrada = new FilteredList<>(listaUsuarios, u -> true);
+        campoBuscaAdminUsuario.textProperty().addListener((observable, oldValue, newValue) -> {
+            listaFiltrada.setPredicate(usuario -> {
+                if (newValue == null || newValue.isEmpty()) return true;
+
+                String termo = newValue.toLowerCase();
+                return usuario.getNome().toLowerCase().contains(termo)
+                        || usuario.getLogin().toLowerCase().contains(termo)
+                        || usuario.getId().toLowerCase().contains(termo);
+            });
+        });
+
+        SortedList<Usuario> listaOrdenada = new SortedList<>(listaFiltrada);
+        listaOrdenada.comparatorProperty().bind(adminTabelaUsuarios.comparatorProperty());
+        adminTabelaUsuarios.setItems(listaOrdenada);
     }
 }
