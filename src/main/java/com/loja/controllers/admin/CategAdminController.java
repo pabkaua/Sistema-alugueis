@@ -40,13 +40,13 @@ public class CategAdminController {
     private TextField campoBusca;
 
     @FXML
-    private TableColumn<Categoria, Void> colunaID;
+    private TableColumn<Categoria, String> colunaID;
 
     @FXML
     private TableColumn<Categoria, String> colunaNome;
 
     @FXML
-    private TableColumn<Categoria, String> colunaSelecionar;
+    private TableColumn<Categoria, Void> colunaSelecionar;
 
     @FXML
     private ComboBox<String> listaColuna;
