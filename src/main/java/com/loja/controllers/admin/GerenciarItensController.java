@@ -56,17 +56,17 @@ public class GerenciarItensController {
 
     @FXML
     void acaoAdicionar(ActionEvent event) {
-
+        // fazer
     }
 
     @FXML
     void acaoDeletar(ActionEvent event) {
-
+        // fazer
     }
 
     @FXML
     void acaoEditar(ActionEvent event) {
-
+        // fazer
     }
 
 }
