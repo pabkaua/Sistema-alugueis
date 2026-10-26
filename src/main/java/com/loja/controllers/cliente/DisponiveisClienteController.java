@@ -1,4 +1,4 @@
-package com.loja.controllers;
+package com.loja.controllers.cliente;
 
 import com.loja.model.Item;
 import com.loja.padraofacade.interfaces.ILojaFacade;

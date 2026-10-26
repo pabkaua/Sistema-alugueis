@@ -2,7 +2,6 @@ package com.loja.controllers;
 
 import com.loja.model.Administrador;
 import com.loja.model.Cliente;
-import com.loja.model.Funcionario;
 import com.loja.model.Usuario;
 import com.loja.padraofacade.interfaces.ILojaFacade;
 import javafx.event.ActionEvent;
@@ -83,11 +82,6 @@ public class LoginController {
             controller.navegarDashboard(event);
         }
         /*
-        else if (usuario instanceof Administrador adm) {
-            FXMLLoader loader = abrirTela("/ui/admin/sidebar-admin.fxml", "Painel do Administrador");
-            ((MenuAdminController) loader.getController()).setContexto(facade, adm);
-
-        }
         else if (usuario instanceof Funcionario func) {
             FXMLLoader loader = abrirTela("/ui/funcionario/sidebar-funcionario.fxml", "Painel do Funcionário");
             ((MenuFuncionarioController) loader.getController()).setContexto(facade, func);
@@ -109,8 +103,12 @@ public class LoginController {
 
             Stage stage = (Stage) botaoEntrar.getScene().getWindow();
             stage.setTitle(titulo);
-            stage.setScene(new Scene(tela));
-            stage.centerOnScreen();
+
+            if (stage.getScene() != null) {
+                stage.getScene().setRoot(tela);
+            } else {
+                stage.setScene(new Scene(tela));
+            }
 
             return loader;
         } catch (IOException e) {

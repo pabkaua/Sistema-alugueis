@@ -1,13 +1,12 @@
-package com.loja.controllers;
+package com.loja.controllers.cliente;
 
+import com.loja.controllers.Alerta;
 import com.loja.model.Cliente;
 import com.loja.padraofacade.interfaces.ILojaFacade;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 
 import java.io.IOException;
