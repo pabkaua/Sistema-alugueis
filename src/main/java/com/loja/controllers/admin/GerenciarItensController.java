@@ -1,17 +1,25 @@
 package com.loja.controllers.admin;
 
+import com.loja.model.Categoria;
+import com.loja.model.Fornecedor;
 import com.loja.model.Item;
 import com.loja.padraofacade.interfaces.ILojaFacade;
 import javafx.beans.property.SimpleStringProperty;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.collections.transformation.FilteredList;
+import javafx.collections.transformation.SortedList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 
 import java.math.BigDecimal;
+import java.util.Map;
 
 public class GerenciarItensController {
 
-    ILojaFacade facade;
+    private ILojaFacade facade;
+    private FilteredList<Item> listaFiltrada;
 
     @FXML private TableColumn<Item, String> adminColunaId;
     @FXML private TableColumn<Item, String> adminColunaNome;
@@ -28,6 +36,7 @@ public class GerenciarItensController {
 
     public void setContexto(ILojaFacade facade){
         this.facade = facade;
+        carregarTabela();
     }
 
     public void initialize(){
@@ -44,14 +53,20 @@ public class GerenciarItensController {
             return new SimpleStringProperty(valorFormatado);
         });
         adminColunaStatus.setCellValueFactory(item -> new SimpleStringProperty(item.getValue().getStatus()));
-        adminColunaCategoria.setCellValueFactory(item -> new SimpleStringProperty(item.getValue().getCategoria().getNome()));
-        adminColunaFornecedor.setCellValueFactory(item -> new SimpleStringProperty(item.getValue().getFornecedor().getNome()));
+        adminColunaCategoria.setCellValueFactory(item -> {
+            Categoria categoria = item.getValue().getCategoria();
+            return new SimpleStringProperty(categoria != null && categoria.getNome() != null ? categoria.getNome() : "-");
+        });
 
+        adminColunaFornecedor.setCellValueFactory(item -> {
+            Fornecedor fornecedor = item.getValue().getFornecedor();
+            return new SimpleStringProperty(fornecedor != null && fornecedor.getNome() != null ? fornecedor.getNome() : "-");
+        });
         btnAdminEditar.disableProperty().bind(adminTabelaItens.getSelectionModel().selectedItemProperty().isNull());
         btnAdminDeletar.disableProperty().bind(adminTabelaItens.getSelectionModel().selectedItemProperty().isNull());
 
         adminTabelaItens.setPlaceholder(new Label("Nenhum item encontrado."));
-        // filtroDeBusca();
+        filtroDeBusca();
     }
 
     @FXML
@@ -69,4 +84,56 @@ public class GerenciarItensController {
         // fazer
     }
 
+    private void filtroDeBusca() {
+        campoBuscaItem.textProperty().addListener((observable, valorAntigo, novoValor) -> {
+
+            if (listaFiltrada == null) return;
+            if (novoValor == null || novoValor.isBlank()) {
+                listaFiltrada.setPredicate(item -> true);
+                return;
+            }
+
+            String termo = novoValor.trim().toLowerCase();
+
+            listaFiltrada.setPredicate(item -> {
+                if (item == null) {
+                    return false;
+                }
+
+                String id = item.getId() != null ? item.getId().toLowerCase() : "";
+                String nome = item.getNome() != null ? item.getNome().toLowerCase() : "";
+                String status = item.getStatus() != null ? item.getStatus().toLowerCase() : "";
+                String taxaDiaria = item.getTaxaDiaria() != null ? String.format("%.2f", item.getTaxaDiaria()).replace(".", ",") : "";
+                String valorRepo = item.getValorReposicao() != null ? String.format("%.2f", item.getValorReposicao()).replace(".", ",") : "";
+                String categoria = (item.getCategoria() != null && item.getCategoria().getNome() != null) ? item.getCategoria().getNome().toLowerCase() : "";
+                String fornecedor = (item.getFornecedor() != null && item.getFornecedor().getNome() != null) ? item.getFornecedor().getNome().toLowerCase() : "";
+
+                // algum desses vai retornar true caso encontre o valor
+                return id.contains(termo)
+                        || nome.contains(termo)
+                        || status.contains(termo)
+                        || taxaDiaria.contains(termo)
+                        || valorRepo.contains(termo)
+                        || categoria.contains(termo)
+                        || fornecedor.contains(termo);
+            });
+        });
+    }
+
+    public void carregarTabela() {
+        Map<String, Item> itensMap = facade.listarItem();
+
+        ObservableList<Item> listaBruta;
+        if (itensMap != null) {
+            listaBruta = FXCollections.observableArrayList(itensMap.values());
+        } else {
+            listaBruta = FXCollections.observableArrayList();
+        }
+
+        this.listaFiltrada = new FilteredList<>(listaBruta, item -> true);
+
+        SortedList<Item> listaOrdenada = new SortedList<>(this.listaFiltrada);
+        listaOrdenada.comparatorProperty().bind(adminTabelaItens.comparatorProperty());
+        adminTabelaItens.setItems(listaOrdenada);
+    }
 }
