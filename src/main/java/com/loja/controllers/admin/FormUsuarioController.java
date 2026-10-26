@@ -28,6 +28,37 @@ public class FormUsuarioController {
 
     @FXML
     public void initialize(){
+        campoPerfil.getItems().addAll("ADMINISTRADOR", "FUNCIONARIO", "CLIENTE");
+        erroNome.managedProperty().bind(erroNome.visibleProperty());
+        erroLogin.managedProperty().bind(erroLogin.visibleProperty());
+        erroPerfil.managedProperty().bind(erroPerfil.visibleProperty());
+        erroSenha.managedProperty().bind(erroSenha.visibleProperty());
+        erroConfirmarSenha.managedProperty().bind(erroConfirmarSenha.visibleProperty());
 
+        esconderErros();
+        Platform.runLater(campoNome::requestFocus);
+
+    }
+    private void esconderErros() {
+        erroNome.setVisible(false);
+        erroLogin.setVisible(false);
+        erroPerfil.setVisible(false);
+        erroSenha.setVisible(false);
+        erroConfirmarSenha.setVisible(false);
+    }
+
+    public void setContexto(ILojaFacade facade, Usuario usuario) {
+        this.facade = facade;
+        this.usuarioEditando = usuario;
+
+        if (usuario != null) {
+            lblTitulo.setText("Editar Usuário");
+            campoNome.setText(usuario.getNome());
+            campoLogin.setText(usuario.getLogin());
+            campoLogin.setEditable(false);
+            campoLogin.setDisable(true);
+            campoPerfil.setValue(usuario.getPerfil().toUpperCase());
+            campoPerfil.setDisable(true);
+        }
     }
 }
