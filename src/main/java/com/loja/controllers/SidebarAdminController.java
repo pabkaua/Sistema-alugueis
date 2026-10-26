@@ -1,5 +1,6 @@
 package com.loja.controllers;
 
+import com.loja.controllers.admin.GerenciarItensController;
 import com.loja.controllers.admin.GerenciarUsuariosController;
 import com.loja.model.Administrador;
 import com.loja.padraofacade.interfaces.ILojaFacade;
@@ -91,7 +92,22 @@ public class SidebarAdminController {
 
   @FXML
   void navegarGerenciarItens(ActionEvent event) {
-    // carregar uma tela de itens
+    try {
+      java.net.URL url = getClass().getResource("/ui/admin/gerenciar-itens.fxml");
+      if (url == null){
+        Alerta.exibirAlertaErro("Erro: 404 Not Found", " Arquivo gerenciar-itens.fxml não encontrado");
+        return;
+      }
+
+      javafx.fxml.FXMLLoader loader = new javafx.fxml.FXMLLoader(url);
+      javafx.scene.Node tela = loader.load();
+
+      GerenciarItensController controller = loader.getController();
+      controller.setContexto(this.facade);
+      conteudo.getChildren().setAll(tela);
+    } catch (IOException e){
+      Alerta.exibirAlertaErro("Erro de carregamento", "Erro ao carregar a tela de itens");
+    }
   }
 
   @FXML
