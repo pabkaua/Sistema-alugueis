@@ -16,43 +16,20 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyCode;
 
-public class CategAdminController {
+public class GerenciarCategoriasController {
 
-    @FXML
-    private TextField IdCategoria;
-
-    @FXML
-    private TextField NomeCategoria;
-
-    @FXML
-    private Button botaoBuscar;
-
-    @FXML
-    private Button botaoCateAdd;
-
-    @FXML
-    private Button botaoEditar;
-
-    @FXML
-    private Button botaoExcluir;
-
-    @FXML
-    private TextField campoBusca;
-
-    @FXML
-    private TableColumn<Categoria, String> colunaID;
-
-    @FXML
-    private TableColumn<Categoria, String> colunaNome;
-
-    @FXML
-    private TableColumn<Categoria, Void> colunaSelecionar;
-
-    @FXML
-    private ComboBox<String> listaColuna;
-
-    @FXML
-    private TableView<Categoria> tabela;
+    @FXML private TextField IdCategoria;
+    @FXML private TextField NomeCategoria;
+    @FXML private Button botaoBuscar;
+    @FXML private Button botaoCateAdd;
+    @FXML private Button botaoEditar;
+    @FXML private Button botaoExcluir;
+    @FXML private TextField campoBusca;
+    @FXML private TableColumn<Categoria, String> colunaID;
+    @FXML private TableColumn<Categoria, String> colunaNome;
+    @FXML private TableColumn<Categoria, Void> colunaSelecionar;
+    @FXML private ComboBox<String> listaColuna;
+    @FXML private TableView<Categoria> tabela;
 
     private ILojaFacade facade;
 

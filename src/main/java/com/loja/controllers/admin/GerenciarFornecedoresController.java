@@ -15,7 +15,7 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 
-public class ForneceAdminController {
+public class GerenciarFornecedoresController {
 
     @FXML
     private Button botaoBuscar11;

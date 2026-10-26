@@ -1,5 +1,6 @@
 package com.loja.controllers;
 
+import com.loja.controllers.admin.GerenciarCategoriasController;
 import com.loja.controllers.admin.GerenciarItensController;
 import com.loja.controllers.admin.GerenciarUsuariosController;
 import com.loja.model.Administrador;
@@ -112,7 +113,22 @@ public class SidebarAdminController {
 
   @FXML
   void navegarGerenciarCategorias(ActionEvent event) {
-    // carregar uma tela de categorias
+    try {
+      java.net.URL url = getClass().getResource("/ui/admin/gerenciar-categorias.fxml");
+      if (url == null){
+        Alerta.exibirAlertaErro("Erro: 404 Not Found", " Arquivo gerenciar-categorias.fxml não encontrado");
+        return;
+      }
+
+      javafx.fxml.FXMLLoader loader = new javafx.fxml.FXMLLoader(url);
+      javafx.scene.Node tela = loader.load();
+
+      GerenciarCategoriasController controller = loader.getController();
+      controller.setFacade(this.facade);
+      conteudo.getChildren().setAll(tela);
+    } catch (IOException e){
+      Alerta.exibirAlertaErro("Erro de carregamento", "Erro ao carregar a tela de itens");
+    }
   }
 
   @FXML
