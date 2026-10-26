@@ -10,7 +10,6 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
@@ -42,7 +41,7 @@ public class LoginController {
         String senha = inputSenha.getText();
 
         if (email.isEmpty() || senha.isEmpty()) {
-            exibirAlerta("Preencha o e-mail e a senha.");
+            Alerta.exibirAlertaAviso("Preencha o e-mail e a senha.");
             return;
         }
 
@@ -50,7 +49,7 @@ public class LoginController {
             Usuario usuario = facade.autenticarUsuario(email, senha);
 
             if (usuario == null) {
-                exibirAlerta("E-mail ou senha incorretos.");
+                Alerta.exibirAlertaAviso("E-mail ou senha incorretos.");
                 inputSenha.clear();
                 return;
             }
@@ -58,7 +57,7 @@ public class LoginController {
             redirecionar(usuario, event);
 
         } catch (RuntimeException e) {
-            exibirAlerta("Erro ao autenticar: " + e.getMessage());
+            Alerta.exibirAlertaAviso("Erro ao autenticar: " + e.getMessage());
         }
     }
 
@@ -66,7 +65,7 @@ public class LoginController {
         if (usuario instanceof Cliente cliente) {
             FXMLLoader loader = abrirTela("/ui/cliente/sidebar-cliente.fxml", "Área do Cliente");
             if(loader == null){
-                exibirAlerta("Não foi possivel logar, houve um erro no redirecionamento da tela");
+                Alerta.exibirAlertaAviso("Não foi possivel logar, houve um erro no redirecionamento da tela");
                 return;
             }
             SidebarClienteController controller = loader.getController();
@@ -74,9 +73,14 @@ public class LoginController {
             controller.navegarDashboard(event);
         }
         else if (usuario instanceof Administrador adm){
-          FXMLLoader loader = abrirTela("/ui/admin/sidebar-admin.fxml", "Painel do Administrador");
-          SidebarAdminController controller = loader.getController();
-           controller.setContexto(facade, adm);
+            FXMLLoader loader = abrirTela("/ui/admin/sidebar-admin.fxml", "Painel do Administrador");
+            if(loader == null){
+                Alerta.exibirAlertaAviso("Não foi possivel logar, houve um erro no redirecionamento da tela");
+                return;
+            }
+            SidebarAdminController controller = loader.getController();
+            controller.setContexto(facade, adm);
+            controller.navegarDashboard(event);
         }
         /*
         else if (usuario instanceof Administrador adm) {
@@ -96,7 +100,7 @@ public class LoginController {
         try {
             URL url = getClass().getResource(caminhoFxml);
             if (url == null) {
-                exibirAlerta("Arquivo não encontrado: " + caminhoFxml);
+                Alerta.exibirAlertaAviso("Arquivo não encontrado: " + caminhoFxml);
                 return null;
             }
 
@@ -110,16 +114,9 @@ public class LoginController {
 
             return loader;
         } catch (IOException e) {
-            exibirAlerta("Erro ao carregar a interface.");
+            Alerta.exibirAlertaAviso("Erro ao carregar a interface.");
             return null;
         }
-    }
-
-    private void exibirAlerta(String msg) {
-        Alert alerta = new Alert(Alert.AlertType.WARNING);
-        alerta.setHeaderText(null);
-        alerta.setContentText(msg);
-        alerta.showAndWait();
     }
 }
 

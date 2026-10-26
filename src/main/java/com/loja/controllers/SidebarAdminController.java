@@ -7,7 +7,6 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.StackPane;
@@ -121,13 +120,6 @@ public class SidebarAdminController {
     alternarSubmenu(submenuAdminRelatorios, btnAdminRelatorios, "Relatórios");
   }
 
-  private void exibirAlertaErro(String mensagem){
-    Alert alerta = new Alert(Alert.AlertType.ERROR);
-    alerta.setTitle("Erro");
-    alerta.setHeaderText(null);
-    alerta.setContentText(mensagem);
-    alerta.showAndWait();
-  }
   @FXML
   void fazerLogout(ActionEvent event){
     try{
@@ -142,8 +134,7 @@ public class SidebarAdminController {
       stage.setScene(new Scene(root));
       stage.setTitle("Login - Aluga Tudo");
     } catch (IOException e){
-      e.printStackTrace();
-      exibirAlertaErro("Erro ao carregar a tela de login.");
+      Alerta.exibirAlertaErro("Erro de navegação", "O arquivo LoginScreen.fxml não foi localizado.");
     }
   }
 
