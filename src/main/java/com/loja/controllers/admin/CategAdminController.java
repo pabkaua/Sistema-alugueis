@@ -1,4 +1,4 @@
-package com.loja.controllers;
+package com.loja.controllers.admin;
 
 import com.loja.model.Categoria;
 import com.loja.padraofacade.interfaces.ILojaFacade;
@@ -16,6 +16,7 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.scene.control.cell.PropertyValueFactory;
 
 public class CategAdminController {
 
@@ -64,6 +65,20 @@ public class CategAdminController {
 
     private final BooleanProperty modoEdicao = new SimpleBooleanProperty(false);
     private Categoria emEdicao;
+
+    public void setFacade(ILojaFacade facade) {
+        this.facade = facade;
+        //recarregarTabela();
+    }
+
+    private void configurarColunas() {
+        colunaID.setCellValueFactory(new PropertyValueFactory<>("id"));
+        colunaNome.setCellValueFactory(new PropertyValueFactory<>("nome"));
+
+        filtrados = new FilteredList<>(dados, c -> true);
+        tabela.setItems(filtrados);
+        tabela.setPlaceholder(new javafx.scene.control.Label("Não há conteúdo na tabela"));
+    }
 
 
 
