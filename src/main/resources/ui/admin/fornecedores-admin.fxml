@@ -11,38 +11,138 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1080.0" prefWidth="1500.0" spacing="24.0" style="-fx-background-color: #0e0d12;" stylesheets="@../../css/telas-cliente.css" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.loja.controllers.DisponiveisClienteController">
-    <padding>
-        <Insets bottom="60.0" left="80.0" right="80.0" top="60.0" />
-    </padding>
-    <children>
-      <HBox prefHeight="78.0" prefWidth="1340.0" spacing="980.0">
-         <children>
-              <Label prefHeight="47.0" prefWidth="352.0" text="Fornecedores" textFill="WHITE">
-                  <font>
-                      <Font name="System Bold" size="32.0" />
-                  </font>
-              </Label>
-            <Button fx:id="botaoNovoForne" mnemonicParsing="false" onAction="#buscar" prefHeight="44.0" prefWidth="182.0" style="-fx-background-color: #3b0764; -fx-background-radius: 8; -fx-cursor: hand; -fx-font-weight: bold;" text="+ Novo" textFill="WHITE" />
-         </children>
-      </HBox>
-        <HBox alignment="CENTER_LEFT" prefHeight="48.0" spacing="12.0">
-            <children>
-                <ComboBox fx:id="listaColuna" prefHeight="44.0" prefWidth="180.0" promptText="COLUNA" />
-                <TextField fx:id="campoBusca" prefHeight="44.0" promptText="Digite o valor que deseja buscar na coluna especificada..." HBox.hgrow="ALWAYS" />
-            <Button fx:id="botaoBuscar11" layoutX="1230.0" layoutY="12.0" mnemonicParsing="false" onAction="#buscar" prefHeight="44.0" prefWidth="120.0" style="-fx-background-color: #3b0764; -fx-background-radius: 8; -fx-cursor: hand; -fx-font-weight: bold;" text="Buscar" textFill="WHITE" />
-            </children>
-        </HBox>
-        <TableView fx:id="tabela" maxWidth="1.7976931348623157E308" prefHeight="200.0" prefWidth="200.0" VBox.vgrow="ALWAYS">
-            <columns>
-                <TableColumn fx:id="colunaID" prefWidth="120.0" text="ID" />
-                <TableColumn fx:id="colunaNome" prefWidth="400.0" text="Nome" />
-                <TableColumn fx:id="colunaCNPJ" prefWidth="250.0" text="CNPJ" />
-                <TableColumn fx:id="colunaTelefone" prefWidth="250.0" text="Telefone" />
-            </columns>
-            <columnResizePolicy>
-                <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
-            </columnResizePolicy>
-        </TableView>
-    </children>
-</VBox>
+<?import javafx.scene.layout.Priority?>
+<HBox maxHeight="1.7976931348623157E308"
+      maxWidth="1.7976931348623157E308"
+      style="-fx-background-color: #0e0d12;"
+      xmlns="http://javafx.com/javafx/25"
+      xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="com.loja.controllers.admin.ForneceAdminController">
+
+    <fx:include source="sidebar-admin.fxml"/>
+
+
+
+    <VBox maxHeight="1.7976931348623157E308"
+          maxWidth="1.7976931348623157E308"
+          minHeight="-Infinity"
+          minWidth="-Infinity"
+          prefHeight="1080.0"
+          prefWidth="1500.0"
+          spacing="24.0"
+          style="-fx-background-color: #0e0d12;"
+          stylesheets="@../../css/telas-cliente.css"
+          HBox.hgrow="ALWAYS">
+
+        <padding>
+            <Insets bottom="60.0"
+                    left="80.0"
+                    right="80.0"
+                    top="60.0"/>
+        </padding>
+
+        <children>
+
+            <!-- CABEÇALHO -->
+            <HBox alignment="CENTER_LEFT"
+                  prefHeight="78.0"
+                  spacing="20.0">
+
+                <children>
+
+                    <Label prefHeight="47.0"
+                           text="Fornecedores"
+                           textFill="WHITE">
+
+                        <font>
+                            <Font name="System Bold" size="32.0"/>
+                        </font>
+
+                        <HBox.hgrow>
+                            <Priority fx:constant="ALWAYS"/>
+                        </HBox.hgrow>
+
+                    </Label>
+
+                    <Button fx:id="botaoNovoForne"
+                            mnemonicParsing="false"
+                            prefHeight="44.0"
+                            prefWidth="182.0"
+                            style="-fx-background-color: #3b0764;
+                                   -fx-background-radius: 8;
+                                   -fx-cursor: hand;
+                                   -fx-font-weight: bold;"
+                            text="+ Novo"
+                            textFill="WHITE"/>
+
+                </children>
+            </HBox>
+
+            <!-- PESQUISA -->
+            <HBox alignment="CENTER_LEFT"
+                  prefHeight="48.0"
+                  spacing="12.0">
+
+                <children>
+
+                    <ComboBox fx:id="listaColuna"
+                              prefHeight="44.0"
+                              prefWidth="180.0"
+                              promptText="COLUNA"/>
+
+                    <TextField fx:id="campoBusca"
+                               prefHeight="44.0"
+                               promptText="Digite o valor que deseja buscar na coluna especificada..."
+                               HBox.hgrow="ALWAYS"/>
+
+                    <Button fx:id="botaoBuscar11"
+                            mnemonicParsing="false"
+                            prefHeight="44.0"
+                            prefWidth="120.0"
+                            style="-fx-background-color: #3b0764;
+                                   -fx-background-radius: 8;
+                                   -fx-cursor: hand;
+                                   -fx-font-weight: bold;"
+                            text="Buscar"
+                            textFill="WHITE"/>
+
+                </children>
+            </HBox>
+
+            <!-- TABELA -->
+            <TableView fx:id="tabela"
+                       maxWidth="1.7976931348623157E308"
+                       prefHeight="200.0"
+                       prefWidth="200.0"
+                       VBox.vgrow="ALWAYS">
+
+                <columns>
+
+                    <TableColumn fx:id="colunaID"
+                                 prefWidth="120.0"
+                                 text="ID"/>
+
+                    <TableColumn fx:id="colunaNome"
+                                 prefWidth="400.0"
+                                 text="Nome"/>
+
+                    <TableColumn fx:id="colunaCNPJ"
+                                 prefWidth="250.0"
+                                 text="CNPJ"/>
+
+                    <TableColumn fx:id="colunaTelefone"
+                                 prefWidth="250.0"
+                                 text="Telefone"/>
+
+                </columns>
+
+                <columnResizePolicy>
+                    <TableView fx:constant="CONSTRAINED_RESIZE_POLICY"/>
+                </columnResizePolicy>
+
+            </TableView>
+
+        </children>
+    </VBox>
+
+</HBox>
