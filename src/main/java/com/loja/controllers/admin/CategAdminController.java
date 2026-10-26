@@ -1,6 +1,10 @@
 package com.loja.controllers;
 
 import com.loja.model.Categoria;
+import com.loja.padraofacade.interfaces.ILojaFacade;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.collections.transformation.FilteredList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -46,6 +50,11 @@ public class CategAdminController {
 
     @FXML
     private TableView<Categoria> tabela;
+
+    private ILojaFacade facade;
+
+    private final ObservableList<Categoria> dados = FXCollections.observableArrayList();
+    private FilteredList<Categoria> filtrados;
 
     @FXML
     void buscar(ActionEvent event) {
