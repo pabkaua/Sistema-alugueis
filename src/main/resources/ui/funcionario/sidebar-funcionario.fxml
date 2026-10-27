@@ -52,6 +52,7 @@
               <children>
                 <Button fx:id="btnFuncRegistrarAluguel" alignment="BASELINE_LEFT" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#registrarAluguel" styleClass="btn-subitem" text="○   Registrar Aluguel" />
                 <Button fx:id="btnFuncQuitarMulta" alignment="BASELINE_LEFT" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#quitarMulta" styleClass="btn-subitem" text="○   Quitar Multa" />
+                        <Button fx:id="btnFuncProcessarDevolucao" alignment="BASELINE_LEFT" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#processarDevolucao" styleClass="btn-subitem" text="○   Processar Devolução" />
               </children>
             </VBox>
           </children>

@@ -193,6 +193,28 @@ public class SidebarFuncionarioController {
     }
 
     @FXML
+    void processarDevolucao(ActionEvent event) {
+        try {
+            URL url = getClass().getResource("/ui/funcionario/devolucao-funcionario.fxml");
+
+            if (url == null) {
+                Alerta.exibirAlertaErro("Erro de navegação", "O arquivo devolucao-funcionario.fxml não foi localizado.");
+                return;
+            }
+
+            FXMLLoader loader = new FXMLLoader(url);
+            Node tela = loader.load();
+
+            DevolucaoFuncionarioController controller = loader.getController();
+            controller.setDados(facade);
+
+            conteudo.getChildren().setAll(tela);
+        } catch (IOException e) {
+            Alerta.exibirAlertaErro("Erro de navegação", e.getMessage());
+        }
+    }
+
+    @FXML
     void registrarAluguel(ActionEvent event) {
         try {
             URL url = getClass().getResource("/ui/funcionario/registrar-aluguel-funcionario.fxml");
