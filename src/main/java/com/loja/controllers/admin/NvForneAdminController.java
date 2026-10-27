@@ -6,6 +6,7 @@ import com.loja.padraofacade.interfaces.ILojaFacade;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
@@ -31,7 +32,7 @@ public class NvForneAdminController {
     private Button botaoSalvarForne;
 
     @FXML
-    private Text labelTitulo;   // import javafx.scene.text.Text;
+    private Label labelTitulo;
 
     private ILojaFacade facade;
     private Fornecedor fornecedor;

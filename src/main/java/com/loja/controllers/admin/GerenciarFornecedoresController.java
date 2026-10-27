@@ -3,6 +3,8 @@ package com.loja.controllers.admin;
 import com.loja.controllers.Alerta;
 import com.loja.model.Fornecedor;
 import com.loja.padraofacade.interfaces.ILojaFacade;
+import javafx.beans.property.ObjectProperty;
+import javafx.beans.property.SimpleObjectProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
@@ -15,46 +17,30 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.layout.HBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
-import java.io.IOException;
-
 public class GerenciarFornecedoresController {
 
-    @FXML
-    private Button botaoBuscar11;
-
-    @FXML
-    private Button botaoNovoForne;
-
-    @FXML
-    private TextField campoBusca;
-
-    @FXML
-    private TableColumn<Fornecedor, String> colunaCNPJ;
-
-    @FXML
-    private TableColumn<Fornecedor, String> colunaID;
-
-    @FXML
-    private TableColumn<Fornecedor, String>colunaNome;
-
-    @FXML
-    private TableColumn<Fornecedor, String> colunaTelefone;
-
-    @FXML
-    private ComboBox<String> listaColuna;
-
-    @FXML
-    private TableView<Fornecedor> tabela;
+    @FXML private Button botaoBuscar;
+    @FXML private Button botaoNovoForne;
+    @FXML private Button botaoEditar;
+    @FXML private Button botaoExcluir;
+    @FXML private TextField campoBusca;
+    @FXML private TableColumn<Fornecedor, Void> colunaSelecionar;
+    @FXML private TableColumn<Fornecedor, String> colunaID;
+    @FXML private TableColumn<Fornecedor, String> colunaNome;
+    @FXML private TableColumn<Fornecedor, String> colunaCNPJ;
+    @FXML private TableColumn<Fornecedor, String> colunaTelefone;
+    @FXML private ComboBox<String> listaColuna;
+    @FXML private TableView<Fornecedor> tabela;
 
     private ILojaFacade facade;
 
     private final ObservableList<Fornecedor> dados = FXCollections.observableArrayList();
-
     private FilteredList<Fornecedor> filtrados;
+
+    private final ObjectProperty<Fornecedor> selecionado = new SimpleObjectProperty<>();
 
     public void setFacade(ILojaFacade facade) {
         this.facade = facade;
@@ -65,24 +51,75 @@ public class GerenciarFornecedoresController {
 
     @FXML
     public void initialize() {
+        configurarColunas();
+        configurarColunaSelecionar();
+        configurarBusca();
+        configurarBotoesDeAcao();
+        recarregarTabela();
+    }
+
+    private void configurarColunas() {
         colunaID.setCellValueFactory(new PropertyValueFactory<>("id"));
         colunaNome.setCellValueFactory(new PropertyValueFactory<>("nome"));
         colunaCNPJ.setCellValueFactory(new PropertyValueFactory<>("cnpj"));
         colunaTelefone.setCellValueFactory(new PropertyValueFactory<>("telefone"));
 
-        listaColuna.getItems().addAll("Todos", "ID", "Nome", "CNPJ", "Telefone");
-        listaColuna.getSelectionModel().select("Todos");
-
         filtrados = new FilteredList<>(dados, f -> true);
         SortedList<Fornecedor> ordenados = new SortedList<>(filtrados);
         ordenados.comparatorProperty().bind(tabela.comparatorProperty());
         tabela.setItems(ordenados);
+        tabela.setPlaceholder(new Label("Não há conteúdo na tabela"));
+    }
+
+    private void configurarColunaSelecionar() {
+        colunaSelecionar.setSortable(false);
+        colunaSelecionar.setCellFactory(coluna -> new TableCell<>() {
+            private final CheckBox checkBox = new CheckBox();
+
+            {
+                setAlignment(Pos.CENTER);
+                checkBox.setOnAction(e -> {
+                    Fornecedor fornecedor = getTableRow().getItem();
+                    selecionado.set(checkBox.isSelected() ? fornecedor : null);
+                });
+            }
+
+            @Override
+            protected void updateItem(Void item, boolean empty) {
+                super.updateItem(item, empty);
+                Fornecedor fornecedor = getTableRow() == null ? null : getTableRow().getItem();
+                if (empty || fornecedor == null) {
+                    setGraphic(null);
+                } else {
+                    checkBox.setSelected(fornecedor == selecionado.get());
+                    setGraphic(checkBox);
+                }
+            }
+        });
+
+        // Desmarca o anterior quando outro é marcado
+        selecionado.addListener((obs, anterior, novo) -> tabela.refresh());
+    }
+
+    private void configurarBusca() {
+        listaColuna.getItems().setAll("Todos", "ID", "Nome", "CNPJ", "Telefone");
+        listaColuna.getSelectionModel().select("Todos");
 
         campoBusca.textProperty().addListener((obs, antigo, novo) -> aplicarFiltro());
         listaColuna.valueProperty().addListener((obs, antigo, novo) -> aplicarFiltro());
+        campoBusca.setOnAction(e -> aplicarFiltro());
+    }
 
-        criarColunaAcoes();
-        recarregarTabela();
+    private void configurarBotoesDeAcao() {
+        botaoEditar.setOnAction(this::editar);
+        botaoExcluir.setOnAction(this::excluir);
+
+        var mostrar = selecionado.isNotNull();
+
+        botaoEditar.visibleProperty().bind(mostrar);
+        botaoEditar.managedProperty().bind(mostrar);
+        botaoExcluir.visibleProperty().bind(mostrar);
+        botaoExcluir.managedProperty().bind(mostrar);
     }
 
     private void aplicarFiltro() {
@@ -109,52 +146,50 @@ public class GerenciarFornecedoresController {
     @FXML
     void buscar(ActionEvent event) {
         aplicarFiltro();
-
     }
 
     @FXML
     void NovoFornecedor(ActionEvent event) {
+        selecionado.set(null);
         abrirFormulario(null);
     }
 
-    private void criarColunaAcoes() {
-        TableColumn<Fornecedor, Void> colunaAcoes = new TableColumn<>("Ações");
-        colunaAcoes.setSortable(false);
-        colunaAcoes.setPrefWidth(110);
+    @FXML
+    void editar(ActionEvent event) {
+        Fornecedor fornecedor = selecionado.get();
+        if (fornecedor == null) return;
 
-        colunaAcoes.setCellFactory(coluna -> new TableCell<Fornecedor, Void>() {
-            private final Button btnEditar = new Button("✎");
-            private final Button btnExcluir = new Button("🗑");
-            private final HBox caixa = new HBox(8, btnEditar, btnExcluir);
+        abrirFormulario(fornecedor);
+        selecionado.set(null);
+    }
 
-            {
-                caixa.setAlignment(Pos.CENTER);
-                String estilo = "-fx-background-color: transparent; -fx-cursor: hand; -fx-font-size: 14;";
-                btnEditar.setStyle(estilo);
-                btnExcluir.setStyle(estilo);
-                btnEditar.setTooltip(new Tooltip("Editar"));
-                btnExcluir.setTooltip(new Tooltip("Excluir"));
+    @FXML
+    void excluir(ActionEvent event) {
+        Fornecedor fornecedor = selecionado.get();
+        if (fornecedor == null) return;
 
-                btnEditar.setOnAction(e -> abrirFormulario(getTableRow().getItem()));
-                btnExcluir.setOnAction(e -> excluir(getTableRow().getItem()));
+        boolean confirmou = Alerta.confirmar("Excluir fornecedor",
+                "Deseja excluir o fornecedor \"" + fornecedor.getNome() + "\" (ID " + fornecedor.getId() + ")?");
+
+        if (confirmou) {
+            try {
+                facade.deletarFornecedor(fornecedor.getId());
+                recarregarTabela();
+                Alerta.exibirAlertaSucesso("Fornecedor removido.");
+            } catch (RuntimeException e) {
+                Alerta.exibirAlertaErro("Erro ao excluir fornecedor", e.getMessage());
             }
+        }
 
-            @Override
-            protected void updateItem(Void item, boolean empty) {
-                super.updateItem(item, empty);
-                setGraphic(empty || getTableRow().getItem() == null ? null : caixa);
-            }
-        });
-
-        tabela.getColumns().add(colunaAcoes);
+        selecionado.set(null);
     }
 
     private void abrirFormulario(Fornecedor fornecedor) {
         try {
-            java.net.URL url = getClass().getResource("/ui/admin/cadastroFornecedor-admin.fxml");
+            java.net.URL url = getClass().getResource("/ui/admin/formFornecedor-admin.fxml");
             if (url == null) {
                 Alerta.exibirAlertaErro("Erro ao abrir formulário",
-                        "Arquivo não encontrado: /ui/admin/cadastroFornecedor-admin.fxml");
+                        "Arquivo não encontrado: /ui/admin/formFornecedor-admin.fxml");
                 return;
             }
 
@@ -183,28 +218,9 @@ public class GerenciarFornecedoresController {
         }
     }
 
-    private void excluir(Fornecedor fornecedor) {
-        if (fornecedor == null) return;
-
-        boolean confirmou = Alerta.confirmar("Excluir fornecedor",
-                "Deseja excluir o fornecedor \"" + fornecedor.getNome() + "\" (ID " + fornecedor.getId() + ")?");
-        if (!confirmou) return;
-
-        try {
-            facade.deletarFornecedor(fornecedor.getId());
-            recarregarTabela();
-            Alerta.exibirAlertaSucesso("Fornecedor removido.");
-        } catch (RuntimeException e) {
-            Alerta.exibirAlertaErro("Erro ao excluir fornecedor", e.getMessage());
-        }
-    }
-
-
-
     private void recarregarTabela() {
         if (facade == null) return;
         dados.setAll(facade.listarFornecedor().values());
         tabela.refresh();
     }
-
 }
