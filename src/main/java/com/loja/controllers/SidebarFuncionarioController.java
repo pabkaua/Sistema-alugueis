@@ -83,7 +83,7 @@ public class SidebarFuncionarioController {
 
     @FXML
     void navegarAlugueis(ActionEvent event) {
-
+        // fazer
     }
 
     @FXML

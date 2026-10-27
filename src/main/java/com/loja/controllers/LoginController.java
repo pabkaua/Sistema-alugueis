@@ -2,7 +2,6 @@ package com.loja.controllers;
 
 import com.loja.model.Administrador;
 import com.loja.model.Cliente;
-import com.loja.model.Funcionario;
 import com.loja.model.Usuario;
 import com.loja.padraofacade.interfaces.ILojaFacade;
 import javafx.event.ActionEvent;
@@ -107,8 +106,12 @@ public class LoginController {
 
             Stage stage = (Stage) botaoEntrar.getScene().getWindow();
             stage.setTitle(titulo);
-            stage.setScene(new Scene(tela));
-            stage.centerOnScreen();
+
+            if (stage.getScene() != null) {
+                stage.getScene().setRoot(tela);
+            } else {
+                stage.setScene(new Scene(tela));
+            }
 
             return loader;
         } catch (IOException e) {

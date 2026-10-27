@@ -1,5 +1,6 @@
 package com.loja;
 
+import com.loja.controllers.Alerta;
 import com.loja.controllers.LoginController;
 import com.loja.padraofacade.LojaFacade;
 import com.loja.padraofacade.interfaces.ILojaFacade;
@@ -7,7 +8,6 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -15,41 +15,47 @@ import java.net.URL;
 
 public class Aplicacao extends Application {
 
+    private ILojaFacade facade;
+
     public static void executar(String[] args){
         launch(args);
     }
 
     @Override
     public void start(Stage stage) {
+        this.facade = new LojaFacade();
         try {
             URL url = getClass().getResource("/ui/LoginScreen.fxml");
             if (url == null) {
-                exibirAlerta("Não foi possível carregar a tela de login!");
+                Alerta.exibirAlertaAviso("Não foi possível carregar a tela de login!");
+                return;
             }
 
             FXMLLoader loader = new FXMLLoader(url);
             Parent telaLogin = loader.load();
 
+            LoginController controller = loader.getController();
+            controller.setFacade(this.facade);
+
             stage.setTitle("Login - Aluga Tudo");
             stage.setScene(new Scene(telaLogin, 1920, 1080));
+            stage.setMaximized(true);
             stage.show();
 
-            LoginController controller = loader.getController();
-            controller.setFacade(criarFacade());
-
         } catch (IOException e) {
-            exibirAlerta("Erro ao carregar a interface.");
+            Alerta.exibirAlertaAviso("Erro ao carregar a interface.");
         }
     }
 
-    protected ILojaFacade criarFacade(){
-        return new LojaFacade();
-    }
-
-    private void exibirAlerta(String msg) {
-        Alert alerta = new Alert(Alert.AlertType.WARNING);
-        alerta.setHeaderText(null);
-        alerta.setContentText(msg);
-        alerta.showAndWait();
+    @Override
+    public void stop() {
+        try {
+            if (facade != null) {
+                facade.salvarTudo();
+            }
+            super.stop();
+        } catch (Exception e) {
+            Alerta.exibirAlertaErro("ERRO GRAVE", "Erro ao salvar dados no encerramento: " + e.getMessage());
+        }
     }
 }
