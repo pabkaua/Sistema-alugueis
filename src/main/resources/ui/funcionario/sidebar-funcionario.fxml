@@ -50,8 +50,8 @@
                 <Insets bottom="6.0" left="8.0" right="8.0" top="6.0" />
               </padding>
               <children>
-                <Button fx:id="btnFuncRegistrarAluguel" alignment="BASELINE_LEFT" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#navegarAlugueis" styleClass="btn-subitem" text="○   Registrar Aluguel" />
-                <Button fx:id="btnFuncQuitarMulta" alignment="BASELINE_LEFT" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#navegarMultas" styleClass="btn-subitem" text="○   Quitar Multa" />
+                <Button fx:id="btnFuncRegistrarAluguel" alignment="BASELINE_LEFT" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#registrarAluguel" styleClass="btn-subitem" text="○   Registrar Aluguel" />
+                <Button fx:id="btnFuncQuitarMulta" alignment="BASELINE_LEFT" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#quitarMulta" styleClass="btn-subitem" text="○   Quitar Multa" />
               </children>
             </VBox>
           </children>
@@ -64,7 +64,7 @@
                         <Insets bottom="6.0" left="8.0" right="8.0" top="6.0" />
                      </padding>
                      <children>
-                        <Button fx:id="btnFuncCadastrarCliente" alignment="BASELINE_LEFT" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#navegarCadastrarCliente" styleClass="btn-subitem" text="○   Cadastrar Cliente" />
+                        <Button fx:id="btnFuncCadastrarCliente" alignment="BASELINE_LEFT" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#cadastrarCliente" styleClass="btn-subitem" text="○   Cadastrar Cliente" />
                      </children>
                   </VBox>
                </children>
