@@ -49,6 +49,7 @@ public class ContratoBusiness implements IContratoBusiness {
 
         long dias = java.time.temporal.ChronoUnit.DAYS.between(dataRetirada, dataPrevDevolucao);
         BigDecimal valorTotal = item.getTaxaDiaria().multiply(BigDecimal.valueOf(dias));
+        item.setStatus("ALUGADO");
 
         ContratoAluguel contrato = new ContratoAluguel(
                 UUID.randomUUID().toString(),

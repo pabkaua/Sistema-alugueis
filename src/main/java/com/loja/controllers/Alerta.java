@@ -1,11 +1,9 @@
 package com.loja.controllers;
 
 import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
 
 public class Alerta {
-
-    private Alerta () {};
-
     public static void exibirAlertaErro(String titulo, String mensagem) {
         Alert alerta = new Alert(Alert.AlertType.ERROR);
         alerta.setTitle("Erro");
@@ -22,11 +20,22 @@ public class Alerta {
         alerta.showAndWait();
     }
 
-    public static void exibirAlertaSucesso(String titulo, String msg) {
-        Alert alerta = new Alert(Alert.AlertType.CONFIRMATION);
-        alerta.setTitle(titulo);
+    public static void exibirAlertaSucesso(String msg) {
+        Alert alerta = new Alert(Alert.AlertType.INFORMATION);
+        alerta.setTitle("Sucesso");
         alerta.setHeaderText(null);
         alerta.setContentText(msg);
         alerta.showAndWait();
     }
+
+    public static boolean confirmar(String titulo, String msg) {
+        Alert alerta = new Alert(Alert.AlertType.CONFIRMATION, msg, ButtonType.OK, ButtonType.CANCEL);
+        alerta.setTitle(titulo);
+        alerta.setHeaderText(null);
+        return alerta.showAndWait()
+                .filter(resposta -> resposta == ButtonType.OK)
+                .isPresent();
+    }
+
+
 }

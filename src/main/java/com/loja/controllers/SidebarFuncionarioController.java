@@ -1,5 +1,6 @@
 package com.loja.controllers;
 
+import com.loja.controllers.funcionario.*;
 import com.loja.model.Funcionario;
 import com.loja.padraofacade.interfaces.ILojaFacade;
 import javafx.event.ActionEvent;
@@ -82,21 +83,6 @@ public class SidebarFuncionarioController {
     }
 
     @FXML
-    void navegarAlugueis(ActionEvent event) {
-
-    }
-
-    @FXML
-    void navegarMultas(ActionEvent event) {
-
-    }
-
-    @FXML
-    void navegarCadastrarCliente(ActionEvent event) {
-
-    }
-
-    @FXML
     void navegarItensDisponiveis(ActionEvent event) {
         try {
             URL url = getClass().getResource("/ui/funcionario/itens-disponiveis.fxml");
@@ -120,7 +106,24 @@ public class SidebarFuncionarioController {
 
     @FXML
     void navegarContratosAtivos(ActionEvent event) {
+        try {
+            URL url = getClass().getResource("/ui/funcionario/contratos-ativos-funcionario.fxml");
 
+            if (url == null) {
+                Alerta.exibirAlertaErro("Erro de navegação", "O arquivo contratos-ativos-funcionario.fxml não foi localizado.");
+                return;
+            }
+
+            FXMLLoader loader = new FXMLLoader(url);
+            Node tela = loader.load();
+
+            ContratosAtivosFuncionarioController controller = loader.getController();
+            controller.setDados(facade);
+
+            conteudo.getChildren().setAll(tela);
+        } catch (IOException e) {
+            Alerta.exibirAlertaErro("Erro de navegação", e.getMessage());
+        }
     }
 
     @FXML
@@ -137,6 +140,94 @@ public class SidebarFuncionarioController {
             Node tela = loader.load();
 
             ContratosPorClienteController controller = loader.getController();
+            controller.setDados(facade);
+
+            conteudo.getChildren().setAll(tela);
+        } catch (IOException e) {
+            Alerta.exibirAlertaErro("Erro de navegação", e.getMessage());
+        }
+    }
+
+    @FXML
+    void cadastrarCliente(ActionEvent event) {
+        try {
+            URL url = getClass().getResource("/ui/funcionario/cadastrar-cliente-funcionario.fxml");
+
+            if (url == null) {
+                Alerta.exibirAlertaErro("Erro de navegação", "O arquivo cadastrar-cliente-funcionario.fxml não foi localizado.");
+                return;
+            }
+
+            FXMLLoader loader = new FXMLLoader(url);
+            Node tela = loader.load();
+
+            CadastrarClienteFuncionarioController controller = loader.getController();
+            controller.setDados(facade);
+
+            conteudo.getChildren().setAll(tela);
+        } catch (IOException e) {
+            Alerta.exibirAlertaErro("Erro de navegação", e.getMessage());
+        }
+    }
+
+    @FXML
+    void quitarMulta(ActionEvent event) {
+        try {
+            URL url = getClass().getResource("/ui/funcionario/quitar-multa-funcionario.fxml");
+
+            if (url == null) {
+                Alerta.exibirAlertaErro("Erro de navegação", "O arquivo quitar-multa-funcionario.fxml não foi localizado.");
+                return;
+            }
+
+            FXMLLoader loader = new FXMLLoader(url);
+            Node tela = loader.load();
+
+            QuitarMultaFuncionarioController controller = loader.getController();
+            controller.setDados(facade);
+
+            conteudo.getChildren().setAll(tela);
+        } catch (IOException e) {
+            Alerta.exibirAlertaErro("Erro de navegação", e.getMessage());
+        }
+    }
+
+    @FXML
+    void processarDevolucao(ActionEvent event) {
+        try {
+            URL url = getClass().getResource("/ui/funcionario/devolucao-funcionario.fxml");
+
+            if (url == null) {
+                Alerta.exibirAlertaErro("Erro de navegação", "O arquivo devolucao-funcionario.fxml não foi localizado.");
+                return;
+            }
+
+            FXMLLoader loader = new FXMLLoader(url);
+            Node tela = loader.load();
+
+            DevolucaoFuncionarioController controller = loader.getController();
+            controller.setDados(facade);
+
+            conteudo.getChildren().setAll(tela);
+        } catch (IOException e) {
+            Alerta.exibirAlertaErro("Erro de navegação", e.getMessage());
+        }
+    }
+
+    @FXML
+    void registrarAluguel(ActionEvent event) {
+        try {
+            URL url = getClass().getResource("/ui/funcionario/registrar-aluguel-funcionario.fxml");
+
+            if (url == null) {
+                Alerta.exibirAlertaErro("Erro de navegação", "O arquivo registrar-aluguel-funcionario.fxml não foi localizado.");
+                return;
+            }
+
+            FXMLLoader loader = new FXMLLoader(url);
+            Node tela = loader.load();
+
+            RegistrarAluguelFuncionarioController controller = loader.getController();
             controller.setDados(facade);
 
             conteudo.getChildren().setAll(tela);
@@ -163,10 +254,13 @@ public class SidebarFuncionarioController {
             Node botaoLogoutClicado = (Node) event.getSource();
             Stage stage = (Stage) botaoLogoutClicado.getScene().getWindow();
 
-            Scene loginScene = new Scene(telaLogin);
-            stage.setScene(loginScene);
             stage.setTitle("Login - Aluga Tudo");
-            stage.centerOnScreen();
+
+            if (stage.getScene() != null) {
+                stage.getScene().setRoot(telaLogin);
+            } else {
+                stage.setScene(new Scene(telaLogin));
+            }
 
         } catch (IOException e) {
             Alerta.exibirAlertaErro("Falha ao abrir a tela", "Houve um erro ao carregar a tela.");

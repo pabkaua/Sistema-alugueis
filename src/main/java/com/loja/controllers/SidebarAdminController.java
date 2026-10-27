@@ -1,6 +1,7 @@
 package com.loja.controllers;
 
 import com.loja.controllers.admin.GerenciarCategoriasController;
+import com.loja.controllers.admin.GerenciarFornecedoresController;
 import com.loja.controllers.admin.GerenciarItensController;
 import com.loja.controllers.admin.GerenciarUsuariosController;
 import com.loja.controllers.admin.RelatorioAlugueisAtivosController;
@@ -136,7 +137,23 @@ public class SidebarAdminController {
 
   @FXML
   void navegarGerenciarFornecedores(ActionEvent event) {
-    // carregar uma tela de fornecedores
+    try {
+      java.net.URL url = getClass().getResource("/ui/admin/gerenciar-fornecedores.fxml");
+      if (url == null){
+        Alerta.exibirAlertaErro("Erro: 404 Not Found", " Arquivo gerenciar-categorias.fxml não encontrado");
+        return;
+      }
+
+      javafx.fxml.FXMLLoader loader = new javafx.fxml.FXMLLoader(url);
+      javafx.scene.Node tela = loader.load();
+
+
+      GerenciarFornecedoresController controller = loader.getController();
+      controller.setFacade(this.facade);
+      conteudo.getChildren().setAll(tela);
+    } catch (IOException e){
+      Alerta.exibirAlertaErro("Erro de carregamento", "Erro ao carregar a tela de itens");
+    }
   }
 
   @FXML
