@@ -17,7 +17,7 @@
         <Insets bottom="40.0" left="40.0" right="40.0" top="40.0" />
     </padding>
     <children>
-        <!-- Cabeçalho: título à esquerda, cadastro à direita -->
+
         <HBox alignment="CENTER_LEFT" spacing="12.0">
             <children>
                 <Label minWidth="-Infinity" text="Categorias" textFill="WHITE">
@@ -26,13 +26,12 @@
                     </font>
                 </Label>
                 <Region minWidth="20.0" HBox.hgrow="ALWAYS" />
-                <TextField fx:id="IdCategoria" minWidth="80.0" prefHeight="44.0" prefWidth="180.0" promptText="ID" />
-                <TextField fx:id="NomeCategoria" minWidth="140.0" prefHeight="44.0" prefWidth="360.0" promptText="Nome da categoria" />
+                <TextField fx:id="idCategoria" minWidth="80.0" prefHeight="44.0" prefWidth="180.0" promptText="ID" />
+                <TextField fx:id="nomeCategoria" minWidth="140.0" prefHeight="44.0" prefWidth="360.0" promptText="Nome da categoria" />
                 <Button fx:id="botaoCateAdd" minWidth="-Infinity" mnemonicParsing="false" onAction="#adicionar" prefHeight="44.0" prefWidth="160.0" style="-fx-background-color: #3b0764; -fx-background-radius: 8; -fx-cursor: hand; -fx-font-weight: bold;" text="+ Adicionar" textFill="WHITE" />
             </children>
         </HBox>
 
-        <!-- Busca -->
         <HBox alignment="CENTER_LEFT" spacing="12.0">
             <children>
                 <ComboBox fx:id="listaColuna" minWidth="120.0" prefHeight="44.0" prefWidth="180.0" promptText="COLUNA" />
@@ -41,7 +40,6 @@
             </children>
         </HBox>
 
-        <!-- Ações -->
         <HBox alignment="CENTER_RIGHT" minHeight="44.0" spacing="10.0">
             <children>
                 <Button fx:id="botaoEditar" minWidth="-Infinity" mnemonicParsing="false" onAction="#editar" opacity="0.88" prefHeight="44.0" prefWidth="120.0" style="-fx-background-color: #ffffff; -fx-border-color: #3b0764; -fx-border-radius: 8; -fx-border-width: 1; -fx-background-radius: 8; -fx-cursor: hand; -fx-font-weight: bold;" text="Editar" textFill="#3b0764" visible="false" />
@@ -49,7 +47,6 @@
             </children>
         </HBox>
 
-        <!-- Tabela -->
         <TableView fx:id="tabela" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="150.0" VBox.vgrow="ALWAYS">
             <columns>
                 <TableColumn fx:id="colunaSelecionar" maxWidth="125.0" minWidth="80.0" prefWidth="125.0" text="Selecionar" />
