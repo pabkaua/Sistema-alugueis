@@ -1,5 +1,7 @@
 package com.loja.controllers;
 
+import com.loja.controllers.funcionario.ContratosPorClienteController;
+import com.loja.controllers.funcionario.ItensDisponiveisController;
 import com.loja.model.Funcionario;
 import com.loja.padraofacade.interfaces.ILojaFacade;
 import javafx.event.ActionEvent;

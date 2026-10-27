@@ -1,5 +1,6 @@
-package com.loja.controllers;
+package com.loja.controllers.funcionario;
 
+import com.loja.controllers.Alerta;
 import com.loja.model.ContratoAluguel;
 import com.loja.model.Item;
 import com.loja.padraofacade.interfaces.ILojaFacade;
