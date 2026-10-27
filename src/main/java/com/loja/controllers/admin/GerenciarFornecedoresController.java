@@ -56,25 +56,33 @@ public class GerenciarFornecedoresController {
 
     private FilteredList<Fornecedor> filtrados;
 
-    @FXML public void initialize(){
+    public void setFacade(ILojaFacade facade) {
+        this.facade = facade;
+        if (tabela != null) {
+            recarregarTabela();
+        }
+    }
+
+    @FXML
+    public void initialize() {
         colunaID.setCellValueFactory(new PropertyValueFactory<>("id"));
         colunaNome.setCellValueFactory(new PropertyValueFactory<>("nome"));
         colunaCNPJ.setCellValueFactory(new PropertyValueFactory<>("cnpj"));
         colunaTelefone.setCellValueFactory(new PropertyValueFactory<>("telefone"));
 
-        listaColuna.getItems().addAll("Todos", "ID", "Nome","CNPJ", "Telefone");
+        listaColuna.getItems().addAll("Todos", "ID", "Nome", "CNPJ", "Telefone");
         listaColuna.getSelectionModel().select("Todos");
 
-        filtrados = new FilteredList<>(dados, f ->true);
+        filtrados = new FilteredList<>(dados, f -> true);
         SortedList<Fornecedor> ordenados = new SortedList<>(filtrados);
         ordenados.comparatorProperty().bind(tabela.comparatorProperty());
         tabela.setItems(ordenados);
 
         campoBusca.textProperty().addListener((obs, antigo, novo) -> aplicarFiltro());
+        listaColuna.valueProperty().addListener((obs, antigo, novo) -> aplicarFiltro());
 
-
-
-
+        criarColunaAcoes();
+        recarregarTabela();
     }
 
     private void aplicarFiltro() {
