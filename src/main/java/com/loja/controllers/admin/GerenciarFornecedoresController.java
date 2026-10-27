@@ -151,7 +151,14 @@ public class GerenciarFornecedoresController {
 
     private void abrirFormulario(Fornecedor fornecedor) {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/ui/admin/fornecedor-form.fxml"));
+            java.net.URL url = getClass().getResource("/ui/admin/cadastroFornecedor-admin.fxml");
+            if (url == null) {
+                Alerta.exibirAlertaErro("Erro ao abrir formulário",
+                        "Arquivo não encontrado: /ui/admin/cadastroFornecedor-admin.fxml");
+                return;
+            }
+
+            FXMLLoader loader = new FXMLLoader(url);
             Parent raiz = loader.load();
 
             NvForneAdminController controller = loader.getController();
@@ -170,7 +177,9 @@ public class GerenciarFornecedoresController {
 
         } catch (Exception e) {
             e.printStackTrace();
-            Alerta.exibirAlertaErro("Erro ao abrir formulário", "Não foi possível carregar a tela de fornecedor.");
+            Throwable causa = e;
+            while (causa.getCause() != null) causa = causa.getCause();
+            Alerta.exibirAlertaErro("Erro ao abrir formulário", causa.toString());
         }
     }
 
