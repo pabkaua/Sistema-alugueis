@@ -94,7 +94,9 @@ public class ItemBusiness implements IItemBusiness {
         if (repo.buscar(id).hasHistorico()){
             throw new BusinessException("O item não pode ser excluido, tem histórico");
         }
-        repo.deletar(id);
+        if (!repo.deletar(id)){
+            throw new BusinessException("Houve algum erro ao deletar o item");
+        }
     }
 
     public void salvarDados(){

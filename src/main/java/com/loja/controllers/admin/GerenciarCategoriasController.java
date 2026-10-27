@@ -18,8 +18,8 @@ import javafx.scene.input.KeyCode;
 
 public class GerenciarCategoriasController {
 
-    @FXML private TextField IdCategoria;
-    @FXML private TextField NomeCategoria;
+    @FXML private TextField idCategoria;
+    @FXML private TextField nomeCategoria;
     @FXML private Button botaoBuscar;
     @FXML private Button botaoCateAdd;
     @FXML private Button botaoEditar;
@@ -112,11 +112,11 @@ public class GerenciarCategoriasController {
 
     private void configurarTeclado() {
 
-        NomeCategoria.setOnAction(e -> confirmar());
-        IdCategoria.setOnAction(e -> confirmar());
+        nomeCategoria.setOnAction(e -> confirmar());
+        idCategoria.setOnAction(e -> confirmar());
 
 
-        NomeCategoria.setOnKeyPressed(e -> {
+        nomeCategoria.setOnKeyPressed(e -> {
             if (e.getCode() == KeyCode.ESCAPE && modoEdicao.get()) {
                 voltarAoEstadoInicial();
             }
@@ -133,12 +133,12 @@ public class GerenciarCategoriasController {
     }
 
     private void cadastrar() {
-        String id = IdCategoria.getText().trim();
-        String nome = NomeCategoria.getText().trim();
+        String id = idCategoria.getText().trim();
+        String nome = nomeCategoria.getText().trim();
 
         if (nome.isEmpty()) {
             mostrarErro("O nome da categoria não pode ficar vazio.");
-            NomeCategoria.requestFocus();
+            nomeCategoria.requestFocus();
             return;
         }
 
@@ -153,11 +153,11 @@ public class GerenciarCategoriasController {
     }
 
     private void salvarEdicao() {
-        String novoNome = NomeCategoria.getText().trim();
+        String novoNome = nomeCategoria.getText().trim();
 
         if (novoNome.isEmpty()) {
             mostrarErro("O nome da categoria não pode ficar vazio.");
-            NomeCategoria.requestFocus();
+            nomeCategoria.requestFocus();
             return;
         }
 
@@ -201,16 +201,16 @@ public class GerenciarCategoriasController {
     private void limparFormulario() {
         emEdicao = null;
         modoEdicao.set(false);
-        IdCategoria.clear();
-        IdCategoria.setDisable(false);
-        NomeCategoria.clear();
+        idCategoria.clear();
+        idCategoria.setDisable(false);
+        nomeCategoria.clear();
         botaoCateAdd.setText("+ Adicionar");
     }
 
     private void voltarAoEstadoInicial() {
         limparFormulario();
         selecionada.set(null);
-        IdCategoria.requestFocus();
+        idCategoria.requestFocus();
     }
 
     private void mostrarInfo(String mensagem) {
@@ -237,13 +237,13 @@ public class GerenciarCategoriasController {
         if (emEdicao == null) return;
 
         modoEdicao.set(true);
-        IdCategoria.setText(emEdicao.getId());
-        IdCategoria.setDisable(true); // ID não pode mudar
-        NomeCategoria.setText(emEdicao.getNome());
+        idCategoria.setText(emEdicao.getId());
+        idCategoria.setDisable(true); // ID não pode mudar
+        nomeCategoria.setText(emEdicao.getNome());
         botaoCateAdd.setText("Salvar");
 
-        NomeCategoria.requestFocus();
-        NomeCategoria.selectAll();
+        nomeCategoria.requestFocus();
+        nomeCategoria.selectAll();
     }
 
     @FXML

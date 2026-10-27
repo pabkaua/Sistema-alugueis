@@ -106,3 +106,25 @@
 .combo-box-popup .list-cell:hover {
     -fx-background-color: #3b0764;
 }
+
+
+/* DATE PICKER */
+.date-picker {
+    -fx-background-color: #1a1924;
+    -fx-border-color: #27272a;
+    -fx-border-radius: 6px;
+    -fx-background-radius: 6px;
+}
+
+.date-picker .text-field {
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
+}
+
+.date-picker .arrow-button {
+    -fx-background-color: transparent;
+}
+
+.date-picker .arrow-button .arrow {
+    -fx-background-color: #a1a1aa;
+}

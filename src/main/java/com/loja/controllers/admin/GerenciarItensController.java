@@ -1,5 +1,7 @@
 package com.loja.controllers.admin;
 
+import com.loja.controllers.Alerta;
+import com.loja.exceptions.BusinessException;
 import com.loja.model.Categoria;
 import com.loja.model.Fornecedor;
 import com.loja.model.Item;
@@ -12,13 +14,16 @@ import javafx.collections.transformation.SortedList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import javafx.scene.layout.StackPane;
 
+import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.Map;
 
 public class GerenciarItensController {
 
     private ILojaFacade facade;
+    private StackPane conteudoPai;
     private FilteredList<Item> listaFiltrada;
 
     @FXML private TableColumn<Item, String> adminColunaId;
@@ -34,8 +39,9 @@ public class GerenciarItensController {
     @FXML private Button btnAdminNovo;
     @FXML private TextField campoBuscaItem;
 
-    public void setContexto(ILojaFacade facade){
+    public void setContexto(ILojaFacade facade, StackPane conteudo){
         this.facade = facade;
+        this.conteudoPai = conteudo;
         carregarTabela();
     }
 
@@ -71,17 +77,54 @@ public class GerenciarItensController {
 
     @FXML
     void acaoAdicionar(ActionEvent event) {
-        // fazer
+        try {
+            java.net.URL url = getClass().getResource("/ui/admin/criar-itens.fxml");
+            if (url == null){
+                Alerta.exibirAlertaErro("Erro: 404 Not Found", " Arquivo criar-itens.fxml não encontrado");
+                return;
+            }
+
+            javafx.fxml.FXMLLoader loader = new javafx.fxml.FXMLLoader(url);
+            javafx.scene.Node tela = loader.load();
+
+            CriarItemController controller = loader.getController();
+            controller.setContexto(this.facade, this.conteudoPai);
+            this.conteudoPai.getChildren().setAll(tela);
+        } catch (IOException e){
+            Alerta.exibirAlertaErro("Erro de carregamento", "Erro ao carregar a tela de cadastro de itens");
+        }
     }
 
     @FXML
     void acaoDeletar(ActionEvent event) {
-        // fazer
+        Item itemSelecionado = adminTabelaItens.getSelectionModel().getSelectedItem();
+        try {
+            facade.deletarItem(itemSelecionado.getId());
+            carregarTabela();
+        } catch (BusinessException e){
+            Alerta.exibirAlertaErro("Erro ao deletar!", e.getMessage());
+        }
     }
 
     @FXML
     void acaoEditar(ActionEvent event) {
-        // fazer
+        try {
+            java.net.URL url = getClass().getResource("/ui/admin/atualizar-itens.fxml");
+            if (url == null){
+                Alerta.exibirAlertaErro("Erro: 404 Not Found", " Arquivo atualizar-itens.fxml não encontrado");
+                return;
+            }
+
+            Item itemSelecionado = adminTabelaItens.getSelectionModel().getSelectedItem();
+            javafx.fxml.FXMLLoader loader = new javafx.fxml.FXMLLoader(url);
+            javafx.scene.Node tela = loader.load();
+
+            EditarItemController controller = loader.getController();
+            controller.setContexto(this.facade, this.conteudoPai, itemSelecionado);
+            this.conteudoPai.getChildren().setAll(tela);
+        } catch (IOException e){
+            Alerta.exibirAlertaErro("Erro de carregamento", "Erro ao carregar a tela de atualização de itens");
+        }
     }
 
     private void filtroDeBusca() {

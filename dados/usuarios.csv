@@ -1,4 +1,6 @@
 id;nome;login;senha;perfil;ativo;campoExtra1;campoExtra2
+USR006;Patricia Endo;takakoendo;123;CLIENTE;true;false;
+USR005;raphael;rapha;123;ADMINISTRADOR;true;1;Geral
 USR004;MIRELE;admin;123;ADMINISTRADOR;false;1;Geral
 USR003;JACKSON;cli;123;CLIENTE;false;false;
 USR002;JEOVÁ;func;123;FUNCIONARIO;true;Geral;
