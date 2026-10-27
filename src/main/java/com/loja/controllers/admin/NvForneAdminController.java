@@ -8,10 +8,12 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 public class NvForneAdminController {
+
+    @FXML
+    private Label labelTitulo;
 
     @FXML
     private TextField CadastroCnpj;
@@ -31,9 +33,6 @@ public class NvForneAdminController {
     @FXML
     private Button botaoSalvarForne;
 
-    @FXML
-    private Label labelTitulo;
-
     private ILojaFacade facade;
     private Fornecedor fornecedor;
 
@@ -43,22 +42,25 @@ public class NvForneAdminController {
 
     public void setFornecedor(Fornecedor fornecedor) {
         this.fornecedor = fornecedor;
+
         if (fornecedor == null) {
+            // Modo NOVO
             labelTitulo.setText("Novo Fornecedor");
             botaoSalvarForne.setText("Cadastrar");
             CadastroID.setDisable(false);
             return;
         }
+
+        // Modo EDITAR
         labelTitulo.setText("Editar Fornecedor");
         botaoSalvarForne.setText("Salvar");
 
         CadastroID.setText(fornecedor.getId());
-        CadastroID.setDisable(true);
+        CadastroID.setDisable(true); // ID não pode ser alterado
         CadastroNome.setText(fornecedor.getNome());
         CadastroCnpj.setText(fornecedor.getCnpj());
         CadastroTel.setText(fornecedor.getTelefone());
     }
-
 
     @FXML
     void salvar(ActionEvent event) {
@@ -67,6 +69,10 @@ public class NvForneAdminController {
         String cnpj = CadastroCnpj.getText().trim();
         String telefone = CadastroTel.getText().trim();
 
+        if (fornecedor == null && id.isEmpty()) {
+            Alerta.exibirAlertaAviso("Preencha o ID.");
+            return;
+        }
         if (nome.isEmpty() || cnpj.isEmpty() || telefone.isEmpty()) {
             Alerta.exibirAlertaAviso("Preencha nome, CNPJ e telefone.");
             return;
@@ -87,6 +93,7 @@ public class NvForneAdminController {
             Alerta.exibirAlertaErro("Erro ao salvar fornecedor", e.getMessage());
         }
     }
+
     @FXML
     void cancelar(ActionEvent event) {
         fechar();
@@ -96,4 +103,3 @@ public class NvForneAdminController {
         ((Stage) CadastroNome.getScene().getWindow()).close();
     }
 }
-
