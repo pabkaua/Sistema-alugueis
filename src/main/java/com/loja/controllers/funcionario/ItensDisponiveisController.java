@@ -1,4 +1,4 @@
-package com.loja.controllers;
+package com.loja.controllers.funcionario;
 
 import com.loja.model.Item;
 import com.loja.padraofacade.interfaces.ILojaFacade;
@@ -18,7 +18,7 @@ import javafx.scene.control.TextField;
 import java.math.BigDecimal;
 import java.util.Map;
 
-public class DisponiveisClienteController {
+public class ItensDisponiveisController {
 
     private FilteredList<Item> listaItensFiltrada;
 
@@ -31,7 +31,7 @@ public class DisponiveisClienteController {
     @FXML private ComboBox<String> listaColuna;
     @FXML private TableView<Item> tabela;
 
-    public void initialize(){
+    public void initialize() {
         listaColuna.getItems().addAll("Todas", "ID", "Item", "Categoria", "Valor diário");
         listaColuna.setValue("Todas");
 
@@ -52,11 +52,11 @@ public class DisponiveisClienteController {
     }
 
     public void setDados(ILojaFacade facade) {
-        Map<String, Item> mapDisponiveisBruta = facade.listarItensDisponiveis();
+        Map<String, Item> mapItensBruta = facade.listarItensDisponiveis();
 
         ObservableList<Item> listaItensBruta;
-        if (mapDisponiveisBruta != null) {
-            listaItensBruta = FXCollections.observableArrayList(mapDisponiveisBruta.values());
+        if (mapItensBruta != null) {
+            listaItensBruta = FXCollections.observableArrayList(mapItensBruta.values());
         } else {
             listaItensBruta = FXCollections.observableArrayList();
         }
@@ -69,24 +69,23 @@ public class DisponiveisClienteController {
 
     @FXML
     void buscar(ActionEvent event) {
-
         String valorBuscado = campoBusca.getText();
         String colunaEscolhida = listaColuna.getValue();
 
-        if(valorBuscado == null || valorBuscado.isBlank()){
+        if (valorBuscado == null || valorBuscado.isBlank()) {
             this.listaItensFiltrada.setPredicate(item -> true);
             return;
         }
 
         String formatado = valorBuscado.trim().toLowerCase();
-        this.listaItensFiltrada.setPredicate(item ->{
+        this.listaItensFiltrada.setPredicate(item -> {
 
             String id = item.getId() != null ? item.getId().toLowerCase() : "";
             String nomeItem = item.getNome() != null ? item.getNome().toLowerCase() : "";
             String categoria = (item.getCategoria() != null && item.getCategoria().getNome() != null) ? item.getCategoria().getNome().toLowerCase() : "";
             String valor = item.getTaxaDiaria() != null ? String.format("%.2f", item.getTaxaDiaria()).replace(".", ",") : "";
 
-            if (colunaEscolhida == null || colunaEscolhida.equalsIgnoreCase("Todas")){
+            if (colunaEscolhida == null || colunaEscolhida.equalsIgnoreCase("Todas")) {
                 return id.contains(formatado)
                         || nomeItem.contains(formatado)
                         || categoria.contains(formatado)

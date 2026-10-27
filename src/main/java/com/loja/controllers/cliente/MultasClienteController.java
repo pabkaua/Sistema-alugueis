@@ -1,4 +1,4 @@
-package com.loja.controllers;
+package com.loja.controllers.cliente;
 
 import com.loja.model.Cliente;
 import com.loja.model.ContratoAluguel;

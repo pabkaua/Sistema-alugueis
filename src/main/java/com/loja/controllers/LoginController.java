@@ -1,8 +1,8 @@
 package com.loja.controllers;
 
 import com.loja.model.Administrador;
-import com.loja.model.Cliente;
 import com.loja.model.Funcionario;
+import com.loja.model.Cliente;
 import com.loja.model.Usuario;
 import com.loja.padraofacade.interfaces.ILojaFacade;
 import javafx.event.ActionEvent;
@@ -10,7 +10,6 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
@@ -26,8 +25,13 @@ public class LoginController {
     @FXML private Button botaoEntrar;
     @FXML private TextField inputLogin;
     @FXML private PasswordField inputSenha;
-    public void setFacade(ILojaFacade facade) {
 
+    public void initialize(){
+        botaoEntrar.setOnAction(this::validarDados);
+        botaoEntrar.setDefaultButton(true);
+    }
+
+    public void setFacade(ILojaFacade facade) {
         this.facade = facade;
     }
 
@@ -37,7 +41,7 @@ public class LoginController {
         String senha = inputSenha.getText();
 
         if (email.isEmpty() || senha.isEmpty()) {
-            exibirAlerta("Preencha o e-mail e a senha.");
+            Alerta.exibirAlertaAviso("Preencha o e-mail e a senha.");
             return;
         }
 
@@ -45,7 +49,7 @@ public class LoginController {
             Usuario usuario = facade.autenticarUsuario(email, senha);
 
             if (usuario == null) {
-                exibirAlerta("E-mail ou senha incorretos.");
+                Alerta.exibirAlertaAviso("E-mail ou senha incorretos.");
                 inputSenha.clear();
                 return;
             }
@@ -53,7 +57,7 @@ public class LoginController {
             redirecionar(usuario, event);
 
         } catch (RuntimeException e) {
-            exibirAlerta("Erro ao autenticar: " + e.getMessage());
+            Alerta.exibirAlertaAviso("Erro ao autenticar: " + e.getMessage());
         }
     }
 
@@ -61,32 +65,40 @@ public class LoginController {
         if (usuario instanceof Cliente cliente) {
             FXMLLoader loader = abrirTela("/ui/cliente/sidebar-cliente.fxml", "Área do Cliente");
             if(loader == null){
-                exibirAlerta("Não foi possivel logar, houve um erro no redirecionamento da tela");
+                Alerta.exibirAlertaAviso("Não foi possivel logar, houve um erro no redirecionamento da tela");
                 return;
             }
             SidebarClienteController controller = loader.getController();
             controller.setContexto(facade, cliente);
             controller.navegarDashboard(event);
         }
-        /*
-        else if (usuario instanceof Administrador adm) {
+        else if (usuario instanceof Administrador adm){
             FXMLLoader loader = abrirTela("/ui/admin/sidebar-admin.fxml", "Painel do Administrador");
-            ((MenuAdminController) loader.getController()).setContexto(facade, adm);
-
+            if(loader == null){
+                Alerta.exibirAlertaAviso("Não foi possivel logar, houve um erro no redirecionamento da tela");
+                return;
+            }
+            SidebarAdminController controller = loader.getController();
+            controller.setContexto(facade, adm);
+            controller.navegarDashboard(event);
         }
         else if (usuario instanceof Funcionario func) {
             FXMLLoader loader = abrirTela("/ui/funcionario/sidebar-funcionario.fxml", "Painel do Funcionário");
-            ((MenuFuncionarioController) loader.getController()).setContexto(facade, func);
-
+            if(loader == null){
+                Alerta.exibirAlertaAviso("Não foi possivel logar, houve um erro no redirecionamento da tela");
+                return;
+            }
+            SidebarFuncionarioController controller = loader.getController();
+            controller.setContexto(facade, func);
+            controller.navegarDashboard(event);
         }
-         */
     }
 
     private FXMLLoader abrirTela(String caminhoFxml, String titulo) {
         try {
             URL url = getClass().getResource(caminhoFxml);
             if (url == null) {
-                exibirAlerta("Arquivo não encontrado: " + caminhoFxml);
+                Alerta.exibirAlertaAviso("Arquivo não encontrado: " + caminhoFxml);
                 return null;
             }
 
@@ -100,17 +112,8 @@ public class LoginController {
 
             return loader;
         } catch (IOException e) {
-            exibirAlerta("Erro ao carregar a interface.");
+            Alerta.exibirAlertaAviso("Erro ao carregar a interface.");
             return null;
         }
     }
-
-    private void exibirAlerta(String msg) {
-        Alert alerta = new Alert(Alert.AlertType.WARNING);
-        alerta.setHeaderText(null);
-        alerta.setContentText(msg);
-        alerta.showAndWait();
-    }
 }
-
-

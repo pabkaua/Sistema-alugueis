@@ -13,7 +13,7 @@
 <?import javafx.scene.paint.Stop?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="1080.0" prefWidth="1920.0" stylesheets="@../../css/sidebar-cliente.css" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.loja.controllers.SidebarFuncionarioController">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="1080.0" prefWidth="1920.0" stylesheets="@../../css/sidebar.css" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.loja.controllers.SidebarFuncionarioController">
   <left>
     <VBox fx:id="sidebarVbox" minWidth="420.0" prefWidth="420.0" spacing="20.0" styleClass="sidebar" BorderPane.alignment="CENTER">
       <padding>
@@ -44,27 +44,28 @@
         <Button fx:id="botaoDashboard" alignment="BASELINE_LEFT" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#navegarDashboard" styleClass="btn-principal" text="📊   Dashboard" />
         <VBox spacing="4.0">
           <children>
-            <Button fx:id="btnFuncAlugueis" alignment="BASELINE_LEFT" maxWidth="1.7976931348623157E308" mnemonicParsing="false" styleClass="btn-principal" text="⌄   Alugueis" />
+            <Button fx:id="btnFuncAlugueis" alignment="BASELINE_LEFT" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#alternarAlugueis" styleClass="btn-principal" text="⌄   Alugueis" />
             <VBox fx:id="submenuAlugueisFunc" spacing="4.0" styleClass="submenu-card" visible="false">
               <padding>
                 <Insets bottom="6.0" left="8.0" right="8.0" top="6.0" />
               </padding>
               <children>
-                <Button fx:id="btnFuncRegistrarAluguel" alignment="BASELINE_LEFT" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#navegarAlugueis" styleClass="btn-subitem" text="○   Registrar Aluguel" />
-                <Button fx:id="btnFuncQuitarMulta" alignment="BASELINE_LEFT" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#navegarMultas" styleClass="btn-subitem" text="○   Quitar Multa" />
+                <Button fx:id="btnFuncRegistrarAluguel" alignment="BASELINE_LEFT" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#registrarAluguel" styleClass="btn-subitem" text="○   Registrar Aluguel" />
+                <Button fx:id="btnFuncQuitarMulta" alignment="BASELINE_LEFT" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#quitarMulta" styleClass="btn-subitem" text="○   Quitar Multa" />
+                        <Button fx:id="btnFuncProcessarDevolucao" alignment="BASELINE_LEFT" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#processarDevolucao" styleClass="btn-subitem" text="○   Processar Devolução" />
               </children>
             </VBox>
           </children>
         </VBox>
             <VBox layoutX="34.0" layoutY="310.0" spacing="4.0">
                <children>
-                  <Button fx:id="btnFuncGerenciarClientes" alignment="BASELINE_LEFT" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#alternarRelatorios" styleClass="btn-principal" text="⌄  Gerenciar Clientes" />
+                  <Button fx:id="btnFuncGerenciarClientes" alignment="BASELINE_LEFT" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#alternarGerenciarClientes" styleClass="btn-principal" text="⌄  Gerenciar Clientes" />
                   <VBox fx:id="submenuGerenciarClientesFunc" spacing="4.0" styleClass="submenu-card" visible="false">
                      <padding>
                         <Insets bottom="6.0" left="8.0" right="8.0" top="6.0" />
                      </padding>
                      <children>
-                        <Button fx:id="btnFuncCadastrarCliente" alignment="BASELINE_LEFT" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#navegarItensDisponiveis" styleClass="btn-subitem" text="○   Cadastrar Cliente" />
+                        <Button fx:id="btnFuncCadastrarCliente" alignment="BASELINE_LEFT" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#cadastrarCliente" styleClass="btn-subitem" text="○   Cadastrar Cliente" />
                      </children>
                   </VBox>
                </children>
@@ -78,8 +79,8 @@
               </padding>
               <children>
                 <Button fx:id="btnFuncItensDisponiveis" alignment="BASELINE_LEFT" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#navegarItensDisponiveis" styleClass="btn-subitem" text="○   Itens disponíveis" />
-                        <Button fx:id="btnFuncContratosAtivos" alignment="BASELINE_LEFT" layoutX="18.0" layoutY="16.0" maxWidth="1.7976931348623157E308" mnemonicParsing="false" styleClass="btn-subitem" text="○   Contratos Ativos" />
-                        <Button fx:id="btnFuncContratosPorClientes" alignment="BASELINE_LEFT" layoutX="18.0" layoutY="54.0" maxWidth="1.7976931348623157E308" mnemonicParsing="false" styleClass="btn-subitem" text="○   Contratos por Cliente" />
+                        <Button fx:id="btnFuncContratosAtivos" alignment="BASELINE_LEFT" layoutX="18.0" layoutY="16.0" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#navegarContratosAtivos" styleClass="btn-subitem" text="○   Contratos Ativos" />
+                        <Button fx:id="btnFuncContratosPorClientes" alignment="BASELINE_LEFT" layoutX="18.0" layoutY="54.0" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#navegarContratosPorCliente" styleClass="btn-subitem" text="○   Contratos por Cliente" />
               </children>
             </VBox>
           </children>

@@ -1,15 +1,19 @@
-/* tabela */
+/* TABELA */
 .table-view {
     -fx-background-color: transparent;
     -fx-border-color: #27272a;
     -fx-border-width: 1px;
     -fx-border-radius: 8px;
     -fx-background-radius: 8px;
+    -fx-padding: 0;
 }
 
+.table-view:focused {
+    -fx-background-color: transparent;
+}
 
-/* CABEÇALHO */
-.table-view .column-header-background {
+.table-view .column-header-background,
+.table-view .column-header-background .filler {
     -fx-background-color: #1a1924;
     -fx-border-color: #27272a;
     -fx-border-width: 0 0 1 0;
@@ -18,35 +22,56 @@
 .table-view .column-header {
     -fx-background-color: transparent;
     -fx-size: 45px;
-    -fx-border-color: transparent #27272a transparent transparent;
+    -fx-border-color: transparent #232230 transparent transparent;
+    -fx-border-width: 0 1 0 0;
 }
 
 .table-view .column-header .label {
     -fx-text-fill: #a1a1aa;
     -fx-font-weight: bold;
     -fx-font-size: 13px;
-    -fx-alignment: center;
+    -fx-alignment: center-left;
+    -fx-padding: 0 16px;
 }
 
 .table-row-cell {
     -fx-background-color: #0e0d12;
-    -fx-border-color: #1f1e29;
+    -fx-border-color: #1a1924;
     -fx-border-width: 0 0 1 0;
     -fx-cell-size: 48px;
+    -fx-background-insets: 0;
+}
+
+.table-row-cell:empty {
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
 }
 
 .table-row-cell:hover {
-    -fx-background-color: #262438;
+    -fx-background-color: #212030;
+}
+
+.table-row-cell:selected {
+    -fx-background-color: #353447;
+}
+
+.table-row-cell:selected:hover {
+    -fx-background-color: #3b3a4f;
 }
 
 .table-cell {
     -fx-text-fill: #ffffff;
     -fx-font-size: 14px;
     -fx-alignment: center-left;
+    -fx-padding: 0 16px;
+    -fx-border-color: transparent #1a1926 transparent transparent;
+    -fx-border-width: 0 1 0 0;
 }
 
+.table-row-cell:selected .table-cell {
+    -fx-text-fill: #ffffff;
+}
 
-/* barra de pesquisa */
 .text-field {
     -fx-background-color: #1a1924;
     -fx-text-fill: #ffffff;
@@ -80,4 +105,26 @@
 
 .combo-box-popup .list-cell:hover {
     -fx-background-color: #3b0764;
+}
+
+
+/* DATE PICKER */
+.date-picker {
+    -fx-background-color: #1a1924;
+    -fx-border-color: #27272a;
+    -fx-border-radius: 6px;
+    -fx-background-radius: 6px;
+}
+
+.date-picker .text-field {
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
+}
+
+.date-picker .arrow-button {
+    -fx-background-color: transparent;
+}
+
+.date-picker .arrow-button .arrow {
+    -fx-background-color: #a1a1aa;
 }
