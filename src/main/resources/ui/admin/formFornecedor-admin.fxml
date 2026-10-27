@@ -8,54 +8,30 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="460.0" prefWidth="350.0" style="-fx-border-color: black; -fx-border-width: 2; -fx-border-radius: 4; -fx-background-radius: 4;" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.loja.controllers.admin.NvForneAdminController">
+<VBox alignment="TOP_CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minWidth="300.0" prefWidth="380.0" spacing="16.0" style="-fx-border-color: black; -fx-border-width: 2; -fx-border-radius: 4; -fx-background-radius: 4;" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.loja.controllers.admin.NvForneAdminController">
+   <padding>
+      <Insets bottom="25.0" left="25.0" right="25.0" top="25.0" />
+   </padding>
    <children>
-      <Label alignment="CENTER" prefHeight="47.0" prefWidth="352.0" fx:id="labelTitulo" text="Novo Fornecedor" textAlignment="CENTER" textFill="#3b0764">
+      <Label fx:id="labelTitulo" alignment="CENTER" maxWidth="1.7976931348623157E308" text="Novo Fornecedor" textAlignment="CENTER" textFill="#3b0764" wrapText="true">
          <font>
-            <Font name="System Bold" size="32.0" />
+            <Font name="System Bold" size="28.0" />
          </font>
-         <opaqueInsets>
-            <Insets />
-         </opaqueInsets>
-         <padding>
-            <Insets top="20.0" />
-         </padding>
+         <VBox.margin>
+            <Insets bottom="4.0" />
+         </VBox.margin>
       </Label>
-      <TextField fx:id="CadastroID" maxWidth="-Infinity" prefHeight="45.0" prefWidth="300.0" promptText="ID">
+      <TextField fx:id="CadastroID" maxWidth="1.7976931348623157E308" prefHeight="45.0" promptText="ID" />
+      <TextField fx:id="CadastroNome" maxWidth="1.7976931348623157E308" prefHeight="45.0" promptText="NOME" />
+      <TextField fx:id="CadastroCnpj" maxWidth="1.7976931348623157E308" prefHeight="45.0" promptText="CNPJ" />
+      <TextField fx:id="CadastroTel" maxWidth="1.7976931348623157E308" prefHeight="45.0" promptText="TELEFONE" />
+      <HBox spacing="12.0">
          <VBox.margin>
-            <Insets left="25.0" top="20.0" />
-         </VBox.margin>
-      </TextField>
-      <TextField fx:id="CadastroNome" layoutX="37.0" layoutY="99.0" maxWidth="-Infinity" prefHeight="45.0" prefWidth="300.0" promptText="NOME">
-         <VBox.margin>
-            <Insets left="25.0" top="20.0" />
-         </VBox.margin>
-      </TextField>
-      <TextField fx:id="CadastroCnpj" layoutX="37.0" layoutY="164.0" maxWidth="-Infinity" prefHeight="45.0" prefWidth="300.0" promptText="CNPJ">
-         <VBox.margin>
-            <Insets left="25.0" top="20.0" />
-         </VBox.margin>
-      </TextField>
-      <TextField fx:id="CadastroTel" layoutX="37.0" layoutY="229.0" maxWidth="-Infinity" prefHeight="45.0" prefWidth="300.0" promptText="CELL">
-         <VBox.margin>
-            <Insets left="25.0" top="20.0" />
-         </VBox.margin>
-      </TextField>
-      <HBox prefHeight="64.0" prefWidth="346.0">
-         <VBox.margin>
-            <Insets top="20.0" />
+            <Insets top="8.0" />
          </VBox.margin>
          <children>
-            <Button fx:id="botaoCancelar" layoutX="204.0" layoutY="10.0" mnemonicParsing="false" onAction="#cancelar" prefHeight="47.0" prefWidth="170.0" style="-fx-background-color: transparent; -fx-background-radius: 8; -fx-cursor: hand; -fx-font-weight: bold; -fx-border-color: #3b0764; -fx-border-radius: 8;" text="Cancelar" textFill="#3b0764">
-               <HBox.margin>
-                  <Insets left="25.0" right="20.0" />
-               </HBox.margin>
-            </Button>
-            <Button fx:id="botaoSalvarForne" layoutX="10.0" layoutY="10.0" mnemonicParsing="false" onAction="#salvar" prefHeight="45.0" prefWidth="170.0" style="-fx-background-color: #3b0764; -fx-background-radius: 8; -fx-cursor: hand; -fx-font-weight: bold;" text="Salvar" textFill="WHITE">
-               <HBox.margin>
-                  <Insets right="22.0" />
-               </HBox.margin>
-            </Button>
+            <Button fx:id="botaoCancelar" cancelButton="true" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#cancelar" prefHeight="45.0" style="-fx-background-color: transparent; -fx-background-radius: 8; -fx-cursor: hand; -fx-font-weight: bold; -fx-border-color: #3b0764; -fx-border-radius: 8;" text="Cancelar" textFill="#3b0764" HBox.hgrow="ALWAYS" />
+            <Button fx:id="botaoSalvarForne" defaultButton="true" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#salvar" prefHeight="45.0" style="-fx-background-color: #3b0764; -fx-background-radius: 8; -fx-cursor: hand; -fx-font-weight: bold;" text="Salvar" textFill="WHITE" HBox.hgrow="ALWAYS" />
          </children>
       </HBox>
    </children>
