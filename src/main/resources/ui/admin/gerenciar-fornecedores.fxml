@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.net.URL?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ComboBox?>
@@ -11,7 +12,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1080.0" prefWidth="1500.0" spacing="24.0" style="-fx-background-color: #0e0d12;" stylesheets="@../../css/telas-cliente.css" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.loja.controllers.admin.GerenciarFornecedoresController">
+<VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1080.0" prefWidth="1500.0" spacing="24.0" style="-fx-background-color: #0e0d12;" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.loja.controllers.admin.GerenciarFornecedoresController">
     <padding>
         <Insets bottom="60.0" left="80.0" right="80.0" top="60.0" />
     </padding>
@@ -33,6 +34,16 @@
             <Button fx:id="botaoBuscar11" layoutX="1230.0" layoutY="12.0" mnemonicParsing="false" onAction="#buscar" prefHeight="44.0" prefWidth="120.0" style="-fx-background-color: #3b0764; -fx-background-radius: 8; -fx-cursor: hand; -fx-font-weight: bold;" text="Buscar" textFill="WHITE" />
             </children>
         </HBox>
+        <HBox prefHeight="54.0" prefWidth="1340.0" spacing="10.0">
+            <children>
+                <Button fx:id="botaoEditar" mnemonicParsing="false" onAction="#buscar" opacity="0.88" prefHeight="44.0" prefWidth="120.0" style="-fx-background-color: #ffffff; -fx-border-color: #3b0764; -fx-border-radius: 8; -fx-border-width: 1; -fx-background-radius: 8; -fx-cursor: hand; -fx-font-weight: bold;" text="Editar" textFill="#3b0764" visible="false">
+                    <HBox.margin>
+                        <Insets left="1100.0" />
+                    </HBox.margin>
+                </Button>
+                <Button fx:id="botaoExcluir" layoutX="1110.0" layoutY="10.0" mnemonicParsing="false" onAction="#buscar" opacity="0.73" prefHeight="44.0" prefWidth="120.0" style="-fx-background-color: red; -fx-background-radius: 8; -fx-cursor: hand; -fx-font-weight: bold;" text="Excluir" textFill="WHITE" visible="false" />
+            </children>
+        </HBox>
         <TableView fx:id="tabela" maxWidth="1.7976931348623157E308" prefHeight="200.0" prefWidth="200.0" VBox.vgrow="ALWAYS">
             <columns>
                 <TableColumn fx:id="colunaID" prefWidth="120.0" text="ID" />
@@ -45,4 +56,7 @@
             </columnResizePolicy>
         </TableView>
     </children>
+   <stylesheets>
+      <URL value="@../../css/telas.css" />
+   </stylesheets>
 </VBox>
