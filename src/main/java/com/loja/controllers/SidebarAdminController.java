@@ -6,6 +6,8 @@ import com.loja.controllers.admin.GerenciarItensController;
 import com.loja.controllers.admin.GerenciarUsuariosController;
 import com.loja.controllers.admin.RelatorioAlugueisAtivosController;
 import com.loja.controllers.admin.RelatorioFinanceiroController;
+import com.loja.controllers.funcionario.ContratosPorClienteController;
+import com.loja.controllers.funcionario.ItensDisponiveisController;
 import com.loja.model.Administrador;
 import com.loja.padraofacade.interfaces.ILojaFacade;
 import javafx.event.ActionEvent;

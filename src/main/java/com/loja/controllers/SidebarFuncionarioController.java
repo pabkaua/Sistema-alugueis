@@ -101,6 +101,7 @@ public class SidebarFuncionarioController {
             conteudo.getChildren().setAll(tela);
         } catch (IOException e) {
             Alerta.exibirAlertaErro("Erro de navegação", e.getMessage());
+            e.printStackTrace();
         }
     }
 
@@ -145,6 +146,7 @@ public class SidebarFuncionarioController {
             conteudo.getChildren().setAll(tela);
         } catch (IOException e) {
             Alerta.exibirAlertaErro("Erro de navegação", e.getMessage());
+            e.printStackTrace();
         }
     }
 
