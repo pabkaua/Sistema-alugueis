@@ -1,67 +1,88 @@
 package com.loja.controllers;
 
-import java.util.Map;
-
 import com.loja.model.ContratoAluguel;
+import com.loja.model.Item;
 import com.loja.padraofacade.interfaces.ILojaFacade;
-
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.collections.transformation.SortedList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.Label;
+import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+
+import java.math.BigDecimal;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.Map;
 
 public class ContratosPorClienteController {
 
     private ILojaFacade facade;
 
+    @FXML private Button botaoBuscar;
     @FXML private TextField campoBusca;
-    @FXML private TableView<ContratoAluguel> tabela;
     @FXML private TableColumn<ContratoAluguel, String> colunaID;
     @FXML private TableColumn<ContratoAluguel, String> colunaItem;
     @FXML private TableColumn<ContratoAluguel, String> colunaValor;
     @FXML private TableColumn<ContratoAluguel, String> colunaStatus;
     @FXML private TableColumn<ContratoAluguel, String> colunaDevolucao;
+    @FXML private TableView<ContratoAluguel> tabela;
 
-    @FXML
-    void initialize() {
-        colunaID.setCellValueFactory(c -> new SimpleStringProperty(String.valueOf(c.getValue().getId())));
-        colunaItem.setCellValueFactory(c -> new SimpleStringProperty(String.valueOf(c.getValue().getItem().getNome())));
-        colunaValor.setCellValueFactory(c -> new SimpleStringProperty(String.valueOf(c.getValue().getValorTotal())));
-        colunaStatus.setCellValueFactory(c -> new SimpleStringProperty(String.valueOf(c.getValue().getStatus())));
-        colunaDevolucao.setCellValueFactory(c -> new SimpleStringProperty(String.valueOf(c.getValue().getDataPrevDevolucao())));
+    public void initialize() {
+        DateTimeFormatter formatador = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 
-        definirMensagem("Digite o ID de um cliente para ver os contratos.");
+        colunaID.setCellValueFactory(dado -> new SimpleStringProperty(dado.getValue().getId()));
+        colunaItem.setCellValueFactory(dado -> {
+            Item item = dado.getValue().getItem();
+            return new SimpleStringProperty(item != null ? item.getNome() : "");
+        });
+        colunaValor.setCellValueFactory(dado -> {
+            BigDecimal total = dado.getValue().getValorTotal();
+            String valorFormatado = total != null ? String.format("R$ %.2f", total).replace(".", ",") : "R$ 0,00";
+            return new SimpleStringProperty(valorFormatado);
+        });
+        colunaStatus.setCellValueFactory(dado -> new SimpleStringProperty(dado.getValue().getStatus()));
+        colunaDevolucao.setCellValueFactory(dado -> {
+            LocalDate data = dado.getValue().getDataPrevDevolucao();
+            return new SimpleStringProperty(data != null ? data.format(formatador) : "");
+        });
+
+        campoBusca.setOnAction(this::buscarContratos);
     }
 
-    public void setFacade(ILojaFacade facade) {
+    public void setDados(ILojaFacade facade) {
         this.facade = facade;
     }
 
     @FXML
     void buscarContratos(ActionEvent event) {
-        String clienteId = campoBusca.getText().trim();
+        String clienteId = campoBusca.getText();
 
-        if (clienteId.isEmpty()) {
+        if (clienteId == null || clienteId.isBlank()) {
             Alerta.exibirAlertaAviso("Digite o ID do cliente.");
             return;
         }
 
         try {
-            Map<String, ContratoAluguel> contratos = facade.consultarHistoricoCliente(clienteId);
-            tabela.setItems(FXCollections.observableArrayList(contratos.values()));
-            definirMensagem("Não há histórico de contratos para esse cliente.");
-        } catch (RuntimeException e) {
-            Alerta.exibirAlertaAviso("Erro ao listar contratos: " + e.getMessage());
-        }
-    }
+            Map<String, ContratoAluguel> mapContratosBruta = facade.consultarHistoricoCliente(clienteId.trim());
 
-    private void definirMensagem(String texto) {
-        Label mensagem = new Label(texto);
-        mensagem.setStyle("-fx-text-fill: white;");
-        tabela.setPlaceholder(mensagem);
+            ObservableList<ContratoAluguel> listaContratosBruta;
+            if (mapContratosBruta != null) {
+                listaContratosBruta = FXCollections.observableArrayList(mapContratosBruta.values());
+            } else {
+                listaContratosBruta = FXCollections.observableArrayList();
+            }
+
+            SortedList<ContratoAluguel> listaContratosOrdenada = new SortedList<>(listaContratosBruta);
+            listaContratosOrdenada.comparatorProperty().bind(tabela.comparatorProperty());
+            tabela.setItems(listaContratosOrdenada);
+
+        } catch (RuntimeException e) {
+            Alerta.exibirAlertaErro("Erro ao listar contratos", e.getMessage());
+        }
     }
 }
