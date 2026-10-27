@@ -1,8 +1,8 @@
 package com.loja.controllers;
 
 import com.loja.model.Administrador;
-import com.loja.model.Cliente;
 import com.loja.model.Funcionario;
+import com.loja.model.Cliente;
 import com.loja.model.Usuario;
 import com.loja.padraofacade.interfaces.ILojaFacade;
 import javafx.event.ActionEvent;
