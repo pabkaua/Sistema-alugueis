@@ -7,7 +7,6 @@ import com.loja.model.Fornecedor;
 import com.loja.model.Item;
 import com.loja.padraofacade.interfaces.ILojaFacade;
 import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -21,10 +20,8 @@ import javafx.util.StringConverter;
 
 import java.io.IOException;
 import java.math.BigDecimal;
-import java.util.Locale;
 import java.util.Map;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+
 
 public class CriarItemController {
 

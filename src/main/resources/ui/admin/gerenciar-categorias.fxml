@@ -23,12 +23,12 @@
                         <Font name="System Bold" size="32.0" />
                     </font>
                 </Label>
-            <TextField fx:id="IdCategoria" prefHeight="44.0" prefWidth="265.0" promptText="ID">
+            <TextField fx:id="idCategoria" prefHeight="44.0" prefWidth="265.0" promptText="ID">
                <HBox.margin>
                   <Insets left="500.0" />
                </HBox.margin>
             </TextField>
-            <TextField fx:id="NomeCategoria" layoutX="278.0" layoutY="10.0" prefHeight="44.0" prefWidth="401.0" promptText="Nome da categoria" />
+            <TextField fx:id="nomeCategoria" layoutX="278.0" layoutY="10.0" prefHeight="44.0" prefWidth="401.0" promptText="Nome da categoria" />
                 <Button fx:id="botaoCateAdd" mnemonicParsing="false" onAction="#buscar" prefHeight="44.0" prefWidth="210.0" style="-fx-background-color: #3b0764; -fx-background-radius: 8; -fx-cursor: hand; -fx-font-weight: bold;" text="+ Adicionar " textFill="WHITE">
                <HBox.margin>
                   <Insets right="100.0" />

@@ -21,14 +21,9 @@ public class Aplicacao extends Application {
         launch(args);
     }
 
-    protected ILojaFacade criarFacade(){
-        ILojaFacade facade = new LojaFacade();
-        this.facade = facade;
-        return facade;
-    }
-
     @Override
     public void start(Stage stage) {
+        this.facade = new LojaFacade();
         try {
             URL url = getClass().getResource("/ui/LoginScreen.fxml");
             if (url == null) {
@@ -40,7 +35,7 @@ public class Aplicacao extends Application {
             Parent telaLogin = loader.load();
 
             LoginController controller = loader.getController();
-            controller.setFacade(criarFacade());
+            controller.setFacade(this.facade);
 
             stage.setTitle("Login - Aluga Tudo");
             stage.setScene(new Scene(telaLogin, 1920, 1080));

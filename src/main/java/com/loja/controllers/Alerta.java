@@ -3,6 +3,9 @@ package com.loja.controllers;
 import javafx.scene.control.Alert;
 
 public class Alerta {
+
+    private Alerta () {};
+
     public static void exibirAlertaErro(String titulo, String mensagem) {
         Alert alerta = new Alert(Alert.AlertType.ERROR);
         alerta.setTitle("Erro");

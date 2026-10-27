@@ -31,32 +31,32 @@ public class SidebarFuncionarioController {
 
     @FXML
     void alternarRelatorios(ActionEvent event) {
-
+        // fazer
     }
 
     @FXML
     void fazerLogout(ActionEvent event) {
-
+        // fazer
     }
 
     @FXML
     void navegarAlugueis(ActionEvent event) {
-
+        // fazer
     }
 
     @FXML
     void navegarDashboard(ActionEvent event) {
-
+        // fazer
     }
 
     @FXML
     void navegarItensDisponiveis(ActionEvent event) {
-
+        // fazer
     }
 
     @FXML
     void navegarMultas(ActionEvent event) {
-
+        // fazer
     }
 
 }

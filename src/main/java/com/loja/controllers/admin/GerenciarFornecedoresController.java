@@ -17,32 +17,15 @@ import javafx.scene.control.cell.PropertyValueFactory;
 
 public class GerenciarFornecedoresController {
 
-    @FXML
-    private Button botaoBuscar11;
-
-    @FXML
-    private Button botaoNovoForne;
-
-    @FXML
-    private TextField campoBusca;
-
-    @FXML
-    private TableColumn<Fornecedor, String> colunaCNPJ;
-
-    @FXML
-    private TableColumn<Fornecedor, String> colunaID;
-
-    @FXML
-    private TableColumn<Fornecedor, String>colunaNome;
-
-    @FXML
-    private TableColumn<Fornecedor, String> colunaTelefone;
-
-    @FXML
-    private ComboBox<String> listaColuna;
-
-    @FXML
-    private TableView<Fornecedor> tabela;
+    @FXML private Button botaoBuscar11;
+    @FXML private Button botaoNovoForne;
+    @FXML private TextField campoBusca;
+    @FXML private TableColumn<Fornecedor, String> colunaCNPJ;
+    @FXML private TableColumn<Fornecedor, String> colunaID;
+    @FXML private TableColumn<Fornecedor, String>colunaNome;
+    @FXML private TableColumn<Fornecedor, String> colunaTelefone;
+    @FXML private ComboBox<String> listaColuna;
+    @FXML private TableView<Fornecedor> tabela;
 
     private ILojaFacade facade;
 
@@ -50,6 +33,7 @@ public class GerenciarFornecedoresController {
     private FilteredList<Fornecedor> filtrados;
 
     @FXML public void initialize(){
+
         colunaID.setCellValueFactory(new PropertyValueFactory<>("id"));
         colunaNome.setCellValueFactory(new PropertyValueFactory<>("nome"));
         colunaCNPJ.setCellValueFactory(new PropertyValueFactory<>("cnpj"));
@@ -65,8 +49,6 @@ public class GerenciarFornecedoresController {
 
         campoBusca.textProperty().addListener((obs, antigo, novo) -> aplicarFiltro());
 
-
-
     }
 
     private void aplicarFiltro(){
@@ -75,7 +57,7 @@ public class GerenciarFornecedoresController {
 
     @FXML
     void buscar(ActionEvent event) {
-
+        // fazer
     }
 
 }
