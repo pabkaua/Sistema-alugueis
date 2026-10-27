@@ -7,6 +7,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 public class NvForneAdminController {
@@ -29,6 +30,9 @@ public class NvForneAdminController {
     @FXML
     private Button botaoSalvarForne;
 
+    @FXML
+    private Text labelTitulo;   // import javafx.scene.text.Text;
+
     private ILojaFacade facade;
     private Fornecedor fornecedor;
 
@@ -38,7 +42,14 @@ public class NvForneAdminController {
 
     public void setFornecedor(Fornecedor fornecedor) {
         this.fornecedor = fornecedor;
-        if (fornecedor == null) return;
+        if (fornecedor == null) {
+            labelTitulo.setText("Novo Fornecedor");
+            botaoSalvarForne.setText("Cadastrar");
+            CadastroID.setDisable(false);
+            return;
+        }
+        labelTitulo.setText("Editar Fornecedor");
+        botaoSalvarForne.setText("Salvar");
 
         CadastroID.setText(fornecedor.getId());
         CadastroID.setDisable(true);
@@ -46,6 +57,7 @@ public class NvForneAdminController {
         CadastroCnpj.setText(fornecedor.getCnpj());
         CadastroTel.setText(fornecedor.getTelefone());
     }
+
 
     @FXML
     void salvar(ActionEvent event) {

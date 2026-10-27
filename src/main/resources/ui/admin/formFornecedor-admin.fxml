@@ -10,7 +10,7 @@
 
 <VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="460.0" prefWidth="350.0" style="-fx-border-color: black; -fx-border-width: 2; -fx-border-radius: 4; -fx-background-radius: 4;" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.loja.controllers.admin.NvForneAdminController">
    <children>
-      <Label alignment="CENTER" prefHeight="47.0" prefWidth="352.0" text="Novo Fornecedor" textAlignment="CENTER" textFill="#3b0764">
+      <Label alignment="CENTER" prefHeight="47.0" prefWidth="352.0" fx:id="labelTitulo" text="Novo Fornecedor" textAlignment="CENTER" textFill="#3b0764">
          <font>
             <Font name="System Bold" size="32.0" />
          </font>
