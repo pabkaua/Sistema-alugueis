@@ -27,7 +27,6 @@ import java.io.IOException;
 public class SidebarAdminController {
 
   private ILojaFacade facade;
-  private Administrador usuarioLogado;
 
   @FXML private Button botaoDashboard;
   @FXML private Button btnAdminGerenciarUsuarios;
@@ -55,9 +54,8 @@ public class SidebarAdminController {
     submenuAdminRelatorios.managedProperty().bind(submenuAdminRelatorios.visibleProperty());
   }
 
-  public void setContexto(ILojaFacade facade, Administrador usuario){
+  public void setContexto(ILojaFacade facade){
     this.facade = facade;
-    this.usuarioLogado = usuario;
   }
 
   @FXML
@@ -146,7 +144,6 @@ public class SidebarAdminController {
       controller.setFacade(this.facade);
       conteudo.getChildren().setAll(tela);
     } catch (IOException e){
-      e.printStackTrace();
       Alerta.exibirAlertaErro("Erro de carregamento", "Erro ao carregar a tela de categorias");
     }
   }

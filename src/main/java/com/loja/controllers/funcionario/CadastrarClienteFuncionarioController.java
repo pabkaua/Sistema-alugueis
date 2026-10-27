@@ -16,12 +16,14 @@ public class CadastrarClienteFuncionarioController {
 
     @FXML private Button botaoCadastrar;
     @FXML private Button botaoLimpar;
+    @FXML private TextField campoID;
     @FXML private TextField campoNome;
     @FXML private TextField campoLogin;
     @FXML private PasswordField campoSenha;
     @FXML private PasswordField campoConfirmarSenha;
 
     public void initialize() {
+        campoID.setOnAction(e -> campoID.requestFocus());
         campoNome.setOnAction(e -> campoLogin.requestFocus());
         campoLogin.setOnAction(e -> campoSenha.requestFocus());
         campoSenha.setOnAction(e -> campoConfirmarSenha.requestFocus());
@@ -32,30 +34,13 @@ public class CadastrarClienteFuncionarioController {
         this.facade = facade;
     }
 
-    // segue o padrão USR001, USR002... dos usuários já cadastrados
-    private String gerarProximoId() {
-        int maiorNumero = 0;
-
-        for (String id : facade.listarUsuario().keySet()) {
-            if (!id.toUpperCase().startsWith("USR")) {
-                continue;
-            }
-            try {
-                maiorNumero = Math.max(maiorNumero, Integer.parseInt(id.substring(3)));
-            } catch (NumberFormatException e) {
-                continue;
-            }
-        }
-
-        return String.format("USR%03d", maiorNumero + 1);
-    }
-
     private void limparFormulario() {
+        campoID.clear();
         campoNome.clear();
         campoLogin.clear();
         campoSenha.clear();
         campoConfirmarSenha.clear();
-        campoNome.requestFocus();
+        campoID.requestFocus();
     }
 
     private void mostrarInfo(String mensagem) {
@@ -66,12 +51,13 @@ public class CadastrarClienteFuncionarioController {
 
     @FXML
     void cadastrarCliente(ActionEvent event) {
+        String id = campoID.getText().trim();
         String nome = campoNome.getText().trim();
         String login = campoLogin.getText().trim();
         String senha = campoSenha.getText();
         String confirmacao = campoConfirmarSenha.getText();
 
-        if (nome.isEmpty() || login.isEmpty() || senha.isEmpty() || confirmacao.isEmpty()) {
+        if (id.isEmpty() || nome.isEmpty() || login.isEmpty() || senha.isEmpty() || confirmacao.isEmpty()) {
             Alerta.exibirAlertaAviso("Preencha todos os campos para cadastrar o cliente.");
             return;
         }
@@ -84,7 +70,7 @@ public class CadastrarClienteFuncionarioController {
         }
 
         try {
-            Cliente cliente = new Cliente(gerarProximoId(), nome, login, senha);
+            Cliente cliente = new Cliente(id, nome, login, senha);
             cliente.setAtivo(true);
 
             facade.cadastrarCliente(cliente);

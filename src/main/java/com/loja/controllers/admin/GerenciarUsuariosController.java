@@ -32,7 +32,7 @@ public class GerenciarUsuariosController {
     @FXML private Button btnAdminEditarUsuario;
     @FXML private Button btnAdminDesativarUsuario;
     private ILojaFacade facade;
-    private ObservableList<Usuario> listaUsuarios = FXCollections.observableArrayList();
+    private final ObservableList<Usuario> listaUsuarios = FXCollections.observableArrayList();
 
     @FXML
     public void initialize() {
@@ -118,7 +118,6 @@ public class GerenciarUsuariosController {
             carregarDados();
 
         } catch (IOException e) {
-            e.printStackTrace();
             new Alert(Alert.AlertType.ERROR, "Erro ao abrir o formulário.").show();
         }
     }

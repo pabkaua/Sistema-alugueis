@@ -16,16 +16,16 @@ public class NvForneAdminController {
     private Label labelTitulo;
 
     @FXML
-    private TextField CadastroCnpj;
+    private TextField cadastroCnpj;
 
     @FXML
-    private TextField CadastroID;
+    private TextField cadastroID;
 
     @FXML
-    private TextField CadastroNome;
+    private TextField cadastroNome;
 
     @FXML
-    private TextField CadastroTel;
+    private TextField cadastroTel;
 
     @FXML
     private Button botaoCancelar;
@@ -47,7 +47,7 @@ public class NvForneAdminController {
             // Modo NOVO
             labelTitulo.setText("Novo Fornecedor");
             botaoSalvarForne.setText("Cadastrar");
-            CadastroID.setDisable(false);
+            cadastroID.setDisable(false);
             return;
         }
 
@@ -55,19 +55,19 @@ public class NvForneAdminController {
         labelTitulo.setText("Editar Fornecedor");
         botaoSalvarForne.setText("Salvar");
 
-        CadastroID.setText(fornecedor.getId());
-        CadastroID.setDisable(true); // ID não pode ser alterado
-        CadastroNome.setText(fornecedor.getNome());
-        CadastroCnpj.setText(fornecedor.getCnpj());
-        CadastroTel.setText(fornecedor.getTelefone());
+        cadastroID.setText(fornecedor.getId());
+        cadastroID.setDisable(true); // ID não pode ser alterado
+        cadastroNome.setText(fornecedor.getNome());
+        cadastroCnpj.setText(fornecedor.getCnpj());
+        cadastroTel.setText(fornecedor.getTelefone());
     }
 
     @FXML
     void salvar(ActionEvent event) {
-        String id = CadastroID.getText().trim();
-        String nome = CadastroNome.getText().trim();
-        String cnpj = CadastroCnpj.getText().trim();
-        String telefone = CadastroTel.getText().trim();
+        String id = cadastroID.getText().trim();
+        String nome = cadastroNome.getText().trim();
+        String cnpj = cadastroCnpj.getText().trim();
+        String telefone = cadastroTel.getText().trim();
 
         if (fornecedor == null && id.isEmpty()) {
             Alerta.exibirAlertaAviso("Preencha o ID.");
@@ -100,6 +100,6 @@ public class NvForneAdminController {
     }
 
     private void fechar() {
-        ((Stage) CadastroNome.getScene().getWindow()).close();
+        ((Stage) cadastroNome.getScene().getWindow()).close();
     }
 }

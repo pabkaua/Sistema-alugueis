@@ -25,16 +25,30 @@
                 <Insets bottom="40.0" left="40.0" right="40.0" top="40.0" />
             </padding>
             <children>
-                <VBox spacing="8.0">
-                    <children>
+            <HBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="0.0" minWidth="0.0" spacing="20.0">
+               <children>
+                      <VBox spacing="8.0" HBox.hgrow="ALWAYS">
+                          <children>
+                              <Label text="ID" textFill="#a1a1aa">
+                                  <font>
+                                      <Font name="System Bold" size="14.0" />
+                                  </font>
+                              </Label>
+                              <TextField fx:id="campoID" prefHeight="44.0" promptText="Id do cliente" />
+                          </children>
+                      </VBox>
+                  <VBox spacing="8.0" HBox.hgrow="ALWAYS">
+                     <children>
                         <Label text="Nome" textFill="#a1a1aa">
-                            <font>
-                                <Font name="System Bold" size="14.0" />
-                            </font>
+                           <font>
+                              <Font name="System Bold" size="14.0" />
+                           </font>
                         </Label>
                         <TextField fx:id="campoNome" prefHeight="44.0" promptText="Nome completo do cliente" />
-                    </children>
-                </VBox>
+                     </children>
+                  </VBox>
+               </children>
+            </HBox>
                 <VBox spacing="8.0">
                     <children>
                         <Label text="Login" textFill="#a1a1aa">

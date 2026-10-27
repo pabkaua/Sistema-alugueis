@@ -4,6 +4,10 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 
 public class Alerta {
+
+    private Alerta () {
+        // evitar issue do sonar
+    }
     public static void exibirAlertaErro(String titulo, String mensagem) {
         Alert alerta = new Alert(Alert.AlertType.ERROR);
         alerta.setTitle("Erro");
