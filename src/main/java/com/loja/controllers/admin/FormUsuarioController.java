@@ -59,8 +59,8 @@ public class FormUsuarioController {
             lblTitulo.setText("Editar Usuário");
             campoNome.setText(usuario.getNome());
             campoLogin.setText(usuario.getLogin());
-            campoLogin.setEditable(false);
-            campoLogin.setDisable(true);
+            //campoLogin.setEditable(false);
+            //campoLogin.setDisable(true);
             campoPerfil.setValue(usuario.getPerfil().toUpperCase());
             campoPerfil.setDisable(true);
             campoSituacao.setValue(usuario.isAtivo() ? "ATIVO" : "INATIVO");
@@ -118,34 +118,57 @@ public class FormUsuarioController {
         String login = campoLogin.getText().trim();
         String senha = campoSenha.getText(); // Pode estar vazia na edição
         String perfil = campoPerfil.getValue();
-        String id = gerarNovoId();
-        Boolean isAtivo = "ATIVO".equals(campoSituacao.getValue());
+        boolean isAtivo = "ATIVO".equals(campoSituacao.getValue());
 
         if (usuarioEditando == null) {
             String novoId = gerarNovoId();
 
             if ("ADMINISTRADOR".equals(perfil)) {
                 Administrador novoAdm = new Administrador(novoId, nome, login, senha);
-                novoAdm.setAtivo(isAtivo); //[cite: 10]
+                novoAdm.setAtivo(isAtivo);
                 facade.cadastrarAdm(novoAdm);
             } else if ("FUNCIONARIO".equals(perfil)) {
                 Funcionario novoFunc = new Funcionario(novoId, nome, login, senha, "Atendente");
-                novoFunc.setAtivo(isAtivo); //[cite: 10]
+                novoFunc.setAtivo(isAtivo);
                 facade.cadastrarFuncionario(novoFunc);
             } else if ("CLIENTE".equals(perfil)) {
                 Cliente novoCliente = new Cliente(novoId, nome, login, senha);
-                novoCliente.setAtivo(isAtivo); //[cite: 10]
+                novoCliente.setAtivo(isAtivo);
                 facade.cadastrarCliente(novoCliente);
             }
         } else {
-            usuarioEditando.setNome(nome);
-            usuarioEditando.setAtivo(isAtivo); //[cite: 10]
-            if (senha != null && !senha.isEmpty()) {
-                usuarioEditando.setSenha(senha);
+            // Mantém a senha antiga caso o campo fique em branco
+            String senhaFinal = (senha != null && !senha.isEmpty()) ? senha : usuarioEditando.getSenha();
+
+            // Verifica se o perfil foi alterado
+            if (!usuarioEditando.getPerfil().equalsIgnoreCase(perfil)) {
+                Usuario usuarioConvertido = null;
+                String idOriginal = usuarioEditando.getId();
+
+                // Recria o objeto com a nova classe, aplicando o novo login e mantendo o ID
+                if ("ADMINISTRADOR".equals(perfil)) {
+                    usuarioConvertido = new Administrador(idOriginal, nome, login, senhaFinal);
+                    usuarioConvertido.setAtivo(isAtivo);
+                } else if ("FUNCIONARIO".equals(perfil)) {
+                    usuarioConvertido = new Funcionario(idOriginal, nome, login, senhaFinal, "Atendente");
+                    usuarioConvertido.setAtivo(isAtivo);
+                } else if ("CLIENTE".equals(perfil)) {
+                    usuarioConvertido = new Cliente(idOriginal, nome, login, senhaFinal);
+                    usuarioConvertido.setAtivo(isAtivo);
+                }
+
+                facade.atualizarUsuario(idOriginal, usuarioConvertido);
+
+            } else {
+                // Se o perfil não mudou, apenas atualiza os atributos normalmente
+                usuarioEditando.setNome(nome);
+                usuarioEditando.setLogin(login); // Permite a edição do login
+                usuarioEditando.setSenha(senhaFinal);
+                usuarioEditando.setAtivo(isAtivo);
+
+                facade.atualizarUsuario(usuarioEditando.getId(), usuarioEditando);
             }
-            facade.atualizarUsuario(usuarioEditando.getId(), usuarioEditando);
         }
-        facade.salvarTudo();
     }
 
     @FXML
