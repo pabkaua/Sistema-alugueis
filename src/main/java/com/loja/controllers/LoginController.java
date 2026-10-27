@@ -2,6 +2,7 @@ package com.loja.controllers;
 
 import com.loja.model.Administrador;
 import com.loja.model.Cliente;
+import com.loja.model.Funcionario;
 import com.loja.model.Usuario;
 import com.loja.padraofacade.interfaces.ILojaFacade;
 import javafx.event.ActionEvent;
@@ -81,13 +82,16 @@ public class LoginController {
             controller.setContexto(facade, adm);
             controller.navegarDashboard(event);
         }
-        /*
         else if (usuario instanceof Funcionario func) {
             FXMLLoader loader = abrirTela("/ui/funcionario/sidebar-funcionario.fxml", "Painel do Funcionário");
-            ((MenuFuncionarioController) loader.getController()).setContexto(facade, func);
-
+            if(loader == null){
+                Alerta.exibirAlertaAviso("Não foi possivel logar, houve um erro no redirecionamento da tela");
+                return;
+            }
+            SidebarFuncionarioController controller = loader.getController();
+            controller.setContexto(facade, func);
+            controller.navegarDashboard(event);
         }
-         */
     }
 
     private FXMLLoader abrirTela(String caminhoFxml, String titulo) {
@@ -103,12 +107,8 @@ public class LoginController {
 
             Stage stage = (Stage) botaoEntrar.getScene().getWindow();
             stage.setTitle(titulo);
-
-            if (stage.getScene() != null) {
-                stage.getScene().setRoot(tela);
-            } else {
-                stage.setScene(new Scene(tela));
-            }
+            stage.setScene(new Scene(tela));
+            stage.centerOnScreen();
 
             return loader;
         } catch (IOException e) {
@@ -117,5 +117,3 @@ public class LoginController {
         }
     }
 }
-
-
