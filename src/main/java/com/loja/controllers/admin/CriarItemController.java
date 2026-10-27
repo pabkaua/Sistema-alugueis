@@ -107,7 +107,7 @@ public class CriarItemController {
             Item item = new Item(id.toUpperCase(), nome.toUpperCase(), taxaDiariaB, valorReposicaoB, "DISPONIVEL", categoria, fornecedor);
             facade.cadastrarItem(item);
 
-            Alerta.exibirAlertaSucesso("Sucesso!", "Item cadastrado com sucesso!");
+            Alerta.exibirAlertaSucesso("Sucesso! Item cadastrado com sucesso!");
 
             voltarParaGerenciarItens();
 

@@ -118,7 +118,7 @@ public class EditarItemController {
             Item item = new Item(id.toUpperCase(), nome.toUpperCase(), taxaDiariaB, valorReposicaoB, "DISPONIVEL", categoria, fornecedor);
             facade.atualizarItem(item);
 
-            Alerta.exibirAlertaSucesso("Sucesso!", "Item atualizado com sucesso!");
+            Alerta.exibirAlertaSucesso("Sucesso! Item atualizado com sucesso!");
 
             voltarParaGerenciarItens();
 
