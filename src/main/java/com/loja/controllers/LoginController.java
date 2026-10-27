@@ -81,13 +81,16 @@ public class LoginController {
             controller.setContexto(facade, adm);
             controller.navegarDashboard(event);
         }
-        /*
         else if (usuario instanceof Funcionario func) {
             FXMLLoader loader = abrirTela("/ui/funcionario/sidebar-funcionario.fxml", "Painel do Funcionário");
-            ((MenuFuncionarioController) loader.getController()).setContexto(facade, func);
-
+            if(loader == null){
+                Alerta.exibirAlertaAviso("Não foi possivel logar, houve um erro no redirecionamento da tela");
+                return;
+            }
+            SidebarFuncionarioController controller = loader.getController();
+            controller.setContexto(facade, func);
+            controller.navegarDashboard(event);
         }
-         */
     }
 
     private FXMLLoader abrirTela(String caminhoFxml, String titulo) {
@@ -117,5 +120,3 @@ public class LoginController {
         }
     }
 }
-
-
