@@ -78,9 +78,9 @@ public class GerenciarItensController {
     @FXML
     void acaoAdicionar(ActionEvent event) {
         try {
-            java.net.URL url = getClass().getResource("/ui/admin/criar-atualizar-itens.fxml");
+            java.net.URL url = getClass().getResource("/ui/admin/criar-itens.fxml");
             if (url == null){
-                Alerta.exibirAlertaErro("Erro: 404 Not Found", " Arquivo criar-atualizar-itens.fxml não encontrado");
+                Alerta.exibirAlertaErro("Erro: 404 Not Found", " Arquivo criar-itens.fxml não encontrado");
                 return;
             }
 
@@ -91,7 +91,7 @@ public class GerenciarItensController {
             controller.setContexto(this.facade, this.conteudoPai);
             this.conteudoPai.getChildren().setAll(tela);
         } catch (IOException e){
-            Alerta.exibirAlertaErro("Erro de carregamento", "Erro ao carregar a tela de usuarios");
+            Alerta.exibirAlertaErro("Erro de carregamento", "Erro ao carregar a tela de cadastro de itens");
         }
     }
 
@@ -108,7 +108,23 @@ public class GerenciarItensController {
 
     @FXML
     void acaoEditar(ActionEvent event) {
-        // fazer
+        try {
+            java.net.URL url = getClass().getResource("/ui/admin/atualizar-itens.fxml");
+            if (url == null){
+                Alerta.exibirAlertaErro("Erro: 404 Not Found", " Arquivo atualizar-itens.fxml não encontrado");
+                return;
+            }
+
+            Item itemSelecionado = adminTabelaItens.getSelectionModel().getSelectedItem();
+            javafx.fxml.FXMLLoader loader = new javafx.fxml.FXMLLoader(url);
+            javafx.scene.Node tela = loader.load();
+
+            EditarItemController controller = loader.getController();
+            controller.setContexto(this.facade, this.conteudoPai, itemSelecionado);
+            this.conteudoPai.getChildren().setAll(tela);
+        } catch (IOException e){
+            Alerta.exibirAlertaErro("Erro de carregamento", "Erro ao carregar a tela de atualização de itens");
+        }
     }
 
     private void filtroDeBusca() {
