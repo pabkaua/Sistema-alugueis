@@ -18,7 +18,7 @@
         <Insets bottom="40.0" left="40.0" right="40.0" top="40.0" />
     </padding>
     <children>
-        <!-- Cabeçalho: título à esquerda, botão à direita -->
+
         <HBox alignment="CENTER_LEFT" spacing="12.0">
             <children>
                 <Label minWidth="-Infinity" text="Fornecedores" textFill="WHITE">
@@ -31,7 +31,7 @@
             </children>
         </HBox>
 
-        <!-- Busca: o campo de texto ocupa o espaço que sobra -->
+
         <HBox alignment="CENTER_LEFT" spacing="12.0">
             <children>
                 <ComboBox fx:id="listaColuna" minWidth="120.0" prefHeight="44.0" prefWidth="180.0" promptText="COLUNA" />
@@ -40,7 +40,7 @@
             </children>
         </HBox>
 
-        <!-- Ações: sempre alinhadas à direita -->
+
         <HBox alignment="CENTER_RIGHT" minHeight="44.0" spacing="10.0">
             <children>
                 <Button fx:id="botaoEditar" minWidth="-Infinity" mnemonicParsing="false" onAction="#editar" opacity="0.88" prefHeight="44.0" prefWidth="120.0" style="-fx-background-color: #ffffff; -fx-border-color: #3b0764; -fx-border-radius: 8; -fx-border-width: 1; -fx-background-radius: 8; -fx-cursor: hand; -fx-font-weight: bold;" text="Editar" textFill="#3b0764" visible="false" />
@@ -48,7 +48,7 @@
             </children>
         </HBox>
 
-        <!-- Tabela: ocupa toda a altura e largura restantes -->
+
         <TableView fx:id="tabela" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="150.0" VBox.vgrow="ALWAYS">
             <columns>
                 <TableColumn fx:id="colunaSelecionar" maxWidth="110.0" minWidth="80.0" prefWidth="90.0" text="Selecionar" />
