@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefWidth="600.0" spacing="15.0" style="-fx-background-color: #0e0d12;" styleClass="text" stylesheets="@../css/telas.css" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.loja.controllers.admin.FormUsuarioController">
+   <padding>
+      <Insets bottom="24.0" left="24.0" right="24.0" top="24.0" />
+   </padding>
+   <children>
+      <Label fx:id="lblTitulo" text="Novo Usuário" textFill="WHITE">
+         <font>
+            <Font name="System Bold" size="20.0" />
+         </font>
+      </Label>
+      <Label text="Nome" textFill="WHITE" />
+      <TextField fx:id="campoNome" />
+      <Label fx:id="erroNome" textFill="RED" />
+      <Label text="Login" textFill="WHITE" />
+      <TextField fx:id="campoLogin" />
+      <Label fx:id="erroLogin" textFill="RED" />
+      <HBox prefHeight="100.0" prefWidth="200.0" spacing="15.0">
+         <children>
+            <VBox prefHeight="200.0" prefWidth="100.0" HBox.hgrow="ALWAYS">
+               <children>
+                  <Label text="Perfil" textFill="WHITE" />
+                  <ComboBox fx:id="campoPerfil" prefWidth="150.0" />
+                  <Label fx:id="erroPerfil" textFill="RED" />
+               </children>
+            </VBox>
+            <VBox prefHeight="200.0" prefWidth="100.0" HBox.hgrow="ALWAYS">
+               <children>
+                  <Label text="Situação" textFill="WHITE" />
+                  <ComboBox fx:id="campoSituacao" prefWidth="150.0" />
+               </children>
+            </VBox>
+         </children>
+      </HBox>
+      <HBox prefHeight="100.0" prefWidth="200.0" spacing="15.0">
+         <children>
+            <VBox prefHeight="200.0" prefWidth="100.0" HBox.hgrow="ALWAYS">
+               <children>
+                  <Label text="Senha" textFill="WHITE" />
+                  <PasswordField fx:id="campoSenha" />
+                  <Label fx:id="erroSenha" textFill="RED" />
+               </children>
+            </VBox>
+            <VBox prefHeight="200.0" prefWidth="100.0" HBox.hgrow="ALWAYS">
+               <children>
+                  <Label text="Confirmar Senha" textFill="WHITE" />
+                  <PasswordField fx:id="campoConfirmarSenha" />
+                  <Label fx:id="erroConfirmarSenha" textFill="RED" />
+               </children>
+            </VBox>
+         </children>
+      </HBox>
+      <HBox alignment="CENTER_RIGHT" prefHeight="100.0" prefWidth="200.0" spacing="15.0">
+         <children>
+            <Button fx:id="btnCancelar" mnemonicParsing="false" onAction="#acaoCancelar" text="Cancelar" />
+            <Button fx:id="btnSalvar" mnemonicParsing="false" onAction="#acaoSalvar" text="Salvar" />
+         </children>
+      </HBox>
+   </children>
+</VBox>

@@ -10,6 +10,12 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import com.loja.padraofacade.interfaces.ILojaFacade;
 import com.loja.model.Usuario;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
+import java.io.IOException;
 
 public class GerenciarUsuariosController {
     // Funcao de Listar
@@ -92,5 +98,40 @@ public class GerenciarUsuariosController {
             }
         });
 
+    }
+
+    private void abrirFormulario(Usuario usuario) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/ui/admin/form-usuarios.fxml"));
+            Parent raiz = loader.load();
+
+            FormUsuarioController controller = loader.getController();
+            controller.setContexto(this.facade, usuario);
+
+            Stage janela = new Stage();
+            janela.initModality(Modality.APPLICATION_MODAL);
+            janela.initOwner(adminTabelaUsuarios.getScene().getWindow());
+            janela.setScene(new Scene(raiz));
+            janela.setResizable(false);
+            janela.showAndWait(); // Trava e espera o popup fechar
+
+            carregarDados();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+            new Alert(Alert.AlertType.ERROR, "Erro ao abrir o formulário.").show();
+        }
+    }
+    @FXML
+    void acaoAdicionarUsuario(ActionEvent event) {
+        abrirFormulario(null);
+    }
+
+    @FXML
+    void acaoEditarUsuario(ActionEvent event) {
+        Usuario selecionado = adminTabelaUsuarios.getSelectionModel().getSelectedItem();
+        if (selecionado != null) {
+            abrirFormulario(selecionado);
+        }
     }
 }
