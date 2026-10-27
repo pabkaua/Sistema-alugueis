@@ -3,11 +3,14 @@ package com.loja.controllers;
 import com.loja.controllers.admin.GerenciarCategoriasController;
 import com.loja.controllers.admin.GerenciarItensController;
 import com.loja.controllers.admin.GerenciarUsuariosController;
+import com.loja.controllers.admin.RelatorioAlugueisAtivosController;
+import com.loja.controllers.admin.RelatorioFinanceiroController;
 import com.loja.model.Administrador;
 import com.loja.padraofacade.interfaces.ILojaFacade;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -134,6 +137,86 @@ public class SidebarAdminController {
   @FXML
   void navegarGerenciarFornecedores(ActionEvent event) {
     // carregar uma tela de fornecedores
+  }
+
+  @FXML
+  void navegarRelatorioItensDisponiveis(ActionEvent event) {
+    try {
+      URL url = getClass().getResource("/ui/funcionario/itens-disponiveis.fxml");
+      if (url == null) {
+        Alerta.exibirAlertaErro("Erro de navegação", "O arquivo itens-disponiveis.fxml não foi localizado.");
+        return;
+      }
+
+      FXMLLoader loader = new FXMLLoader(url);
+      Node tela = loader.load();
+
+      ItensDisponiveisController controller = loader.getController();
+      controller.setDados(this.facade);
+      conteudo.getChildren().setAll(tela);
+    } catch (IOException e) {
+      Alerta.exibirAlertaErro("Erro de navegação", e.getMessage());
+    }
+  }
+
+  @FXML
+  void navegarRelatorioAlugueisAtivos(ActionEvent event) {
+    try {
+      URL url = getClass().getResource("/ui/admin/relatorio-alugueis-ativos.fxml");
+      if (url == null) {
+        Alerta.exibirAlertaErro("Erro de navegação", "O arquivo relatorio-alugueis-ativos.fxml não foi localizado.");
+        return;
+      }
+
+      FXMLLoader loader = new FXMLLoader(url);
+      Node tela = loader.load();
+
+      RelatorioAlugueisAtivosController controller = loader.getController();
+      controller.setDados(this.facade);
+      conteudo.getChildren().setAll(tela);
+    } catch (IOException e) {
+      Alerta.exibirAlertaErro("Erro de navegação", e.getMessage());
+    }
+  }
+
+  @FXML
+  void navegarRelatorioAluguelCliente(ActionEvent event) {
+    try {
+      URL url = getClass().getResource("/ui/funcionario/contratos-por-cliente.fxml");
+      if (url == null) {
+        Alerta.exibirAlertaErro("Erro de navegação", "O arquivo contratos-por-cliente.fxml não foi localizado.");
+        return;
+      }
+
+      FXMLLoader loader = new FXMLLoader(url);
+      Node tela = loader.load();
+
+      ContratosPorClienteController controller = loader.getController();
+      controller.setDados(this.facade);
+      conteudo.getChildren().setAll(tela);
+    } catch (IOException e) {
+      Alerta.exibirAlertaErro("Erro de navegação", e.getMessage());
+    }
+  }
+
+  @FXML
+  void navegarRelatorioFinanceiro(ActionEvent event) {
+    try {
+      URL url = getClass().getResource("/ui/admin/relatorio-financeiro.fxml");
+      if (url == null) {
+        Alerta.exibirAlertaErro("Erro de navegação", "O arquivo relatorio-financeiro.fxml não foi localizado.");
+        return;
+      }
+
+      FXMLLoader loader = new FXMLLoader(url);
+      Node tela = loader.load();
+
+      RelatorioFinanceiroController controller = loader.getController();
+      controller.setDados(this.facade);
+      conteudo.getChildren().setAll(tela);
+    } catch (IOException e) {
+      Alerta.exibirAlertaErro("Erro de navegação", e.getMessage());
+    }
   }
 
   @FXML
