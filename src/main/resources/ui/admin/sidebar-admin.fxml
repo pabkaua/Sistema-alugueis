@@ -56,10 +56,10 @@
                               <Insets bottom="6.0" left="8.0" right="8.0" top="6.0" />
                            </padding>
                            <children>
-                              <Button fx:id="btnAdminRelatorioItensDisponiveis" alignment="BASELINE_LEFT" maxWidth="1.7976931348623157E308" mnemonicParsing="false" styleClass="btn-subitem" text="○   Itens Disponíveis" />
-                              <Button fx:id="btnAdminRelatorioAlugueisAtivos" alignment="BASELINE_LEFT" layoutX="18.0" layoutY="16.0" maxWidth="1.7976931348623157E308" mnemonicParsing="false" styleClass="btn-subitem" text="○   Aluguéis Atuais(ativos)" />
-                              <Button fx:id="btnAdminRelatorioAluguelCliente" alignment="BASELINE_LEFT" layoutX="18.0" layoutY="54.0" maxWidth="1.7976931348623157E308" mnemonicParsing="false" styleClass="btn-subitem" text="○   Aluguel de um Cliente(histórico)" />
-                              <Button fx:id="btnAdminRelatorioFinanceiro" alignment="BASELINE_LEFT" layoutX="18.0" layoutY="92.0" maxWidth="1.7976931348623157E308" mnemonicParsing="false" styleClass="btn-subitem" text="○   Financeiro(faturamento)" />
+                              <Button fx:id="btnAdminRelatorioItensDisponiveis" alignment="BASELINE_LEFT" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#navegarRelatorioItensDisponiveis" styleClass="btn-subitem" text="○   Itens Disponíveis" />
+                              <Button fx:id="btnAdminRelatorioAlugueisAtivos" alignment="BASELINE_LEFT" layoutX="18.0" layoutY="16.0" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#navegarRelatorioAlugueisAtivos" styleClass="btn-subitem" text="○   Aluguéis Atuais(ativos)" />
+                              <Button fx:id="btnAdminRelatorioAluguelCliente" alignment="BASELINE_LEFT" layoutX="18.0" layoutY="54.0" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#navegarRelatorioAluguelCliente" styleClass="btn-subitem" text="○   Aluguel de um Cliente(histórico)" />
+                              <Button fx:id="btnAdminRelatorioFinanceiro" alignment="BASELINE_LEFT" layoutX="18.0" layoutY="92.0" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#navegarRelatorioFinanceiro" styleClass="btn-subitem" text="○   Financeiro(faturamento)" />
                            </children>
                         </VBox>
                      </children>
