@@ -9,6 +9,7 @@ import com.loja.padraofacade.interfaces.ILojaFacade;
 import com.loja.model.Usuario;
 import com.loja.model.Administrador;
 import com.loja.model.Funcionario;
+import com.loja.model.Cliente;
 
 public class FormUsuarioController {
     @FXML private Label lblTitulo;
@@ -22,6 +23,7 @@ public class FormUsuarioController {
     @FXML private Label erroSenha;
     @FXML private PasswordField campoConfirmarSenha;
     @FXML private Label erroConfirmarSenha;
+    @FXML private ComboBox<String> campoSituacao;
 
     private ILojaFacade facade;
     private Usuario usuarioEditando;
@@ -29,6 +31,8 @@ public class FormUsuarioController {
     @FXML
     public void initialize(){
         campoPerfil.getItems().addAll("ADMINISTRADOR", "FUNCIONARIO", "CLIENTE");
+        campoSituacao.getItems().addAll("ATIVO", "INATIVO");
+        campoSituacao.setValue("ATIVO");
         erroNome.managedProperty().bind(erroNome.visibleProperty());
         erroLogin.managedProperty().bind(erroLogin.visibleProperty());
         erroPerfil.managedProperty().bind(erroPerfil.visibleProperty());
@@ -59,6 +63,7 @@ public class FormUsuarioController {
             campoLogin.setDisable(true);
             campoPerfil.setValue(usuario.getPerfil().toUpperCase());
             campoPerfil.setDisable(true);
+            campoSituacao.setValue(usuario.isAtivo() ? "ATIVO" : "INATIVO");
         }
     }
 
@@ -113,27 +118,34 @@ public class FormUsuarioController {
         String login = campoLogin.getText().trim();
         String senha = campoSenha.getText(); // Pode estar vazia na edição
         String perfil = campoPerfil.getValue();
+        String id = gerarNovoId();
+        Boolean isAtivo = "ATIVO".equals(campoSituacao.getValue());
 
         if (usuarioEditando == null) {
-            // Lógica de CADASTRO
+            String novoId = gerarNovoId();
+
             if ("ADMINISTRADOR".equals(perfil)) {
-                Administrador novoAdm = new Administrador(id, nome, login, senha);
+                Administrador novoAdm = new Administrador(novoId, nome, login, senha);
+                novoAdm.setAtivo(isAtivo); //[cite: 10]
                 facade.cadastrarAdm(novoAdm);
-            } else {
-                Funcionario novoFunc = new Funcionario(id, nome, login, senha, "Atendente");
+            } else if ("FUNCIONARIO".equals(perfil)) {
+                Funcionario novoFunc = new Funcionario(novoId, nome, login, senha, "Atendente");
+                novoFunc.setAtivo(isAtivo); //[cite: 10]
                 facade.cadastrarFuncionario(novoFunc);
+            } else if ("CLIENTE".equals(perfil)) {
+                Cliente novoCliente = new Cliente(novoId, nome, login, senha);
+                novoCliente.setAtivo(isAtivo); //[cite: 10]
+                facade.cadastrarCliente(novoCliente);
             }
-            System.out.println("Usuário cadastrado com sucesso.");
         } else {
-            // Lógica de EDIÇÃO
             usuarioEditando.setNome(nome);
+            usuarioEditando.setAtivo(isAtivo); //[cite: 10]
             if (senha != null && !senha.isEmpty()) {
                 usuarioEditando.setSenha(senha);
             }
             facade.atualizarUsuario(usuarioEditando.getId(), usuarioEditando);
-            System.out.println("Usuário editado com sucesso.");
-            facade.salvarTudo();
         }
+        facade.salvarTudo();
     }
 
     @FXML
@@ -144,5 +156,20 @@ public class FormUsuarioController {
     private void fecharJanela() {
         Stage stage = (Stage) campoNome.getScene().getWindow();
         stage.close();
+    }
+
+    private String gerarNovoId(){
+        int maxNumero = 0;
+        for (Usuario u : facade.listarUsuario().values()){
+            if(u.getId() != null && u.getId().toUpperCase().startsWith("USR")){
+                try {
+                    int numero = Integer.parseInt(u.getId().substring(3));
+                    if (numero > maxNumero){
+                        maxNumero = numero;
+                    }
+                } catch (NumberFormatException ignored){}
+            }
+        }
+        return String.format("USR%03d", maxNumero + 1);
     }
 }
