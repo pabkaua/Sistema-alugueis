@@ -10,7 +10,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1080.0" prefWidth="1500.0" spacing="24.0" style="-fx-background-color: #0e0d12;" stylesheets="@../../css/telas.css" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.loja.controllers.ContratosPorClienteController">
+<VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1080.0" prefWidth="1500.0" spacing="24.0" style="-fx-background-color: #0e0d12;" stylesheets="@../../css/telas.css" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.loja.controllers.funcionario.ContratosPorClienteController">
     <padding>
         <Insets bottom="60.0" left="80.0" right="80.0" top="60.0" />
     </padding>
