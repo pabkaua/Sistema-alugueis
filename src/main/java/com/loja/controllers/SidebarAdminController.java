@@ -74,8 +74,21 @@ public class SidebarAdminController {
 
   @FXML
   void navegarDashboard(ActionEvent event){
-    // carregar uma tela de dashboard
-  }
+    try {
+      URL url = getClass().getResource("/ui/funcionario/dashboard.fxml");
+
+      if (url == null) {
+        Alerta.exibirAlertaErro("Erro de navegação", "O arquivo dashboard.fxml não foi localizado.");
+        return;
+      }
+
+      FXMLLoader loader = new FXMLLoader(url);
+      Node tela = loader.load();
+
+      conteudo.getChildren().setAll(tela);
+    } catch (IOException e) {
+      Alerta.exibirAlertaErro("Erro de navegação", e.getMessage());
+    }  }
 
   @FXML
   void navegarGerenciarUsuarios(ActionEvent event){
