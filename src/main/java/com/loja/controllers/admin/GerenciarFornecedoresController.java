@@ -112,6 +112,11 @@ public class GerenciarFornecedoresController {
 
     }
 
+    @FXML
+    void NovoFornecedor(ActionEvent event) {
+        abrirFormulario(null);
+    }
+
     private void criarColunaAcoes() {
         TableColumn<Fornecedor, Void> colunaAcoes = new TableColumn<>("Ações");
         colunaAcoes.setSortable(false);

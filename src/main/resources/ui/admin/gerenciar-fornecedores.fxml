@@ -23,7 +23,7 @@
                       <Font name="System Bold" size="32.0" />
                   </font>
               </Label>
-            <Button fx:id="botaoNovoForne" mnemonicParsing="false" onAction="#buscar" prefHeight="44.0" prefWidth="182.0" style="-fx-background-color: #3b0764; -fx-background-radius: 8; -fx-cursor: hand; -fx-font-weight: bold;" text="+ Novo" textFill="WHITE" />
+            <Button fx:id="botaoNovoForne" mnemonicParsing="false" onAction="#NovoFornecedor" prefHeight="44.0" prefWidth="182.0" style="-fx-background-color: #3b0764; -fx-background-radius: 8; -fx-cursor: hand; -fx-font-weight: bold;" text="+ Novo" textFill="WHITE" />
          </children>
       </HBox>
         <HBox alignment="CENTER_LEFT" prefHeight="48.0" spacing="12.0">
