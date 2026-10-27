@@ -133,7 +133,8 @@ public class SidebarAdminController {
       controller.setFacade(this.facade);
       conteudo.getChildren().setAll(tela);
     } catch (IOException e){
-      Alerta.exibirAlertaErro("Erro de carregamento", "Erro ao carregar a tela de itens");
+      e.printStackTrace();
+      Alerta.exibirAlertaErro("Erro de carregamento", "Erro ao carregar a tela de categorias");
     }
   }
 
