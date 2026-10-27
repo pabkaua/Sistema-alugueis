@@ -44,12 +44,12 @@
         </HBox>
       <HBox prefHeight="54.0" prefWidth="1340.0" spacing="10.0">
          <children>
-            <Button fx:id="botaoEditar" mnemonicParsing="false" onAction="#buscar" opacity="0.88" prefHeight="44.0" prefWidth="120.0" style="-fx-background-color: #ffffff; -fx-border-color: #3b0764; -fx-border-radius: 8; -fx-border-width: 1; -fx-background-radius: 8; -fx-cursor: hand; -fx-font-weight: bold;" text="Editar" textFill="#3b0764" visible="false">
+            <Button fx:id="botaoEditar" mnemonicParsing="false" onAction="#editar" opacity="0.88" prefHeight="44.0" prefWidth="120.0" style="-fx-background-color: #ffffff; -fx-border-color: #3b0764; -fx-border-radius: 8; -fx-border-width: 1; -fx-background-radius: 8; -fx-cursor: hand; -fx-font-weight: bold;" text="Editar" textFill="#3b0764" visible="false">
                <HBox.margin>
                   <Insets left="1100.0" />
                </HBox.margin>
             </Button>
-            <Button fx:id="botaoExcluir" layoutX="1110.0" layoutY="10.0" mnemonicParsing="false" onAction="#buscar" opacity="0.73" prefHeight="44.0" prefWidth="120.0" style="-fx-background-color: red; -fx-background-radius: 8; -fx-cursor: hand; -fx-font-weight: bold;" text="Excluir" textFill="WHITE" visible="false" />
+            <Button fx:id="botaoExcluir" layoutX="1110.0" layoutY="10.0" mnemonicParsing="false" onAction="#excluir" opacity="0.73" prefHeight="44.0" prefWidth="120.0" style="-fx-background-color: red; -fx-background-radius: 8; -fx-cursor: hand; -fx-font-weight: bold;" text="Excluir" textFill="WHITE" visible="false" />
          </children>
       </HBox>
         <TableView fx:id="tabela" maxWidth="1.7976931348623157E308" prefHeight="697.0" prefWidth="1340.0" VBox.vgrow="ALWAYS">
