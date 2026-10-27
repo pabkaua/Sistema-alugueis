@@ -19,9 +19,9 @@ import java.time.ZoneId;
 public class ContratoBusiness implements IContratoBusiness {
 
     private static final String STATUS_ATIVO = "ATIVO";
-    private IContratoRepository repo;
-    private IItemBusiness itemBusiness;
-    private IUsuarioBusiness usuarioBusiness;
+    private final IContratoRepository repo;
+    private final IItemBusiness itemBusiness;
+    private final IUsuarioBusiness usuarioBusiness;
 
     public ContratoBusiness(IContratoRepository repo, IItemBusiness itemBusiness, IUsuarioBusiness usuarioBusiness) {
         this.repo = repo;

@@ -1,5 +1,6 @@
 package com.loja.controllers.admin;
 
+import com.loja.controllers.Alerta;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -59,8 +60,6 @@ public class FormUsuarioController {
             lblTitulo.setText("Editar Usuário");
             campoNome.setText(usuario.getNome());
             campoLogin.setText(usuario.getLogin());
-            //campoLogin.setEditable(false);
-            //campoLogin.setDisable(true);
             campoPerfil.setValue(usuario.getPerfil().toUpperCase());
             campoPerfil.setDisable(true);
             campoSituacao.setValue(usuario.isAtivo() ? "ATIVO" : "INATIVO");
@@ -190,7 +189,9 @@ public class FormUsuarioController {
                     if (numero > maxNumero){
                         maxNumero = numero;
                     }
-                } catch (NumberFormatException ignored){}
+                } catch (NumberFormatException ignored){
+                    Alerta.exibirAlertaAviso("Houve um erro ao gerar o ID do usuário");
+                }
             }
         }
         return String.format("USR%03d", maxNumero + 1);

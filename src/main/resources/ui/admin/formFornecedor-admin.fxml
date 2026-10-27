@@ -21,10 +21,10 @@
             <Insets bottom="4.0" />
          </VBox.margin>
       </Label>
-      <TextField fx:id="CadastroID" maxWidth="1.7976931348623157E308" prefHeight="45.0" promptText="ID" />
-      <TextField fx:id="CadastroNome" maxWidth="1.7976931348623157E308" prefHeight="45.0" promptText="NOME" />
-      <TextField fx:id="CadastroCnpj" maxWidth="1.7976931348623157E308" prefHeight="45.0" promptText="CNPJ" />
-      <TextField fx:id="CadastroTel" maxWidth="1.7976931348623157E308" prefHeight="45.0" promptText="TELEFONE" />
+      <TextField fx:id="cadastroID" maxWidth="1.7976931348623157E308" prefHeight="45.0" promptText="ID" />
+      <TextField fx:id="cadastroNome" maxWidth="1.7976931348623157E308" prefHeight="45.0" promptText="NOME" />
+      <TextField fx:id="cadastroCnpj" maxWidth="1.7976931348623157E308" prefHeight="45.0" promptText="CNPJ" />
+      <TextField fx:id="cadastroTel" maxWidth="1.7976931348623157E308" prefHeight="45.0" promptText="TELEFONE" />
       <HBox spacing="12.0">
          <VBox.margin>
             <Insets top="8.0" />

@@ -13,9 +13,9 @@ import com.loja.repositories.interfaces.IItemRepository;
 import java.util.Map;
 
 public class ItemBusiness implements IItemBusiness {
-    private IItemRepository repo;
-    private ICategoriaRepository catRepo;
-    private IFornecedorRepository fornRepo;
+    private final IItemRepository repo;
+    private final ICategoriaRepository catRepo;
+    private final IFornecedorRepository fornRepo;
 
     public ItemBusiness(IItemRepository repo, ICategoriaRepository catRepo, IFornecedorRepository fornRepo){
         this.repo = repo;

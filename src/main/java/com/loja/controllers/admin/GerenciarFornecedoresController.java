@@ -149,7 +149,7 @@ public class GerenciarFornecedoresController {
     }
 
     @FXML
-    void NovoFornecedor(ActionEvent event) {
+    void novoFornecedor(ActionEvent event) {
         selecionado.set(null);
         abrirFormulario(null);
     }
@@ -211,7 +211,6 @@ public class GerenciarFornecedoresController {
             recarregarTabela();
 
         } catch (Exception e) {
-            e.printStackTrace();
             Throwable causa = e;
             while (causa.getCause() != null) causa = causa.getCause();
             Alerta.exibirAlertaErro("Erro ao abrir formulário", causa.toString());

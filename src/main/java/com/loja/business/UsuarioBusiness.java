@@ -9,7 +9,7 @@ import com.loja.repositories.interfaces.IUsuarioRepository;
 import java.util.Map;
 
 public class UsuarioBusiness implements IUsuarioBusiness {
-    private IUsuarioRepository usuarioRepository;
+    private final IUsuarioRepository usuarioRepository;
 
     public UsuarioBusiness(IUsuarioRepository repository) {
         this.usuarioRepository = repository;

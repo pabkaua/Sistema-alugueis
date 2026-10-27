@@ -1,7 +1,6 @@
 package com.loja.controllers;
 
 import com.loja.controllers.funcionario.*;
-import com.loja.model.Funcionario;
 import com.loja.padraofacade.interfaces.ILojaFacade;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -38,12 +37,10 @@ public class SidebarFuncionarioController {
     @FXML private VBox submenuGerenciarClientesFunc;
     @FXML private VBox submenuRelatoriosFunc;
 
-    private Funcionario usuario;
     private ILojaFacade facade;
 
     // funções da classe
-    public void setContexto(ILojaFacade facade, Funcionario funcionario) {
-        this.usuario = funcionario;
+    public void setContexto(ILojaFacade facade) {
         this.facade = facade;
     }
 
@@ -115,7 +112,6 @@ public class SidebarFuncionarioController {
             conteudo.getChildren().setAll(tela);
         } catch (IOException e) {
             Alerta.exibirAlertaErro("Erro de navegação", e.getMessage());
-            e.printStackTrace();
         }
     }
 
@@ -160,7 +156,6 @@ public class SidebarFuncionarioController {
             conteudo.getChildren().setAll(tela);
         } catch (IOException e) {
             Alerta.exibirAlertaErro("Erro de navegação", e.getMessage());
-            e.printStackTrace();
         }
     }
 

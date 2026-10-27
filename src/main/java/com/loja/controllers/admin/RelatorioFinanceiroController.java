@@ -54,7 +54,7 @@ public class RelatorioFinanceiroController {
         });
 
         campo.getEditor().setTextFormatter(new TextFormatter<String>(mudanca -> {
-            String numeros = mudanca.getControlNewText().replaceAll("[^0-9]", "");
+            String numeros = mudanca.getControlNewText().replaceAll("\\D", "");
             if (numeros.length() > 8) {
                 return null;
             }

@@ -79,7 +79,7 @@ public class LoginController {
                 return;
             }
             SidebarAdminController controller = loader.getController();
-            controller.setContexto(facade, adm);
+            controller.setContexto(facade);
             controller.navegarDashboard(event);
         }
         else if (usuario instanceof Funcionario func) {
@@ -89,7 +89,7 @@ public class LoginController {
                 return;
             }
             SidebarFuncionarioController controller = loader.getController();
-            controller.setContexto(facade, func);
+            controller.setContexto(facade);
             controller.navegarDashboard(event);
         }
     }
