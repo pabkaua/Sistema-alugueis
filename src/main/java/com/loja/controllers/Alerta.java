@@ -18,4 +18,12 @@ public class Alerta {
         alerta.setContentText(msg);
         alerta.showAndWait();
     }
+
+    public static void exibirAlertaSucesso(String titulo, String msg) {
+        Alert alerta = new Alert(Alert.AlertType.CONFIRMATION);
+        alerta.setTitle(titulo);
+        alerta.setHeaderText(null);
+        alerta.setContentText(msg);
+        alerta.showAndWait();
+    }
 }

@@ -104,7 +104,7 @@ public class SidebarAdminController {
       javafx.scene.Node tela = loader.load();
 
       GerenciarItensController controller = loader.getController();
-      controller.setContexto(this.facade);
+      controller.setContexto(this.facade, conteudo);
       conteudo.getChildren().setAll(tela);
     } catch (IOException e){
       Alerta.exibirAlertaErro("Erro de carregamento", "Erro ao carregar a tela de itens");
