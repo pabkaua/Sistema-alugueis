@@ -168,7 +168,7 @@ public class GerenciarFornecedoresController {
 
             recarregarTabela();
 
-        } catch (IOException e) {
+        } catch (Exception e) {
             e.printStackTrace();
             Alerta.exibirAlertaErro("Erro ao abrir formulário", "Não foi possível carregar a tela de fornecedor.");
         }

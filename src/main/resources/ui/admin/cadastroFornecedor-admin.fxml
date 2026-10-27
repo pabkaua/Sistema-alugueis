@@ -8,7 +8,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="460.0" prefWidth="350.0" style="-fx-border-color: black; -fx-border-width: 2; -fx-border-radius: 4; -fx-background-radius: 4;" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1">
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="460.0" prefWidth="350.0" style="-fx-border-color: black; -fx-border-width: 2; -fx-border-radius: 4; -fx-background-radius: 4;" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.loja.controllers.admin.NvForneAdminController">
    <children>
       <Label alignment="CENTER" prefHeight="47.0" prefWidth="352.0" text="Novo Fornecedor" textAlignment="CENTER" textFill="#3b0764">
          <font>
@@ -46,12 +46,12 @@
             <Insets top="20.0" />
          </VBox.margin>
          <children>
-            <Button fx:id="botaoCancelar" layoutX="204.0" layoutY="10.0" mnemonicParsing="false" onAction="#buscar" prefHeight="47.0" prefWidth="170.0" style="-fx-background-color: transparent; -fx-background-radius: 8; -fx-cursor: hand; -fx-font-weight: bold; -fx-border-color: #3b0764; -fx-border-radius: 8;" text="Cancelar" textFill="#3b0764">
+            <Button fx:id="botaoCancelar" layoutX="204.0" layoutY="10.0" mnemonicParsing="false" onAction="#cancelar" prefHeight="47.0" prefWidth="170.0" style="-fx-background-color: transparent; -fx-background-radius: 8; -fx-cursor: hand; -fx-font-weight: bold; -fx-border-color: #3b0764; -fx-border-radius: 8;" text="Cancelar" textFill="#3b0764">
                <HBox.margin>
                   <Insets left="25.0" right="20.0" />
                </HBox.margin>
             </Button>
-            <Button fx:id="botaoSalvarForne" layoutX="10.0" layoutY="10.0" mnemonicParsing="false" onAction="#buscar" prefHeight="45.0" prefWidth="170.0" style="-fx-background-color: #3b0764; -fx-background-radius: 8; -fx-cursor: hand; -fx-font-weight: bold;" text="Salvar" textFill="WHITE">
+            <Button fx:id="botaoSalvarForne" layoutX="10.0" layoutY="10.0" mnemonicParsing="false" onAction="#salvar" prefHeight="45.0" prefWidth="170.0" style="-fx-background-color: #3b0764; -fx-background-radius: 8; -fx-cursor: hand; -fx-font-weight: bold;" text="Salvar" textFill="WHITE">
                <HBox.margin>
                   <Insets right="22.0" />
                </HBox.margin>
