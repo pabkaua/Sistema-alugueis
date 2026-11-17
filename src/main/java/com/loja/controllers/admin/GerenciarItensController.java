@@ -87,11 +87,12 @@ public class GerenciarItensController {
             javafx.fxml.FXMLLoader loader = new javafx.fxml.FXMLLoader(url);
             javafx.scene.Node tela = loader.load();
 
-            CriarItemController controller = loader.getController();
+            CriarEditarItemController controller = loader.getController();
             controller.setContexto(this.facade, this.conteudoPai);
             this.conteudoPai.getChildren().setAll(tela);
         } catch (IOException e){
             Alerta.exibirAlertaErro("Erro de carregamento", "Erro ao carregar a tela de cadastro de itens");
+            e.printStackTrace();
         }
     }
 
@@ -119,7 +120,7 @@ public class GerenciarItensController {
             javafx.fxml.FXMLLoader loader = new javafx.fxml.FXMLLoader(url);
             javafx.scene.Node tela = loader.load();
 
-            EditarItemController controller = loader.getController();
+            CriarEditarItemController controller = loader.getController();
             controller.setContexto(this.facade, this.conteudoPai, itemSelecionado);
             this.conteudoPai.getChildren().setAll(tela);
         } catch (IOException e){

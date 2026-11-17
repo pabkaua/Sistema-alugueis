@@ -22,12 +22,14 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.Map;
 
-public class EditarItemController {
+public class CriarEditarItemController {
 
     private ILojaFacade facade;
     private StackPane conteudoPai;
+    private int opcao; // 0 para criar ou 1 para editar
 
-    @FXML private Button botaoAtualizar;
+    @FXML private Label tituloPagina;
+    @FXML private Button botaoConcluir;
     @FXML private Button botaoCancelar;
     @FXML private TextField campoID;
     @FXML private TextField campoNome;
@@ -35,8 +37,6 @@ public class EditarItemController {
     @FXML private TextField campoValorReposicao;
     @FXML private ComboBox<Categoria> listaCategoria;
     @FXML private ComboBox<Fornecedor> listaFornecedor;
-    @FXML private Label tituloPagina;
-
 
     public void initialize() {
         listaCategoria.setConverter(new StringConverter<Categoria>() {
@@ -58,6 +58,13 @@ public class EditarItemController {
         });
     }
 
+    public void setContexto(ILojaFacade facade, StackPane conteudoPai) {
+        this.facade = facade;
+        this.conteudoPai = conteudoPai;
+        carregarCategoriasEFornecedores();
+        this.opcao = 0;
+    }
+
     public void setContexto(ILojaFacade facade, StackPane conteudoPai, Item itemSelecionado) {
         this.facade = facade;
         this.conteudoPai = conteudoPai;
@@ -73,7 +80,9 @@ public class EditarItemController {
 
         listaCategoria.setValue(itemSelecionado.getCategoria());
         listaFornecedor.setValue(itemSelecionado.getFornecedor());
+        this.opcao = 1;
     }
+
     private void carregarCategoriasEFornecedores() {
         Map<String, Categoria> mapCategorias = facade.listarCategoria();
         if (mapCategorias != null) {
@@ -91,9 +100,8 @@ public class EditarItemController {
         voltarParaGerenciarItens();
     }
 
-
     @FXML
-    void atualizar(ActionEvent event) {
+    void criarOuAtualizar(ActionEvent event) {
         String id = campoID.getText();
         String nome = campoNome.getText();
         String taxaDiaria = campoTaxaDiaria.getText();
@@ -116,7 +124,11 @@ public class EditarItemController {
             }
 
             Item item = new Item(id.toUpperCase(), nome.toUpperCase(), taxaDiariaB, valorReposicaoB, "DISPONIVEL", categoria, fornecedor);
-            facade.atualizarItem(item);
+            if(this.opcao == 0) {
+                facade.cadastrarItem(item);
+            } else {
+                facade.atualizarItem(item);
+            }
 
             Alerta.exibirAlertaSucesso("Sucesso! Item atualizado com sucesso!");
 
@@ -126,7 +138,6 @@ public class EditarItemController {
             Alerta.exibirAlertaAviso("Atenção: " + e.getMessage());
         }
     }
-
 
     private void voltarParaGerenciarItens() {
         try {
