@@ -24,24 +24,19 @@ import java.net.URL;
 public class SidebarClienteController extends SidebarBaseController {
 
     @FXML private Button botaoAlugueis;
-    @FXML private Button botaoDashboard;
     @FXML private Button botaoItensDisponiveis;
-    @FXML private Button botaoLogout;
     @FXML private Button botaoMultas;
     @FXML private Button botaoPessoal;
     @FXML private Button botaoRelatorios;
     @FXML private StackPane conteudo;
-    @FXML private VBox sidebarVbox;
     @FXML private VBox submenuPessoal;
     @FXML private VBox submenuRelatorios;
-    @FXML private Label tituloLoja;
-
     private Cliente usuario;
 
     // funções da classe
     public void setContexto(ILojaFacade facade, Cliente cliente){
         this.usuario = cliente;
-        super.setContexto(facade);
+        super.setFacade(facade);
     }
     // ====================================================================================
 

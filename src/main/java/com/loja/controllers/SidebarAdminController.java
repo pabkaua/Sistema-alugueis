@@ -27,41 +27,21 @@ import java.io.IOException;
 
 public class SidebarAdminController extends SidebarBaseController {
 
-    @FXML
-    private Button botaoDashboard;
-    @FXML
-    private Button btnAdminGerenciarUsuarios;
-    @FXML
-    private Button btnAdminGerenciarItens;
-    @FXML
-    private Button btnAdminGerenciarCategorias;
-    @FXML
-    private Button btnAdminGerenciarFornecedores;
+    @FXML private Button btnAdminGerenciarUsuarios;
+    @FXML private Button btnAdminGerenciarItens;
+    @FXML private Button btnAdminGerenciarCategorias;
+    @FXML private Button btnAdminGerenciarFornecedores;
 
     // Relatorios
-    @FXML
-    private Button btnAdminRelatorios;
-    @FXML
-    private VBox submenuAdminRelatorios;
-    @FXML
-    private Button btnAdminRelatorioAlugueisAtivos;
-    @FXML
-    private Button btnAdminRelatorioAluguelCliente;
-    @FXML
-    private Button btnAdminRelatorioFinanceiro;
-    @FXML
-    private Button btnAdminRelatorioItensDisponiveis;
-
-    @FXML
-    private Button botaoLogout;
+    @FXML private Button btnAdminRelatorios;
+    @FXML private VBox submenuAdminRelatorios;
+    @FXML private Button btnAdminRelatorioAlugueisAtivos;
+    @FXML private Button btnAdminRelatorioAluguelCliente;
+    @FXML private Button btnAdminRelatorioFinanceiro;
+    @FXML private Button btnAdminRelatorioItensDisponiveis;
 
     // Sidebar
-    @FXML
-    private StackPane conteudo;
-    @FXML
-    private VBox sidebarVbox;
-    @FXML
-    private Label tituloLoja;
+    @FXML private StackPane conteudo;
 
     @FXML
     public void initialize() {
@@ -69,7 +49,7 @@ public class SidebarAdminController extends SidebarBaseController {
     }
 
     public void setContexto(ILojaFacade facade) {
-        super.setContexto(facade);
+        super.setFacade(facade);
     }
 
     @FXML

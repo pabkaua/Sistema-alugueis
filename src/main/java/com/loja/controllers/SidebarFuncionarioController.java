@@ -19,8 +19,6 @@ import java.net.URL;
 
 public class SidebarFuncionarioController extends SidebarBaseController{
 
-    @FXML private Button botaoDashboard;
-    @FXML private Button botaoLogout;
     @FXML private Button btnFuncAlugueis;
     @FXML private Button btnFuncCadastrarCliente;
     @FXML private Button btnFuncContratosAtivos;
@@ -31,15 +29,13 @@ public class SidebarFuncionarioController extends SidebarBaseController{
     @FXML private Button btnFuncRegistrarAluguel;
     @FXML private Button btnFuncRelatorios;
     @FXML private StackPane conteudo;
-    @FXML private VBox sidebarVbox;
-    @FXML private Label tituloLoja;
     @FXML private VBox submenuAlugueisFunc;
     @FXML private VBox submenuGerenciarClientesFunc;
     @FXML private VBox submenuRelatoriosFunc;
 
     // funções da classe
     public void setContexto(ILojaFacade facade) {
-        super.setContexto(facade);
+        super.setFacade(facade);
     }
 
     // funções do fxml
