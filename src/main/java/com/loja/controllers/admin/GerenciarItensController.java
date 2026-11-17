@@ -92,7 +92,6 @@ public class GerenciarItensController {
             this.conteudoPai.getChildren().setAll(tela);
         } catch (IOException e){
             Alerta.exibirAlertaErro("Erro de carregamento", "Erro ao carregar a tela de cadastro de itens");
-            e.printStackTrace();
         }
     }
 

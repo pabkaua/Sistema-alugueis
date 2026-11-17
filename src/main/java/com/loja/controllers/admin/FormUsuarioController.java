@@ -28,8 +28,8 @@ public class FormUsuarioController {
 
     private ILojaFacade facade;
     private Usuario usuarioEditando;
-    private final String STATUS_ATIVO  = "ATIVO";
-    private final String STATUS_INATIVO = "INATIVO";
+    private static final String STATUS_ATIVO  = "ATIVO";
+    private static final String STATUS_INATIVO = "INATIVO";
 
     @FXML
     public void initialize(){
