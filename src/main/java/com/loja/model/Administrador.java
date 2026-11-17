@@ -1,12 +1,16 @@
 package com.loja.model;
+import jakarta.persistence.*;
 
+@Entity
 public class Administrador extends Usuario {
 
     private int nivelAcesso;
     private String departamento;
 
-    public Administrador(String id, String nome, String login, String senha, int nivelAcesso, String departamento) {
-        super(id, nome, login, senha);
+    public Administrador(){}
+
+    public Administrador(String nome, String login, String senha, int nivelAcesso, String departamento) {
+        super(nome, login, senha);
         this.nivelAcesso = nivelAcesso;
         this.departamento = departamento;
     }

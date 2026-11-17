@@ -1,12 +1,16 @@
 package com.loja.model;
+import jakarta.persistence.*;
 
+@Entity
 public class Funcionario extends Usuario {
 
     private String cargo;
     private boolean historico;
 
-    public Funcionario(String id, String nome, String login, String senha, String cargo) {
-        super(id, nome, login, senha);
+    protected Funcionario(){}
+
+    public Funcionario(String nome, String login, String senha, String cargo) {
+        super(nome, login, senha);
         this.cargo = cargo;
         this.historico = false;
     }
