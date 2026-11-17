@@ -21,7 +21,7 @@ import javafx.stage.Stage;
 import java.io.IOException;
 import java.net.URL;
 
-public class SidebarClienteController {
+public class SidebarClienteController extends SidebarBaseController {
 
     @FXML private Button botaoAlugueis;
     @FXML private Button botaoDashboard;
@@ -37,14 +37,12 @@ public class SidebarClienteController {
     @FXML private Label tituloLoja;
 
     private Cliente usuario;
-    private ILojaFacade facade;
 
     // funções da classe
     public void setContexto(ILojaFacade facade, Cliente cliente){
         this.usuario = cliente;
-        this.facade = facade;
+        super.setContexto(facade);
     }
-
     // ====================================================================================
 
     // funções do fxml
@@ -84,7 +82,7 @@ public class SidebarClienteController {
             Node tela = loader.load();
 
             DashboardClienteController controller = loader.getController();
-            controller.setDados(usuario, facade, conteudo);
+            controller.setDados(usuario, super.getFacade(), conteudo);
 
             conteudo.getChildren().setAll(tela);
         } catch (IOException e) {
@@ -106,7 +104,7 @@ public class SidebarClienteController {
             Node tela = loader.load();
 
             AlugueisClienteController controller = loader.getController();
-            controller.setDados(usuario, facade);
+            controller.setDados(usuario, super.getFacade());
 
             conteudo.getChildren().setAll(tela);
         } catch (IOException e) {
@@ -128,7 +126,7 @@ public class SidebarClienteController {
             Node tela = loader.load();
 
             MultasClienteController controller = loader.getController();
-            controller.setDados(usuario, facade);
+            controller.setDados(usuario, super.getFacade());
 
             conteudo.getChildren().setAll(tela);
         } catch (IOException e) {
@@ -150,42 +148,11 @@ public class SidebarClienteController {
             Node tela = loader.load();
 
             DisponiveisClienteController controller = loader.getController();
-            controller.setDados(facade);
+            controller.setDados(super.getFacade());
 
             conteudo.getChildren().setAll(tela);
         } catch (IOException e) {
             Alerta.exibirAlertaErro("Erro de navegação", e.getMessage());
-        }
-    }
-
-    @FXML
-    void fazerLogout(ActionEvent event) {
-        try {
-            URL url = getClass().getResource("/ui/LoginScreen.fxml");
-            if (url == null) {
-                Alerta.exibirAlertaErro("Erro de navegação", "O arquivo LoginScreen.fxml não foi localizado.");
-                return;
-            }
-
-            FXMLLoader loader = new FXMLLoader(url);
-            Parent telaLogin = loader.load();
-
-            LoginController controller = loader.getController();
-            controller.setFacade(this.facade);
-
-            Node botaoLogoutClicado = (Node) event.getSource();
-            Stage stage = (Stage) botaoLogoutClicado.getScene().getWindow();
-
-            stage.setTitle("Login - Aluga Tudo");
-
-            if (stage.getScene() != null) {
-                stage.getScene().setRoot(telaLogin);
-            } else {
-                stage.setScene(new Scene(telaLogin));
-            }
-
-        } catch (IOException e) {
-            Alerta.exibirAlertaErro("Falha ao abrir a tela", "Houve um erro ao carregar a tela.");
         }
     }
     // ====================================================================================

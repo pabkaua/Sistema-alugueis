@@ -17,7 +17,7 @@ import javafx.stage.Stage;
 import java.io.IOException;
 import java.net.URL;
 
-public class SidebarFuncionarioController {
+public class SidebarFuncionarioController extends SidebarBaseController{
 
     @FXML private Button botaoDashboard;
     @FXML private Button botaoLogout;
@@ -37,11 +37,9 @@ public class SidebarFuncionarioController {
     @FXML private VBox submenuGerenciarClientesFunc;
     @FXML private VBox submenuRelatoriosFunc;
 
-    private ILojaFacade facade;
-
     // funções da classe
     public void setContexto(ILojaFacade facade) {
-        this.facade = facade;
+        super.setContexto(facade);
     }
 
     // funções do fxml
@@ -107,7 +105,7 @@ public class SidebarFuncionarioController {
             Node tela = loader.load();
 
             ItensDisponiveisController controller = loader.getController();
-            controller.setDados(facade);
+            controller.setDados(super.getFacade());
 
             conteudo.getChildren().setAll(tela);
         } catch (IOException e) {
@@ -129,7 +127,7 @@ public class SidebarFuncionarioController {
             Node tela = loader.load();
 
             ContratosAtivosFuncionarioController controller = loader.getController();
-            controller.setDados(facade);
+            controller.setDados(super.getFacade());
 
             conteudo.getChildren().setAll(tela);
         } catch (IOException e) {
@@ -151,7 +149,7 @@ public class SidebarFuncionarioController {
             Node tela = loader.load();
 
             ContratosPorClienteController controller = loader.getController();
-            controller.setDados(facade);
+            controller.setDados(super.getFacade());
 
             conteudo.getChildren().setAll(tela);
         } catch (IOException e) {
@@ -173,7 +171,7 @@ public class SidebarFuncionarioController {
             Node tela = loader.load();
 
             CadastrarClienteFuncionarioController controller = loader.getController();
-            controller.setDados(facade);
+            controller.setDados(super.getFacade());
 
             conteudo.getChildren().setAll(tela);
         } catch (IOException e) {
@@ -195,7 +193,7 @@ public class SidebarFuncionarioController {
             Node tela = loader.load();
 
             QuitarMultaFuncionarioController controller = loader.getController();
-            controller.setDados(facade);
+            controller.setDados(super.getFacade());
 
             conteudo.getChildren().setAll(tela);
         } catch (IOException e) {
@@ -217,7 +215,7 @@ public class SidebarFuncionarioController {
             Node tela = loader.load();
 
             DevolucaoFuncionarioController controller = loader.getController();
-            controller.setDados(facade);
+            controller.setDados(super.getFacade());
 
             conteudo.getChildren().setAll(tela);
         } catch (IOException e) {
@@ -239,42 +237,11 @@ public class SidebarFuncionarioController {
             Node tela = loader.load();
 
             RegistrarAluguelFuncionarioController controller = loader.getController();
-            controller.setDados(facade);
+            controller.setDados(super.getFacade());
 
             conteudo.getChildren().setAll(tela);
         } catch (IOException e) {
             Alerta.exibirAlertaErro("Erro de navegação", e.getMessage());
-        }
-    }
-
-    @FXML
-    void fazerLogout(ActionEvent event) {
-        try {
-            URL url = getClass().getResource("/ui/LoginScreen.fxml");
-            if (url == null) {
-                Alerta.exibirAlertaErro("Erro de navegação", "O arquivo LoginScreen.fxml não foi localizado.");
-                return;
-            }
-
-            FXMLLoader loader = new FXMLLoader(url);
-            Parent telaLogin = loader.load();
-
-            LoginController controller = loader.getController();
-            controller.setFacade(this.facade);
-
-            Node botaoLogoutClicado = (Node) event.getSource();
-            Stage stage = (Stage) botaoLogoutClicado.getScene().getWindow();
-
-            stage.setTitle("Login - Aluga Tudo");
-
-            if (stage.getScene() != null) {
-                stage.getScene().setRoot(telaLogin);
-            } else {
-                stage.setScene(new Scene(telaLogin));
-            }
-
-        } catch (IOException e) {
-            Alerta.exibirAlertaErro("Falha ao abrir a tela", "Houve um erro ao carregar a tela.");
         }
     }
 }

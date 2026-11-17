@@ -24,9 +24,7 @@ import javafx.stage.Stage;
 import java.net.URL;
 import java.io.IOException;
 
-public class SidebarAdminController {
-
-  private ILojaFacade facade;
+public class SidebarAdminController extends SidebarBaseController {
 
   @FXML private Button botaoDashboard;
   @FXML private Button btnAdminGerenciarUsuarios;
@@ -49,13 +47,13 @@ public class SidebarAdminController {
   @FXML private VBox sidebarVbox;
   @FXML private Label tituloLoja;
 
-  @FXML 
+  @FXML
   public void initialize(){
     submenuAdminRelatorios.managedProperty().bind(submenuAdminRelatorios.visibleProperty());
   }
 
   public void setContexto(ILojaFacade facade){
-    this.facade = facade;
+    super.setContexto(facade);
   }
 
   @FXML
@@ -101,7 +99,7 @@ public class SidebarAdminController {
       javafx.scene.Node tela = loader.load();
 
       GerenciarUsuariosController controller = loader.getController();
-      controller.setContexto(this.facade);
+      controller.setContexto(super.getFacade());
       conteudo.getChildren().setAll(tela);
     } catch (IOException e){
       Alerta.exibirAlertaErro("Erro de carregamento", "Erro ao carregar a tela de usuarios");
@@ -121,7 +119,7 @@ public class SidebarAdminController {
       javafx.scene.Node tela = loader.load();
 
       GerenciarItensController controller = loader.getController();
-      controller.setContexto(this.facade, conteudo);
+      controller.setContexto(super.getFacade(), conteudo);
       conteudo.getChildren().setAll(tela);
     } catch (IOException e){
       Alerta.exibirAlertaErro("Erro de carregamento", "Erro ao carregar a tela de itens");
@@ -141,7 +139,7 @@ public class SidebarAdminController {
       javafx.scene.Node tela = loader.load();
 
       GerenciarCategoriasController controller = loader.getController();
-      controller.setFacade(this.facade);
+      controller.setFacade(super.getFacade());
       conteudo.getChildren().setAll(tela);
     } catch (IOException e){
       Alerta.exibirAlertaErro("Erro de carregamento", "Erro ao carregar a tela de categorias");
@@ -162,7 +160,7 @@ public class SidebarAdminController {
 
 
       GerenciarFornecedoresController controller = loader.getController();
-      controller.setFacade(this.facade);
+      controller.setFacade(super.getFacade());
       conteudo.getChildren().setAll(tela);
     } catch (IOException e){
       Alerta.exibirAlertaErro("Erro de carregamento", "Erro ao carregar a tela de itens");
@@ -182,7 +180,7 @@ public class SidebarAdminController {
       Node tela = loader.load();
 
       ItensDisponiveisController controller = loader.getController();
-      controller.setDados(this.facade);
+      controller.setDados(super.getFacade());
       conteudo.getChildren().setAll(tela);
     } catch (IOException e) {
       Alerta.exibirAlertaErro("Erro de navegação", e.getMessage());
@@ -202,7 +200,7 @@ public class SidebarAdminController {
       Node tela = loader.load();
 
       RelatorioAlugueisAtivosController controller = loader.getController();
-      controller.setDados(this.facade);
+      controller.setDados(super.getFacade());
       conteudo.getChildren().setAll(tela);
     } catch (IOException e) {
       Alerta.exibirAlertaErro("Erro de navegação", e.getMessage());
@@ -222,7 +220,7 @@ public class SidebarAdminController {
       Node tela = loader.load();
 
       ContratosPorClienteController controller = loader.getController();
-      controller.setDados(this.facade);
+      controller.setDados(super.getFacade());
       conteudo.getChildren().setAll(tela);
     } catch (IOException e) {
       Alerta.exibirAlertaErro("Erro de navegação", e.getMessage());
@@ -242,40 +240,10 @@ public class SidebarAdminController {
       Node tela = loader.load();
 
       RelatorioFinanceiroController controller = loader.getController();
-      controller.setDados(this.facade);
+      controller.setDados(super.getFacade());
       conteudo.getChildren().setAll(tela);
     } catch (IOException e) {
       Alerta.exibirAlertaErro("Erro de navegação", e.getMessage());
-    }
-  }
-
-  @FXML
-  void fazerLogout(ActionEvent event){
-    try{
-      URL url = getClass().getResource("/ui/LoginScreen.fxml");
-      if (url == null) {
-        Alerta.exibirAlertaErro("Erro de navegação", "O arquivo LoginScreen.fxml não foi localizado.");
-        return;
-      }
-
-      FXMLLoader loader = new FXMLLoader(url);
-      Parent root = loader.load();
-
-      LoginController controller = loader.getController();
-      controller.setFacade(this.facade);
-
-      Stage stage = (Stage) botaoLogout.getScene().getWindow();
-      stage.setTitle("Login - Aluga Tudo");
-
-      if (stage.getScene() != null) {
-        stage.getScene().setRoot(root);
-      } else {
-        stage.setScene(new Scene(root));
-      }
-
-
-    } catch (IOException e) {
-      Alerta.exibirAlertaErro("Erro de navegação", "Erro ao carregar a tela de login.");
     }
   }
 }
