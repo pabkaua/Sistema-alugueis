@@ -21,229 +21,246 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+
 import java.net.URL;
 import java.io.IOException;
 
 public class SidebarAdminController extends SidebarBaseController {
 
-  @FXML private Button botaoDashboard;
-  @FXML private Button btnAdminGerenciarUsuarios;
-  @FXML private Button btnAdminGerenciarItens;
-  @FXML private Button btnAdminGerenciarCategorias;
-  @FXML private Button btnAdminGerenciarFornecedores;
+    @FXML
+    private Button botaoDashboard;
+    @FXML
+    private Button btnAdminGerenciarUsuarios;
+    @FXML
+    private Button btnAdminGerenciarItens;
+    @FXML
+    private Button btnAdminGerenciarCategorias;
+    @FXML
+    private Button btnAdminGerenciarFornecedores;
 
-  // Relatorios
-  @FXML private Button btnAdminRelatorios;
-  @FXML private VBox submenuAdminRelatorios;
-  @FXML private Button btnAdminRelatorioAlugueisAtivos;
-  @FXML private Button btnAdminRelatorioAluguelCliente;
-  @FXML private Button btnAdminRelatorioFinanceiro;
-  @FXML private Button btnAdminRelatorioItensDisponiveis;
+    // Relatorios
+    @FXML
+    private Button btnAdminRelatorios;
+    @FXML
+    private VBox submenuAdminRelatorios;
+    @FXML
+    private Button btnAdminRelatorioAlugueisAtivos;
+    @FXML
+    private Button btnAdminRelatorioAluguelCliente;
+    @FXML
+    private Button btnAdminRelatorioFinanceiro;
+    @FXML
+    private Button btnAdminRelatorioItensDisponiveis;
 
-  @FXML private Button botaoLogout;
+    @FXML
+    private Button botaoLogout;
 
-  // Sidebar
-  @FXML private StackPane conteudo;
-  @FXML private VBox sidebarVbox;
-  @FXML private Label tituloLoja;
+    // Sidebar
+    @FXML
+    private StackPane conteudo;
+    @FXML
+    private VBox sidebarVbox;
+    @FXML
+    private Label tituloLoja;
 
-  @FXML
-  public void initialize(){
-    submenuAdminRelatorios.managedProperty().bind(submenuAdminRelatorios.visibleProperty());
-  }
-
-  public void setContexto(ILojaFacade facade){
-    super.setContexto(facade);
-  }
-
-  @FXML
-  void abrirMenuRelatorios(ActionEvent event){
-    boolean estaVisivel = submenuAdminRelatorios.isVisible();
-    submenuAdminRelatorios.setVisible(!estaVisivel);
-
-    if(!estaVisivel){
-      btnAdminRelatorios.setText("⌃   " + "Relatórios");
-    } else {
-      btnAdminRelatorios.setText("⌄   " + "Relatórios");
+    @FXML
+    public void initialize() {
+        submenuAdminRelatorios.managedProperty().bind(submenuAdminRelatorios.visibleProperty());
     }
-  }
 
-  @FXML
-  void navegarDashboard(ActionEvent event){
-    try {
-      URL url = getClass().getResource("/ui/funcionario/dashboard.fxml");
-
-      if (url == null) {
-        Alerta.exibirAlertaErro("Erro de navegação", "O arquivo dashboard.fxml não foi localizado.");
-        return;
-      }
-
-      FXMLLoader loader = new FXMLLoader(url);
-      Node tela = loader.load();
-
-      conteudo.getChildren().setAll(tela);
-    } catch (IOException e) {
-      Alerta.exibirAlertaErro("Erro de navegação", e.getMessage());
-    }  }
-
-  @FXML
-  void navegarGerenciarUsuarios(ActionEvent event){
-    try {
-      java.net.URL url = getClass().getResource("/ui/admin/gerenciar-usuarios.fxml");
-      if (url == null){
-        Alerta.exibirAlertaErro("Erro: 404 Not Found", " Arquivo gerenciar-usuarios.fxml não encontrado");
-        return;
-      }
-
-      javafx.fxml.FXMLLoader loader = new javafx.fxml.FXMLLoader(url);
-      javafx.scene.Node tela = loader.load();
-
-      GerenciarUsuariosController controller = loader.getController();
-      controller.setContexto(super.getFacade());
-      conteudo.getChildren().setAll(tela);
-    } catch (IOException e){
-      Alerta.exibirAlertaErro("Erro de carregamento", "Erro ao carregar a tela de usuarios");
+    public void setContexto(ILojaFacade facade) {
+        super.setContexto(facade);
     }
-  }
 
-  @FXML
-  void navegarGerenciarItens(ActionEvent event) {
-    try {
-      java.net.URL url = getClass().getResource("/ui/admin/gerenciar-itens.fxml");
-      if (url == null){
-        Alerta.exibirAlertaErro("Erro: 404 Not Found", " Arquivo gerenciar-itens.fxml não encontrado");
-        return;
-      }
+    @FXML
+    void abrirMenuRelatorios(ActionEvent event) {
+        boolean estaVisivel = submenuAdminRelatorios.isVisible();
+        submenuAdminRelatorios.setVisible(!estaVisivel);
 
-      javafx.fxml.FXMLLoader loader = new javafx.fxml.FXMLLoader(url);
-      javafx.scene.Node tela = loader.load();
-
-      GerenciarItensController controller = loader.getController();
-      controller.setContexto(super.getFacade(), conteudo);
-      conteudo.getChildren().setAll(tela);
-    } catch (IOException e){
-      Alerta.exibirAlertaErro("Erro de carregamento", "Erro ao carregar a tela de itens");
+        if (!estaVisivel) {
+            btnAdminRelatorios.setText("⌃   " + "Relatórios");
+        } else {
+            btnAdminRelatorios.setText("⌄   " + "Relatórios");
+        }
     }
-  }
 
-  @FXML
-  void navegarGerenciarCategorias(ActionEvent event) {
-    try {
-      java.net.URL url = getClass().getResource("/ui/admin/gerenciar-categorias.fxml");
-      if (url == null){
-        Alerta.exibirAlertaErro("Erro: 404 Not Found", " Arquivo gerenciar-categorias.fxml não encontrado");
-        return;
-      }
+    @FXML
+    void navegarDashboard(ActionEvent event) {
+        try {
+            URL url = getClass().getResource("/ui/funcionario/dashboard.fxml");
 
-      javafx.fxml.FXMLLoader loader = new javafx.fxml.FXMLLoader(url);
-      javafx.scene.Node tela = loader.load();
+            if (url == null) {
+                Alerta.exibirAlertaErro("Erro de navegação", "O arquivo dashboard.fxml não foi localizado.");
+                return;
+            }
 
-      GerenciarCategoriasController controller = loader.getController();
-      controller.setFacade(super.getFacade());
-      conteudo.getChildren().setAll(tela);
-    } catch (IOException e){
-      Alerta.exibirAlertaErro("Erro de carregamento", "Erro ao carregar a tela de categorias");
+            FXMLLoader loader = new FXMLLoader(url);
+            Node tela = loader.load();
+
+            conteudo.getChildren().setAll(tela);
+        } catch (IOException e) {
+            Alerta.exibirAlertaErro("Erro de navegação", e.getMessage());
+        }
     }
-  }
 
-  @FXML
-  void navegarGerenciarFornecedores(ActionEvent event) {
-    try {
-      java.net.URL url = getClass().getResource("/ui/admin/gerenciar-fornecedores.fxml");
-      if (url == null){
-        Alerta.exibirAlertaErro("Erro: 404 Not Found", " Arquivo gerenciar-categorias.fxml não encontrado");
-        return;
-      }
+    @FXML
+    void navegarGerenciarUsuarios(ActionEvent event) {
+        try {
+            java.net.URL url = getClass().getResource("/ui/admin/gerenciar-usuarios.fxml");
+            if (url == null) {
+                Alerta.exibirAlertaErro("Erro: 404 Not Found", " Arquivo gerenciar-usuarios.fxml não encontrado");
+                return;
+            }
 
-      javafx.fxml.FXMLLoader loader = new javafx.fxml.FXMLLoader(url);
-      javafx.scene.Node tela = loader.load();
+            javafx.fxml.FXMLLoader loader = new javafx.fxml.FXMLLoader(url);
+            javafx.scene.Node tela = loader.load();
 
-
-      GerenciarFornecedoresController controller = loader.getController();
-      controller.setFacade(super.getFacade());
-      conteudo.getChildren().setAll(tela);
-    } catch (IOException e){
-      Alerta.exibirAlertaErro("Erro de carregamento", "Erro ao carregar a tela de itens");
+            GerenciarUsuariosController controller = loader.getController();
+            controller.setContexto(super.getFacade());
+            conteudo.getChildren().setAll(tela);
+        } catch (IOException e) {
+            Alerta.exibirAlertaErro("Erro de carregamento", "Erro ao carregar a tela de usuarios");
+        }
     }
-  }
 
-  @FXML
-  void navegarRelatorioItensDisponiveis(ActionEvent event) {
-    try {
-      URL url = getClass().getResource("/ui/funcionario/itens-disponiveis.fxml");
-      if (url == null) {
-        Alerta.exibirAlertaErro("Erro de navegação", "O arquivo itens-disponiveis.fxml não foi localizado.");
-        return;
-      }
+    @FXML
+    void navegarGerenciarItens(ActionEvent event) {
+        try {
+            java.net.URL url = getClass().getResource("/ui/admin/gerenciar-itens.fxml");
+            if (url == null) {
+                Alerta.exibirAlertaErro("Erro: 404 Not Found", " Arquivo gerenciar-itens.fxml não encontrado");
+                return;
+            }
 
-      FXMLLoader loader = new FXMLLoader(url);
-      Node tela = loader.load();
+            javafx.fxml.FXMLLoader loader = new javafx.fxml.FXMLLoader(url);
+            javafx.scene.Node tela = loader.load();
 
-      ItensDisponiveisController controller = loader.getController();
-      controller.setDados(super.getFacade());
-      conteudo.getChildren().setAll(tela);
-    } catch (IOException e) {
-      Alerta.exibirAlertaErro("Erro de navegação", e.getMessage());
+            GerenciarItensController controller = loader.getController();
+            controller.setContexto(super.getFacade(), conteudo);
+            conteudo.getChildren().setAll(tela);
+        } catch (IOException e) {
+            Alerta.exibirAlertaErro("Erro de carregamento", "Erro ao carregar a tela de itens");
+        }
     }
-  }
 
-  @FXML
-  void navegarRelatorioAlugueisAtivos(ActionEvent event) {
-    try {
-      URL url = getClass().getResource("/ui/admin/relatorio-alugueis-ativos.fxml");
-      if (url == null) {
-        Alerta.exibirAlertaErro("Erro de navegação", "O arquivo relatorio-alugueis-ativos.fxml não foi localizado.");
-        return;
-      }
+    @FXML
+    void navegarGerenciarCategorias(ActionEvent event) {
+        try {
+            java.net.URL url = getClass().getResource("/ui/admin/gerenciar-categorias.fxml");
+            if (url == null) {
+                Alerta.exibirAlertaErro("Erro: 404 Not Found", " Arquivo gerenciar-categorias.fxml não encontrado");
+                return;
+            }
 
-      FXMLLoader loader = new FXMLLoader(url);
-      Node tela = loader.load();
+            javafx.fxml.FXMLLoader loader = new javafx.fxml.FXMLLoader(url);
+            javafx.scene.Node tela = loader.load();
 
-      RelatorioAlugueisAtivosController controller = loader.getController();
-      controller.setDados(super.getFacade());
-      conteudo.getChildren().setAll(tela);
-    } catch (IOException e) {
-      Alerta.exibirAlertaErro("Erro de navegação", e.getMessage());
+            GerenciarCategoriasController controller = loader.getController();
+            controller.setFacade(super.getFacade());
+            conteudo.getChildren().setAll(tela);
+        } catch (IOException e) {
+            Alerta.exibirAlertaErro("Erro de carregamento", "Erro ao carregar a tela de categorias");
+        }
     }
-  }
 
-  @FXML
-  void navegarRelatorioAluguelCliente(ActionEvent event) {
-    try {
-      URL url = getClass().getResource("/ui/funcionario/contratos-por-cliente.fxml");
-      if (url == null) {
-        Alerta.exibirAlertaErro("Erro de navegação", "O arquivo contratos-por-cliente.fxml não foi localizado.");
-        return;
-      }
+    @FXML
+    void navegarGerenciarFornecedores(ActionEvent event) {
+        try {
+            java.net.URL url = getClass().getResource("/ui/admin/gerenciar-fornecedores.fxml");
+            if (url == null) {
+                Alerta.exibirAlertaErro("Erro: 404 Not Found", " Arquivo gerenciar-categorias.fxml não encontrado");
+                return;
+            }
 
-      FXMLLoader loader = new FXMLLoader(url);
-      Node tela = loader.load();
+            javafx.fxml.FXMLLoader loader = new javafx.fxml.FXMLLoader(url);
+            javafx.scene.Node tela = loader.load();
 
-      ContratosPorClienteController controller = loader.getController();
-      controller.setDados(super.getFacade());
-      conteudo.getChildren().setAll(tela);
-    } catch (IOException e) {
-      Alerta.exibirAlertaErro("Erro de navegação", e.getMessage());
+
+            GerenciarFornecedoresController controller = loader.getController();
+            controller.setFacade(super.getFacade());
+            conteudo.getChildren().setAll(tela);
+        } catch (IOException e) {
+            Alerta.exibirAlertaErro("Erro de carregamento", "Erro ao carregar a tela de itens");
+        }
     }
-  }
 
-  @FXML
-  void navegarRelatorioFinanceiro(ActionEvent event) {
-    try {
-      URL url = getClass().getResource("/ui/admin/relatorio-financeiro.fxml");
-      if (url == null) {
-        Alerta.exibirAlertaErro("Erro de navegação", "O arquivo relatorio-financeiro.fxml não foi localizado.");
-        return;
-      }
+    @FXML
+    void navegarRelatorioItensDisponiveis(ActionEvent event) {
+        try {
+            URL url = getClass().getResource("/ui/funcionario/itens-disponiveis.fxml");
+            if (url == null) {
+                Alerta.exibirAlertaErro("Erro de navegação", "O arquivo itens-disponiveis.fxml não foi localizado.");
+                return;
+            }
 
-      FXMLLoader loader = new FXMLLoader(url);
-      Node tela = loader.load();
+            FXMLLoader loader = new FXMLLoader(url);
+            Node tela = loader.load();
 
-      RelatorioFinanceiroController controller = loader.getController();
-      controller.setDados(super.getFacade());
-      conteudo.getChildren().setAll(tela);
-    } catch (IOException e) {
-      Alerta.exibirAlertaErro("Erro de navegação", e.getMessage());
+            ItensDisponiveisController controller = loader.getController();
+            controller.setDados(super.getFacade());
+            conteudo.getChildren().setAll(tela);
+        } catch (IOException e) {
+            Alerta.exibirAlertaErro("Erro de navegação", e.getMessage());
+        }
     }
-  }
+
+    @FXML
+    void navegarRelatorioAlugueisAtivos(ActionEvent event) {
+        try {
+            URL url = getClass().getResource("/ui/admin/relatorio-alugueis-ativos.fxml");
+            if (url == null) {
+                Alerta.exibirAlertaErro("Erro de navegação", "O arquivo relatorio-alugueis-ativos.fxml não foi localizado.");
+                return;
+            }
+
+            FXMLLoader loader = new FXMLLoader(url);
+            Node tela = loader.load();
+
+            RelatorioAlugueisAtivosController controller = loader.getController();
+            controller.setDados(super.getFacade());
+            conteudo.getChildren().setAll(tela);
+        } catch (IOException e) {
+            Alerta.exibirAlertaErro("Erro de navegação", e.getMessage());
+        }
+    }
+
+    @FXML
+    void navegarRelatorioAluguelCliente(ActionEvent event) {
+        try {
+            URL url = getClass().getResource("/ui/funcionario/contratos-por-cliente.fxml");
+            if (url == null) {
+                Alerta.exibirAlertaErro("Erro de navegação", "O arquivo contratos-por-cliente.fxml não foi localizado.");
+                return;
+            }
+
+            FXMLLoader loader = new FXMLLoader(url);
+            Node tela = loader.load();
+
+            ContratosPorClienteController controller = loader.getController();
+            controller.setDados(super.getFacade());
+            conteudo.getChildren().setAll(tela);
+        } catch (IOException e) {
+            Alerta.exibirAlertaErro("Erro de navegação", e.getMessage());
+        }
+    }
+
+    @FXML
+    void navegarRelatorioFinanceiro(ActionEvent event) {
+        try {
+            URL url = getClass().getResource("/ui/admin/relatorio-financeiro.fxml");
+            if (url == null) {
+                Alerta.exibirAlertaErro("Erro de navegação", "O arquivo relatorio-financeiro.fxml não foi localizado.");
+                return;
+            }
+
+            FXMLLoader loader = new FXMLLoader(url);
+            Node tela = loader.load();
+
+            RelatorioFinanceiroController controller = loader.getController();
+            controller.setDados(super.getFacade());
+            conteudo.getChildren().setAll(tela);
+        } catch (IOException e) {
+            Alerta.exibirAlertaErro("Erro de navegação", e.getMessage());
+        }
+    }
 }
