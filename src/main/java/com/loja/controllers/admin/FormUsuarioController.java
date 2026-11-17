@@ -28,12 +28,14 @@ public class FormUsuarioController {
 
     private ILojaFacade facade;
     private Usuario usuarioEditando;
+    private final String STATUS_ATIVO  = "ATIVO";
+    private final String STATUS_INATIVO = "INATIVO";
 
     @FXML
     public void initialize(){
         campoPerfil.getItems().addAll("ADMINISTRADOR", "FUNCIONARIO", "CLIENTE");
-        campoSituacao.getItems().addAll("ATIVO", "INATIVO");
-        campoSituacao.setValue("ATIVO");
+        campoSituacao.getItems().addAll(STATUS_ATIVO, STATUS_INATIVO);
+        campoSituacao.setValue(STATUS_ATIVO);
         erroNome.managedProperty().bind(erroNome.visibleProperty());
         erroLogin.managedProperty().bind(erroLogin.visibleProperty());
         erroPerfil.managedProperty().bind(erroPerfil.visibleProperty());
@@ -62,7 +64,7 @@ public class FormUsuarioController {
             campoLogin.setText(usuario.getLogin());
             campoPerfil.setValue(usuario.getPerfil().toUpperCase());
             campoPerfil.setDisable(true);
-            campoSituacao.setValue(usuario.isAtivo() ? "ATIVO" : "INATIVO");
+            campoSituacao.setValue(usuario.isAtivo() ? STATUS_ATIVO : STATUS_INATIVO);
         }
     }
 
@@ -117,7 +119,7 @@ public class FormUsuarioController {
         String login = campoLogin.getText().trim();
         String senha = campoSenha.getText(); // Pode estar vazia na edição
         String perfil = campoPerfil.getValue();
-        boolean isAtivo = "ATIVO".equals(campoSituacao.getValue());
+        boolean isAtivo = STATUS_ATIVO.equals(campoSituacao.getValue());
 
         if (usuarioEditando == null) {
             String novoId = gerarNovoId();
