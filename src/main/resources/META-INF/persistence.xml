@@ -8,7 +8,10 @@
         <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
 
         <!-- Registre suas classes @Entity aqui -->
-        <class>com.seuprojeto.model.Produto</class>
+        <class>com.loja.model.Usuario</class>
+        <class>com.loja.model.Administrador</class>
+        <class>com.loja.model.Funcionario</class>
+        <class>com.loja.model.Cliente</class>
 
         <properties>
             <!-- Dados de conexão com o MySQL -->
