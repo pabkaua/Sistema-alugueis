@@ -1,4 +1,4 @@
-package com.loja.model;
+package com.loja.repositories;
 
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
@@ -9,4 +9,10 @@ public class JPAUtil {
     Persistence.createEntityManagerFactory("default");
 
   public static EntityManager getEntityManager(){ return emf.createEntityManager(); }
+
+  public static void close(){
+    if(emf != null && emf.isOpen()){
+      emf.close();
+    }
+  }
 }
