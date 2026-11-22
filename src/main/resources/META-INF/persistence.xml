@@ -4,20 +4,18 @@
              xsi:schemaLocation="https://jakarta.ee/xml/ns/persistence https://jakarta.ee/xml/ns/persistence/persistence_3_0.xsd"
              version="3.0">
 
-    <persistence-unit name="meu-banco-pu" transaction-type="RESOURCE_LOCAL">
+    <persistence-unit name="default" transaction-type="RESOURCE_LOCAL">
         <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
 
         <!-- Registre suas classes @Entity aqui -->
-        <class>com.loja.model.Usuario</class>
         <class>com.loja.model.Administrador</class>
         <class>com.loja.model.Funcionario</class>
         <class>com.loja.model.Cliente</class>
 
         <properties>
             <!-- Dados de conexão com o MySQL -->
-            <property name="jakarta.persistence.jdbc.driver" value="com.mysql.cj.jdbc.Driver"/>
-            <!-- <property name="jakarta.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/meu_sistema?createDatabaseIfNotExist=true&amp;serverTimezone=UTC"/> -->
-            <property name="jakarta.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/meu_sistema?serverTimezone=UTC&amp;allowPublicKeyRetrieval=true&amp;useSSL=false"/>
+            <property name="jakarta.persistence.jdbc.driver" value="org.mariadb.jdbc.Driver"/>
+            <property name="jakarta.persistence.jdbc.url" value="jdbc:mariadb://127.0.0.1:3306/meu_sistema"/>
             <property name="jakarta.persistence.jdbc.user" value="dev"/>
             <property name="jakarta.persistence.jdbc.password" value="123456"/>
 
