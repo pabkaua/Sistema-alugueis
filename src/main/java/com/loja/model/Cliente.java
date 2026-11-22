@@ -1,12 +1,14 @@
 package com.loja.model;
 
+@Entity
 public class Cliente extends Usuario {
 
     private boolean inadimplente;
     private boolean historico;
 
-    public Cliente(String id, String nome, String login, String senha) {
-        super(id,nome, login, senha);
+
+    public Cliente(String nome, String login, String senha) {
+        super(nome, login, senha);
         this.inadimplente = false;
         this.historico = false;
     }

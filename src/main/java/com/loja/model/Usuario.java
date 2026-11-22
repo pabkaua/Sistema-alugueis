@@ -1,7 +1,7 @@
 package com.loja.model;
 import jakarta.persistence.*;
 
-@MappedSuperClass
+@MappedSuperclass
 public abstract class Usuario {
 
   @Id
