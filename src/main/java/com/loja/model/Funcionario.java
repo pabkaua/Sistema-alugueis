@@ -1,5 +1,6 @@
 package com.loja.model;
 import jakarta.persistence.*;
+import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "funcionario")
