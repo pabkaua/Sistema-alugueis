@@ -2,6 +2,7 @@ package com.loja.model;
 import jakarta.persistence.*;
 
 @Entity
+@Table(name = "funcionario")
 public class Funcionario extends Usuario {
 
     private String cargo;
@@ -9,7 +10,7 @@ public class Funcionario extends Usuario {
 
     protected Funcionario(){}
 
-    public Funcionario(String nome, String login, String senha, String cargo) {
+    public Funcionario(String id, String nome, String login, String senha, String cargo) {
         super(nome, login, senha);
         this.cargo = cargo;
         this.historico = false;

@@ -1,6 +1,8 @@
 package com.loja.model;
+import jakarta.persistence.Entity;
 
 @Entity
+@Table(name = "cliente")
 public class Cliente extends Usuario {
 
     private boolean inadimplente;
@@ -14,6 +16,13 @@ public class Cliente extends Usuario {
     }
     public Cliente(){
         super();
+    }
+
+
+    public Cliente(String id, String nome, String login, String senha) {
+        super(nome, login, senha);
+        this.inadimplente = false;
+        this.historico = false;
     }
 
     @Override

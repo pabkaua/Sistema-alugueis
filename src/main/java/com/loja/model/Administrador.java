@@ -2,6 +2,7 @@ package com.loja.model;
 import jakarta.persistence.*;
 
 @Entity
+@Table(name = "administrador")
 public class Administrador extends Usuario {
 
     private int nivelAcesso;
@@ -9,14 +10,14 @@ public class Administrador extends Usuario {
 
     public Administrador(){}
 
-    public Administrador(String nome, String login, String senha, int nivelAcesso, String departamento) {
+    public Administrador(String id, String nome, String login, String senha, int nivelAcesso, String departamento) {
         super(nome, login, senha);
         this.nivelAcesso = nivelAcesso;
         this.departamento = departamento;
     }
 
     public Administrador(String id, String nome, String login, String senha) {
-        super(id, nome, login, senha);
+        super(nome, login, senha);
         this.nivelAcesso = 1;
         this.departamento = "Geral";
     }
