@@ -15,6 +15,8 @@ public class Funcionario extends Usuario {
         super(nome, login, senha);
         this.cargo = cargo;
         this.historico = false;
+        //Legado
+        setId(id);
     }
 
     public String getPerfil(){

@@ -15,12 +15,16 @@ public class Administrador extends Usuario {
         super(nome, login, senha);
         this.nivelAcesso = nivelAcesso;
         this.departamento = departamento;
+        //Legado
+        setId(id);
     }
 
     public Administrador(String id, String nome, String login, String senha) {
         super(nome, login, senha);
         this.nivelAcesso = 1;
         this.departamento = "Geral";
+        //Legado
+        setId(id);
     }
 
     @Override

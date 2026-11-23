@@ -10,11 +10,6 @@ public class Cliente extends Usuario {
     private boolean historico;
 
 
-    public Cliente(String nome, String login, String senha) {
-        super(nome, login, senha);
-        this.inadimplente = false;
-        this.historico = false;
-    }
     public Cliente(){
         super();
     }
@@ -24,6 +19,8 @@ public class Cliente extends Usuario {
         super(nome, login, senha);
         this.inadimplente = false;
         this.historico = false;
+        //Legado
+        setId(id);
     }
 
     @Override
