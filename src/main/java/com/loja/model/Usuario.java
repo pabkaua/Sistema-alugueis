@@ -5,7 +5,7 @@ import jakarta.persistence.*;
 public abstract class Usuario {
 
   @Id
-  @GeneratedValue
+  @GeneratedValue(strategy = GenerationType.UUID)
   private String id;
   private String nome;
   private String login;
